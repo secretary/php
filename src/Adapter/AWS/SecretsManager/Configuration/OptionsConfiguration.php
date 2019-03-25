@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 
-namespace Secretary\Adapter\AWS\Configuration;
+namespace Secretary\Adapter\AWS\SecretsManager\Configuration;
 
 
 use Secretary\Configuration\Adapter\AbstractAdapterConfiguration;

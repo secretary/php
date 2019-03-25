@@ -29,11 +29,6 @@ use Symfony\Component\Config\Definition\Processor;
 abstract class AbstractAdapter implements AdapterInterface
 {
 	/**
-	 * @var CacheItemPoolInterface|CacheInterface
-	 */
-	protected $cache;
-
-	/**
 	 * @var array
 	 */
 	protected $config;
@@ -145,62 +140,6 @@ abstract class AbstractAdapter implements AdapterInterface
 	protected function getPutSecretsConfiguration(): AbstractOptionsConfiguration
 	{
 		return new PutSecretsOptionsConfiguration();
-	}
-
-	/**
-	 * @return bool
-	 */
-	protected function shouldCache(): bool
-	{
-		return $this->config['cache']['enabled'];
-	}
-
-	/**
-	 * @return CacheInterface | CacheItemPoolInterface | null
-	 */
-	protected function getCache()
-	{
-		return $this->config['cache']['instance'];
-	}
-
-	/**
-	 * @param string   $key
-	 * @param callable $callback
-	 * @param int|null $ttl
-	 *
-	 * @return mixed
-	 * @throws \Psr\Cache\InvalidArgumentException
-	 * @throws \Psr\SimpleCache\InvalidArgumentException
-	 */
-	protected function memoize(string $key, callable $callback, int $ttl = null)
-	{
-		$cache = $this->getCache();
-		if ($this->shouldCache()) {
-			if ($cache instanceof CacheInterface && $cache->has($key)) {
-				return $cache->get($key);
-			}
-
-			if ($cache instanceof CacheItemPoolInterface && $cache->hasItem($key)) {
-				return $cache->getItem($key)->get();
-			}
-		}
-
-		$cachedValue = $callback();
-		if ($this->shouldCache()) {
-			if ($cache instanceof CacheInterface) {
-				$cache->set($key, $cachedValue, $ttl);
-			}
-
-			if ($cache instanceof CacheItemPoolInterface) {
-				$item = $cache->getItem($key);
-				$item->set($cachedValue);
-				if ($ttl !== null) {
-					$item->expiresAfter($ttl);
-				}
-			}
-		}
-
-		return $cachedValue;
 	}
 
 	/**

@@ -28,4 +28,21 @@ abstract class ArrayHelper
 
 		return $newArray;
 	}
+	/**
+	 * @param array    $array
+	 * @param string[] ...$keys
+	 *
+	 * @return array
+	 */
+	public static function with(array $array, ...$keys)
+	{
+		$newArray = $array;
+		foreach (array_keys($newArray) as $key ) {
+			if (!in_array($key, $keys)) {
+				unset($newArray[$key]);
+			}
+		}
+
+		return $newArray;
+	}
 }

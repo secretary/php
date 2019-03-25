@@ -39,7 +39,7 @@ abstract class AbstractOptionsConfiguration extends \Secretary\Configuration\Ada
         $node->validate()
             ->ifTrue(
                 function ($v) use ($regex) {
-                    return preg_match($regex, $v['path']) === 1;
+                    return preg_match($regex, $v['path']) !== 1;
                 }
             )
             ->thenInvalid('Path must match the pattern: ' . $regex)

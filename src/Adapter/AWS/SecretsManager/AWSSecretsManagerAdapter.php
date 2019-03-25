@@ -13,9 +13,8 @@ namespace Secretary\Adapter\AWS\SecretsManager;
 
 use Aws\SecretsManager\SecretsManagerClient;
 use Secretary\Adapter\AbstractPathAdapter;
-use Secretary\Adapter\AWS\Configuration\OptionsConfiguration;
+use Secretary\Adapter\AWS\SecretsManager\Configuration\OptionsConfiguration;
 use Secretary\Adapter\AWS\SecretsManager\Configuration\GetSecretsOptionsConfiguration;
-use Secretary\Adapter\Secret;
 use Secretary\Adapter\SecretWithPath;
 use Secretary\Configuration\Adapter\AbstractAdapterConfiguration;
 use Secretary\Configuration\Adapter\AbstractOptionsConfiguration;
@@ -54,31 +53,25 @@ class AWSSecretsManagerAdapter extends AbstractPathAdapter
 	 * @param array $options
 	 *
 	 * @return array
-	 * @throws \Psr\Cache\InvalidArgumentException
-	 * @throws \Psr\SimpleCache\InvalidArgumentException
 	 */
 	protected function doGetSecrets(array $options): array
 	{
-		return $this->memoize(
-			json_encode($options),
-			function () use($options) {
-				$params = ['SecretId' => $options['path']];
-				if ($options['versionId']) {
-					$params['VersionId'] = $options['versionId'];
-				}
-				if ($options['versionStage']) {
-					$params['VersionStage'] = $options['versionStage'];
-				}
+		$params = ['SecretId' => $options['path']];
+		if ($options['versionId']) {
+			$params['VersionId'] = $options['versionId'];
+		}
+		if ($options['versionStage']) {
+			$params['VersionStage'] = $options['versionStage'];
+		}
 
-				$data = $this->client->getSecretValue($params)->toArray();
-				$secrets = [];
-				foreach ($data as $key => $value) {
-					$secrets[] = new SecretWithPath($key, $value, $options['path']);
-				}
+		$data = $this->client->getSecretValue($params);
+		$json = json_decode($data->get('SecretString'), true);
+		$secrets = [];
+		foreach ($json as $key => $value) {
+			$secrets[] = new SecretWithPath($key, $value, $options['path']);
+		}
 
-				return $secrets;
-			}
-		);
+		return $secrets;
 	}
 
 	/**
@@ -105,11 +98,6 @@ class AWSSecretsManagerAdapter extends AbstractPathAdapter
 			$options['SecretString'] = json_encode([$options['key'] => $options['value']]);
 
 			$this->client->createSecret($options);
-		}
-
-		if ($this->shouldCache()) {
-			// @todo Be more selective of the clear.
-			$this->cache->clear();
 		}
 	}
 
