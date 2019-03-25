@@ -8,14 +8,14 @@ use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
 use Cache\Adapter\Apc\ApcCachePool;
 
 $manager = new Manager([
-    'cache' => [
-        'enabled' => true,
+    'cache'   => [
+        'enabled'  => true,
         'instance' => new ApcCachePool(),
     ],
     'adapter' => new AWSSecretsManagerAdapter([
-        'region' => 'us-east-1',
+        'region'      => 'us-east-1',
         'credentials' => [
-            'accessKeyId' => 'asdjsdg;asdgfsadfk',
+            'accessKeyId'     => 'asdjsdg;asdgfsadfk',
             'secretAccessKey' => 'adsgasdgasfgasdfsadgjasdfsljdf'
         ]
     ]),
