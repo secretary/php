@@ -33,9 +33,10 @@ class ManagerConfiguration implements ConfigurationInterface
 		$rootNode = $treeBuilder->getRootNode();
 
 		$rootNode->children()
-			->append($this->addAdapterNode())
 			->append($this->addCacheNode())
 			->end();
+
+		$this->addAdapterNode($rootNode);
 
 		return $treeBuilder;
 	}
@@ -66,16 +67,11 @@ class ManagerConfiguration implements ConfigurationInterface
 		return $this;
 	}
 
-	private function addAdapterNode(): ArrayNodeDefinition
+	private function addAdapterNode(ArrayNodeDefinition $rootNode): void
 	{
-		$treeBuilder = new TreeBuilder('adapter');
-
-		/** @var ArrayNodeDefinition|NodeDefinition $rootNode */
-		$rootNode = $treeBuilder->getRootNode();
-
 		$rootNode
 			->children()
-				->variableNode('instance')
+				->variableNode('adapter')
 					->isRequired()
 					->validate()
 						->ifTrue(
@@ -83,12 +79,10 @@ class ManagerConfiguration implements ConfigurationInterface
 								return !$v instanceof AdapterInterface;
 							}
 						)
-						->thenInvalid('`instance` must be an instance of ' . AdapterInterface::class)
+						->thenInvalid('`adapter` must be an instance of ' . AdapterInterface::class)
 					->end()
 				->end()
 			->end();
-
-		return $rootNode;
 	}
 
 	private function addCacheNode(): ArrayNodeDefinition
