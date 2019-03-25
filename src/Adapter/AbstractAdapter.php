@@ -53,9 +53,9 @@ abstract class AbstractAdapter implements AdapterInterface
 	/**
 	 * @param array $options
 	 *
-	 * @return SecretInterface
+	 * @return Secret
 	 */
-	public final function getSecret(array $options): SecretInterface
+	public final function getSecret(array $options): Secret
 	{
 		return $this->doGetSecret($this->processOptions($options, $this->getGetSecretConfiguration()));
 	}
@@ -89,9 +89,9 @@ abstract class AbstractAdapter implements AdapterInterface
 	/**
 	 * @param array $options
 	 *
-	 * @return SecretInterface
+	 * @return Secret
 	 */
-	protected abstract function doGetSecret(array $options): SecretInterface;
+	protected abstract function doGetSecret(array $options): Secret;
 
 	/**
 	 * @param array $options

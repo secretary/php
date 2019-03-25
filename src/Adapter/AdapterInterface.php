@@ -19,14 +19,14 @@ interface AdapterInterface
 	/**
 	 * @param array $options
 	 *
-	 * @return SecretInterface
+	 * @return Secret
 	 */
-	public function getSecret(array $options): SecretInterface;
+	public function getSecret(array $options): Secret;
 
 	/**
 	 * @param array $options
 	 *
-	 * @return SecretInterface[]
+	 * @return Secret[]
 	 */
 	public function getSecrets(array $options): array;
 

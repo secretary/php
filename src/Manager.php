@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Secretary;
 
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Adapter\SecretInterface;
+use Secretary\Adapter\Secret;
 use Secretary\Configuration\ManagerConfiguration;
 use Symfony\Component\Config\Definition\Processor;
 
@@ -49,9 +49,9 @@ class Manager
 	/**
 	 * @param array $options
 	 *
-	 * @return SecretInterface
+	 * @return Secret
 	 */
-	public function getSecret(array $options): SecretInterface
+	public function getSecret(array $options): Secret
 	{
 		return $this->adapter->getSecret($options);
 	}
@@ -59,7 +59,7 @@ class Manager
 	/**
 	 * @param array $options
 	 *
-	 * @return SecretInterface[]
+	 * @return Secret[]
 	 */
 	public function getSecrets(array $options): array
 	{

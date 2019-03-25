@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Secretary\Adapter;
 
-use Secretary\Configuration\Adapter\AbstractAdapterConfiguration;
 use Secretary\Configuration\Adapter\AbstractOptionsConfiguration;
 use Secretary\Configuration\Adapter\Path\GetSecretOptionsConfiguration;
 use Secretary\Configuration\Adapter\Path\GetSecretsOptionsConfiguration;
@@ -22,18 +21,16 @@ abstract class AbstractPathAdapter extends AbstractAdapter
 {
     public $pathRegex = "/^(?!\/)[A-Za-z\/_-]+(?<!\/)$/";
 
-    protected function getConfiguration(): AbstractAdapterConfiguration
+    public function doGetSecret(array $options): Secret
     {
-        // TODO: Implement getConfiguration() method.
-    }
-
-    public function doGetSecret(array $options): SecretInterface
-    {
-        /** @var SecretInterface[] $result */
+        /** @var Secret[] $result */
         $result = $this->memoize(
             json_encode($options),
             function () use ($options) {
-                return $this->getSecrets($options);
+                $keylessOptions = $options;
+                unset($keylessOptions['key']);
+
+                return $this->getSecrets($keylessOptions);
             }
         );
 
