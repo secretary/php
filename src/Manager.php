@@ -23,7 +23,7 @@ use Symfony\Component\Config\Definition\Processor;
 class Manager
 {
 	/**
-	 * @var AdapterInterface[]
+	 * @var AdapterInterface
 	 */
 	private $adapter;
 
@@ -53,8 +53,6 @@ class Manager
 	 */
 	public function getSecret(array $options): SecretInterface
 	{
-		$
-
 		return $this->adapter->getSecret($options);
 	}
 
