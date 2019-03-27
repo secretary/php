@@ -10,11 +10,19 @@ declare(strict_types=1);
 
 namespace Secretary\Exception;
 
-
-use Throwable;
-
+/**
+ * Class NotFoundException
+ *
+ * @package Secretary\Exception
+ */
 class NotFoundException extends \Exception
 {
+	/**
+	 * NotFoundException constructor.
+	 *
+	 * @param string      $key
+	 * @param string|null $path
+	 */
 	public function __construct(string $key, ?string $path = null)
 	{
 		$message = 'Could not find the secret using the given arguments: ';
@@ -25,5 +33,4 @@ class NotFoundException extends \Exception
 
 		parent::__construct($message, 404);
 	}
-
 }

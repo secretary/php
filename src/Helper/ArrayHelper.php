@@ -11,6 +11,11 @@ declare(strict_types=1);
 namespace Secretary\Helper;
 
 
+/**
+ * Class ArrayHelper
+ *
+ * @package Secretary\Helper
+ */
 abstract class ArrayHelper
 {
 	/**
@@ -28,6 +33,7 @@ abstract class ArrayHelper
 
 		return $newArray;
 	}
+
 	/**
 	 * @param array    $array
 	 * @param string[] ...$keys
@@ -37,9 +43,28 @@ abstract class ArrayHelper
 	public static function with(array $array, ...$keys)
 	{
 		$newArray = $array;
-		foreach (array_keys($newArray) as $key ) {
+		foreach (array_keys($newArray) as $key) {
 			if (!in_array($key, $keys)) {
 				unset($newArray[$key]);
+			}
+		}
+
+		return $newArray;
+	}
+
+	/**
+	 * @param array $array
+	 * @param mixed ...$keys
+	 *
+	 * @return array
+	 */
+	public static function remove(array &$array, ...$keys): array
+	{
+		$newArray = [];
+		foreach (array_keys($newArray) as $key) {
+			if (!in_array($key, $keys)) {
+				$newArray[$key] = $array[$key];
+				unset($array[$key]);
 			}
 		}
 

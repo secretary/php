@@ -10,56 +10,82 @@ declare(strict_types=1);
 
 namespace Secretary\Adapter;
 
-use Secretary\Configuration\Adapter\AbstractOptionsConfiguration;
-use Secretary\Configuration\Adapter\Path\GetSecretOptionsConfiguration;
-use Secretary\Configuration\Adapter\Path\GetSecretsOptionsConfiguration;
-use Secretary\Configuration\Adapter\Path\PutSecretOptionsConfiguration;
-use Secretary\Configuration\Adapter\Path\PutSecretsOptionsConfiguration;
 use Secretary\Exception\NotFoundException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class AbstractPathAdapter
+ *
+ * @package Secretary\Adapter
+ */
 abstract class AbstractPathAdapter extends AbstractAdapter
 {
-    public $pathRegex = "/^(?!\/)[A-Za-z\/_-]+(?<!\/)$/";
+    /**
+     * @var string
+     */
+    protected $pathRegex = "/^(?!\/)[A-Za-z\/_-]+(?<!\/)$/";
 
-    public function doGetSecret(array $options): Secret
+    /**
+     * @param string $key
+     * @param array  $options
+     *
+     * @return Secret
+     * @throws NotFoundException
+     */
+    public function getSecret(string $key, array $options): Secret
     {
-        /** @var Secret[] $result */
-        $result = $this->memoize(
-            json_encode($options),
-            function () use ($options) {
-                $keylessOptions = $options;
-                unset($keylessOptions['key']);
-
-                return $this->getSecrets($keylessOptions);
-            }
-        );
+        $result = $this->getSecrets($options);
 
         foreach ($result as $secret) {
-            if ($secret->getKey()  === $options['key']) {
+            if ($secret->getKey() === $key) {
                 return $secret;
             }
         }
 
-        throw new NotFoundException($options['key'], $options['path']);
+        throw new NotFoundException($key, $options['path']);
     }
 
-    protected function getGetSecretsConfiguration(): AbstractOptionsConfiguration
+    public function configureSharedOptions(OptionsResolver $resolver): void
     {
-        return new GetSecretOptionsConfiguration($this->pathRegex);
+        $resolver->setRequired('path')
+            ->setAllowedTypes('path', 'string')
+            ->setAllowedValues(
+                'path',
+                function ($value) {
+                    return preg_match($this->pathRegex, $value) === 1;
+                }
+            );
     }
 
-    protected function getGetSecretConfiguration(): AbstractOptionsConfiguration
+    public function configurePutSecretsOptions(OptionsResolver $resolver): void
     {
-        return new GetSecretsOptionsConfiguration($this->pathRegex);
+        parent::configurePutSecretsOptions($resolver);
+
+        $this->updateSecretsDefault($resolver);
     }
 
-    protected function getPutSecretConfiguration(): AbstractOptionsConfiguration
+    public function configureDeleteSecretsOptions(OptionsResolver $resolver): void
     {
-        return new PutSecretOptionsConfiguration($this->pathRegex);
+        parent::configurePutSecretsOptions($resolver);
+
+        $this->updateSecretsDefault($resolver);
     }
 
-    protected function getPutSecretsConfiguration(): AbstractOptionsConfiguration
+    private function updateSecretsDefault(OptionsResolver $resolver): void
     {
-        return new PutSecretsOptionsConfiguration($this->pathRegex);
+        $resolver->remove('path');
+        $resolver->setDefault(
+            'secrets',
+            function (OptionsResolver $options) {
+                $options->setRequired('path')
+                    ->setAllowedTypes('path', 'string')
+                    ->setAllowedValues(
+                        'path',
+                        function ($value) {
+                            return preg_match($this->pathRegex, $value) !== 1;
+                        }
+                    );
+            }
+        );
     }
 }

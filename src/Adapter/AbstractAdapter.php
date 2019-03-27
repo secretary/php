@@ -10,16 +10,7 @@ declare(strict_types=1);
 
 namespace Secretary\Adapter;
 
-use Psr\Cache\CacheItemPoolInterface;
-use Psr\SimpleCache\CacheInterface;
-use Secretary\Configuration\Adapter\AbstractAdapterConfiguration;
-use Secretary\Configuration\Adapter\AbstractOptionsConfiguration;
-use Secretary\Configuration\Adapter\GetSecretOptionsConfiguration;
-use Secretary\Configuration\Adapter\GetSecretsOptionsConfiguration;
-use Secretary\Configuration\Adapter\PutSecretOptionsConfiguration;
-use Secretary\Configuration\Adapter\PutSecretsOptionsConfiguration;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class AbstractAdapter
@@ -28,134 +19,72 @@ use Symfony\Component\Config\Definition\Processor;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-	/**
-	 * @var array
-	 */
-	protected $config;
+    /**
+     * {@inheritdoc}
+     */
+    public function configureSharedOptions(OptionsResolver $resolver): void
+    {
+    }
 
-	/**
-	 * AbstractAdapter constructor.
-	 *
-	 * @param array $config
-	 */
-	public function __construct(array $config)
-	{
-		$processor     = new Processor();
-		$configuration = $this->getConfiguration();
-		$this->config  = $processor->processConfiguration($configuration, ['adapter' => $config]);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureGetSecretOptions(OptionsResolver $resolver): void
+    {
+    }
 
-	/**
-	 * @param array $options
-	 *
-	 * @return Secret
-	 */
-	public final function getSecret(array $options): Secret
-	{
-		return $this->doGetSecret($this->processOptions($options, $this->getGetSecretConfiguration()));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureGetSecretsOptions(OptionsResolver $resolver): void
+    {
+    }
 
-	/**
-	 * @param array $options
-	 *
-	 * @return array
-	 */
-	public final function getSecrets(array $options): array
-	{
-		return $this->doGetSecrets($this->processOptions($options, $this->getGetSecretsConfiguration()));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configurePutSecretOptions(OptionsResolver $resolver): void
+    {
+    }
 
-	/**
-	 * @param array $options
-	 */
-	public final function putSecret(array $options): void
-	{
-		$this->doPutSecret($this->processOptions($options, $this->getPutSecretConfiguration()));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configurePutSecretsOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefault(
+            'secrets',
+            function (OptionsResolver $options) {
+                $options
+                    ->setRequired('key')
+                    ->setRequired('value')
+                    ->setAllowedTypes('key', 'string')
+                    ->setAllowedTypes('value', 'string')
+                ;
+            }
+        );
+    }
 
-	/**
-	 * @param array $options
-	 */
-	public final function putSecrets(array $options): void
-	{
-		$this->doPutSecrets($this->processOptions($options, $this->getPutSecretsConfiguration()));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureDeleteSecretOptions(OptionsResolver $resolver): void
+    {
+    }
 
-	/**
-	 * @param array $options
-	 *
-	 * @return Secret
-	 */
-	protected abstract function doGetSecret(array $options): Secret;
-
-	/**
-	 * @param array $options
-	 *
-	 * @return array
-	 */
-	protected abstract function doGetSecrets(array $options): array;
-
-	/**
-	 * @param array $options
-	 */
-	protected abstract function doPutSecret(array $options): void;
-
-	/**
-	 * @param array $options
-	 */
-	protected abstract function doPutSecrets(array $options): void;
-
-	/**
-	 * @return AbstractAdapterConfiguration
-	 */
-	protected abstract function getConfiguration(): AbstractAdapterConfiguration;
-
-	/**
-	 * @return AbstractOptionsConfiguration
-	 */
-	protected function getGetSecretConfiguration(): AbstractOptionsConfiguration
-	{
-		return new GetSecretOptionsConfiguration();
-	}
-
-	/**
-	 * @return AbstractOptionsConfiguration
-	 */
-	protected function getGetSecretsConfiguration(): AbstractOptionsConfiguration
-	{
-		return new GetSecretsOptionsConfiguration();
-	}
-
-	/**
-	 * @return AbstractOptionsConfiguration
-	 */
-	protected function getPutSecretConfiguration(): AbstractOptionsConfiguration
-	{
-		return new PutSecretOptionsConfiguration();
-	}
-
-	/**
-	 * @return AbstractOptionsConfiguration
-	 */
-	protected function getPutSecretsConfiguration(): AbstractOptionsConfiguration
-	{
-		return new PutSecretsOptionsConfiguration();
-	}
-
-	/**
-	 * @param array                  $options
-	 * @param ConfigurationInterface $configuration
-	 * @param string                 $rootKey
-	 *
-	 * @return array
-	 */
-	private function processOptions(
-		array $options,
-		ConfigurationInterface $configuration,
-		string $rootKey = 'options'
-	): array {
-		$processor = new Processor();
-
-		return $processor->processConfiguration($configuration, [$rootKey => $options]);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureDeleteSecretsOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefault(
+            'secrets',
+            function (OptionsResolver $options) {
+                $options
+                    ->setRequired('key')
+                    ->setAllowedTypes('key', 'string')
+                ;
+            }
+        );
+    }
 }

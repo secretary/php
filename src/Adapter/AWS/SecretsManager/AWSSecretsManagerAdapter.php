@@ -13,11 +13,7 @@ namespace Secretary\Adapter\AWS\SecretsManager;
 
 use Aws\SecretsManager\SecretsManagerClient;
 use Secretary\Adapter\AbstractPathAdapter;
-use Secretary\Adapter\AWS\SecretsManager\Configuration\OptionsConfiguration;
-use Secretary\Adapter\AWS\SecretsManager\Configuration\GetSecretsOptionsConfiguration;
 use Secretary\Adapter\SecretWithPath;
-use Secretary\Configuration\Adapter\AbstractAdapterConfiguration;
-use Secretary\Configuration\Adapter\AbstractOptionsConfiguration;
 use Secretary\Helper\ArrayHelper;
 
 /**
@@ -41,7 +37,6 @@ class AWSSecretsManagerAdapter extends AbstractPathAdapter
 	 */
 	public function __construct(array $config)
 	{
-		parent::__construct($config);
 		if (!class_exists(SecretsManagerClient::class)) {
 			throw new \Exception('aws/aws-sdk-php is required to use the AWSSecretsManagerAdapter');
 		}
@@ -50,11 +45,9 @@ class AWSSecretsManagerAdapter extends AbstractPathAdapter
 	}
 
 	/**
-	 * @param array $options
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
-	protected function doGetSecrets(array $options): array
+	public function getSecrets(array $options): array
 	{
 		$params = ['SecretId' => $options['path']];
 		if ($options['versionId']) {
@@ -64,8 +57,8 @@ class AWSSecretsManagerAdapter extends AbstractPathAdapter
 			$params['VersionStage'] = $options['versionStage'];
 		}
 
-		$data = $this->client->getSecretValue($params);
-		$json = json_decode($data->get('SecretString'), true);
+		$data    = $this->client->getSecretValue($params);
+		$json    = json_decode($data->get('SecretString'), true);
 		$secrets = [];
 		foreach ($json as $key => $value) {
 			$secrets[] = new SecretWithPath($key, $value, $options['path']);
@@ -75,56 +68,79 @@ class AWSSecretsManagerAdapter extends AbstractPathAdapter
 	}
 
 	/**
-	 * @param array $options
+	 * {@inheritdoc}
 	 */
-	protected function doPutSecret(array $options): void
+	public function putSecret(string $key, string $value, array $options): void
 	{
 		try {
-			$secret = $this->getSecrets(ArrayHelper::without($options, 'key', 'value'));
+			$secret   = $this->getSecrets($options);
 			$newValue = [];
-			foreach ($secret as $key => $value) {
-				$newValue[$key] = $value;
+			foreach ($secret as $k => $v) {
+				$newValue[$k] = $v;
 			}
-			$newValue[$options['key']] = $options['value'];
+			$newValue[$key] = $value;
 
-			$options = ArrayHelper::without($options, 'key', 'value', 'path');
-			$options['SecretId'] = $options['path'];
+			$options                 = ArrayHelper::without($options, 'path');
+			$options['SecretId']     = $options['path'];
 			$options['SecretString'] = $newValue;
 
 			$this->client->updateSecret($options);
 		} catch (\Exception $e) {
-			$options = ArrayHelper::without($options, 'key', 'value', 'path');
-			$options['Name'] = $options['path'];
-			$options['SecretString'] = json_encode([$options['key'] => $options['value']]);
+			$options                 = ArrayHelper::without($options, 'path');
+			$options['Name']         = $options['path'];
+			$options['SecretString'] = json_encode([$key => $value]);
 
 			$this->client->createSecret($options);
 		}
 	}
 
 	/**
-	 * @param array $options
+	 * {@inheritdoc}
 	 */
-	protected function doPutSecrets(array $options): void
+	public function putSecrets(array $options): void
 	{
 		$secrets = $options['secrets'];
 		foreach ($secrets as $secret) {
-			$this->putSecret($secret + ArrayHelper::without($options, 'secrets'));
+			$opts = ['path' => $secret['path']] + ArrayHelper::without($options, 'secrets');
+
+			$this->putSecret($secret['key'], $secret['value'], $opts);
 		}
 	}
 
 	/**
-	 * @return AbstractOptionsConfiguration
+	 * {@inheritdoc}
 	 */
-	protected function getGetSecretsConfiguration(): AbstractOptionsConfiguration
+	public function deleteSecret(string $key, array $options): void
 	{
-		return new GetSecretsOptionsConfiguration($this->pathRegex);
+		try {
+			$secret   = $this->getSecrets($options);
+			$newValue = [];
+			foreach ($secret as $k => $v) {
+				$newValue[$k] = $v;
+			}
+			unset($newValue[$key]);
+
+			$options                 = ArrayHelper::without($options, 'path');
+			$options['SecretId']     = $options['path'];
+			$options['SecretString'] = $newValue;
+
+			$this->client->updateSecret($options);
+		} catch (\Exception $e) {
+			$options                 = ArrayHelper::without($options, 'path');
+			$options['SecretId']         = $options['path'];
+
+			$this->client->deleteSecret($options);
+		}
 	}
 
-	/**
-	 * @return AbstractAdapterConfiguration
-	 */
-	protected function getConfiguration(): AbstractAdapterConfiguration
+    /**
+     * {@inheritdoc}
+     * @todo Optimize so this only runs as many times as is necessary
+     */
+	public function deleteSecrets(array $options): void
 	{
-		return new OptionsConfiguration();
+		foreach ($options['secrets'] as $secret) {
+			$this->deleteSecret($secret['key'], ['path' => $secret['path']] + $options);
+		}
 	}
 }
