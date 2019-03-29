@@ -48,7 +48,7 @@ class Manager
      *
      * @return Secret
      */
-    public function getSecret(string $key, array $options): Secret
+    public function getSecret(string $key, ?array $options = []): Secret
     {
         $resolver = new OptionsResolver();
         $this->adapter->configureSharedOptions($resolver);
@@ -59,27 +59,13 @@ class Manager
     }
 
     /**
-     * @param array $options
-     *
-     * @return Secret[]
-     */
-    public function getSecrets(array $options): array
-    {
-        $resolver = new OptionsResolver();
-        $this->adapter->configureSharedOptions($resolver);
-        $this->adapter->configureGetSecretsOptions($resolver);
-
-        return $this->adapter->getSecrets($resolver->resolve($options));
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     * @param array  $options
+     * @param string       $key
+     * @param string|array $value
+     * @param array        $options
      *
      * @return void
      */
-    public function putSecret(string $key, string $value, array $options): void
+    public function putSecret(string $key, $value, ?array $options = []): void
     {
         $resolver = new OptionsResolver();
         $this->adapter->configureSharedOptions($resolver);
@@ -89,47 +75,18 @@ class Manager
     }
 
     /**
-     * @param array $options
-     *
-     * @return void
-     */
-    public function putSecrets(array $options): void
-    {
-        $resolver = new OptionsResolver();
-        $this->adapter->configureSharedOptions($resolver);
-        $this->adapter->configurePutSecretsOptions($resolver);
-
-        $this->adapter->putSecrets($resolver->resolve($options));
-    }
-
-    /**
      * @param string $key
-     * @param string $value
      * @param array  $options
      *
      * @return void
      */
-    public function deleteSecret(string $key, array $options): void
+    public function deleteSecret(string $key, ?array $options = []): void
     {
         $resolver = new OptionsResolver();
         $this->adapter->configureSharedOptions($resolver);
-        $this->adapter->configurePutSecretOptions($resolver);
+        $this->adapter->configureDeleteSecretOptions($resolver);
 
         $this->adapter->deleteSecret($key, $resolver->resolve($options));
-    }
-
-    /**
-     * @param array $options
-     *
-     * @return void
-     */
-    public function deleteSecrets(array $options): void
-    {
-        $resolver = new OptionsResolver();
-        $this->adapter->configureSharedOptions($resolver);
-        $this->adapter->configureDeleteSecretsOptions($resolver);
-
-        $this->adapter->deleteSecrets($resolver->resolve($options));
     }
 
     /**

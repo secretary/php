@@ -19,4 +19,34 @@ $manager = new \Secretary\Manager(
     )
 );
 
-var_dump($manager->getSecrets(['path' => 'bot']));
+var_dump(
+    $manager->getSecret('databases/redis/main'),
+    $manager->getSecret('test/foo'),
+    $manager->getSecret('test/foo')['bar']
+);
+
+/*
+object(Secretary\Adapter\Secret)#125 (2) {
+  ["key":"Secretary\Adapter\Secret":private]=>
+  string(20) "databases/redis/main"
+  ["value":"Secretary\Adapter\Secret":private]=>
+  array(3) {
+    ["dsn"]=>
+    string(37) "redis://baremetal1.vultr.disc.gg:6379"
+    ["auth"]=>
+    string(26) "9f7sahd9rhba9sfsadr97g97gf"
+    ["port"]=>
+    string(4) "6379"
+  }
+}
+object(Secretary\Adapter\Secret)#128 (2) {
+  ["key":"Secretary\Adapter\Secret":private]=>
+  string(8) "test/foo"
+  ["value":"Secretary\Adapter\Secret":private]=>
+  array(1) {
+    ["bar"]=>
+    string(3) "baz"
+  }
+}
+string(3) "baz"
+*/

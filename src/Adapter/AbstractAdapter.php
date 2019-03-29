@@ -36,13 +36,6 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function configureGetSecretsOptions(OptionsResolver $resolver): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function configurePutSecretOptions(OptionsResolver $resolver): void
     {
     }
@@ -50,41 +43,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function configurePutSecretsOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefault(
-            'secrets',
-            function (OptionsResolver $options) {
-                $options
-                    ->setRequired('key')
-                    ->setRequired('value')
-                    ->setAllowedTypes('key', 'string')
-                    ->setAllowedTypes('value', 'string')
-                ;
-            }
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function configureDeleteSecretOptions(OptionsResolver $resolver): void
     {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureDeleteSecretsOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefault(
-            'secrets',
-            function (OptionsResolver $options) {
-                $options
-                    ->setRequired('key')
-                    ->setAllowedTypes('key', 'string')
-                ;
-            }
-        );
     }
 }
