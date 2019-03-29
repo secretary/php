@@ -1,5 +1,17 @@
 # Secretary - Secrets Manager for PHP
 
+Secrets are an important aspect of most applications you can build. How you store them, and keep them "secret" is a challenge.
+Luckily, there are tools you can use to keep them all safe. 
+
+Secretary is a tool to integrate your PHP application with these tools.
+
+Right now, Secretary supports:
+
+* AWS Secrets Manager
+* Hashicorp Vault
+
+It also has support for Caching with any PSR6 or PSR16 compliant library.
+
 ### General Idea:
 
 ```php
@@ -48,4 +60,5 @@ Secret {
 */
 ```
 
+# Installation
 It is up to the adapter to work out how these two input values are implemented. 
