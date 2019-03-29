@@ -49,12 +49,12 @@ final class PSR6CacheAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function getSecret(string $key, array $options): Secret
+    public function getSecret(string $key, ?array $options = []): Secret
     {
         [$ttl] = ArrayHelper::remove($options, 'ttl');
 
         return $this->memoize(
-            json_encode($options),
+            $key,
             function () use ($key, $options) {
                 return $this->adapter->getSecret($key, $options);
             },
@@ -65,53 +65,34 @@ final class PSR6CacheAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function getSecrets(array $options): array
+    public function putSecret(string $key, $value, ?array $options = []): void
     {
         [$ttl] = ArrayHelper::remove($options, 'ttl');
 
-        return $this->memoize(
-            json_encode($options),
-            function () use ($options) {
-                return $this->adapter->getSecrets($options);
-            },
-            $ttl
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function putSecret(string $key, string $value, array $options): void
-    {
         $this->adapter->putSecret($key, $value, $options);
-        $this->cache->clear();
-    }
+        if ($this->cache->hasItem($key) || $ttl === 0) {
+            $this->cache->deleteItem($key);
 
-    /**
-     * @param array $options
-     */
-    public function putSecrets(array $options): void
-    {
-        $this->adapter->putSecrets($options);
-        $this->cache->clear();
+            return;
+        }
+
+        $item = $this->cache->getItem($key);
+        $item->set($value);
+        if (!empty($ttl)) {
+            $item->expiresAfter($ttl);
+        }
+        $this->cache->save($item);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteSecret(string $key, array $options): void
+    public function deleteSecret(string $key, ?array $options = []): void
     {
         $this->adapter->deleteSecret($key, $options);
-        $this->cache->clear();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteSecrets(array $options): void
-    {
-        $this->adapter->deleteSecrets($options);
-        $this->cache->clear();
+        if ($this->cache->hasItem($key)) {
+            $this->cache->deleteItem($key);
+        }
     }
 
     /**

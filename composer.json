@@ -19,7 +19,8 @@
     "require-dev": {
         "aws/aws-sdk-php": "^3.90",
         "phpunit/phpunit": "^8.0",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "mockery/mockery": "^1.2"
     },
     "suggest": {
         "aws/aws-sdk-php": "Needed for the AWS Adapters",
