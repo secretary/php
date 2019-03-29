@@ -32,9 +32,9 @@ object(Secretary\Adapter\Secret)#125 (2) {
   ["value":"Secretary\Adapter\Secret":private]=>
   array(3) {
     ["dsn"]=>
-    string(37) "redis://baremetal1.vultr.disc.gg:6379"
+    string(37) "redis://localhost:6379"
     ["auth"]=>
-    string(26) "9f7sahd9rhba9sfsadr97g97gf"
+    string(26) "asdasdasdasd"
     ["port"]=>
     string(4) "6379"
   }
