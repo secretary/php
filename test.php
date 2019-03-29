@@ -7,11 +7,13 @@ declare(strict_types=1);
  * @license   http://opensource.org/licenses/MIT
  */
 
+use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
+use Secretary\Adapter\Hashicorp\Vault\HashicorpVaultAdapter;
+
 require_once __DIR__.'/vendor/autoload.php';
 
-
 $manager = new \Secretary\Manager(
-    new \Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter(
+    new AWSSecretsManagerAdapter(
         [
             'region'  => 'us-east-1',
             'version' => '2017-10-17',
@@ -25,28 +27,10 @@ var_dump(
     $manager->getSecret('test/foo')['bar']
 );
 
-/*
-object(Secretary\Adapter\Secret)#125 (2) {
-  ["key":"Secretary\Adapter\Secret":private]=>
-  string(20) "databases/redis/main"
-  ["value":"Secretary\Adapter\Secret":private]=>
-  array(3) {
-    ["dsn"]=>
-    string(37) "redis://localhost:6379"
-    ["auth"]=>
-    string(26) "asdasdasdasd"
-    ["port"]=>
-    string(4) "6379"
-  }
-}
-object(Secretary\Adapter\Secret)#128 (2) {
-  ["key":"Secretary\Adapter\Secret":private]=>
-  string(8) "test/foo"
-  ["value":"Secretary\Adapter\Secret":private]=>
-  array(1) {
-    ["bar"]=>
-    string(3) "baz"
-  }
-}
-string(3) "baz"
-*/
+$manager = new \Secretary\Manager(new HashicorpVaultAdapter());
+var_dump(
+    $manager->getSecret('test/foo'),
+    $manager->getSecret('test/foo')['bar'],
+    $manager->getSecret('test/foo/foobar'),
+    $manager->getSecret('test/foo/foobar')['baz']
+);
