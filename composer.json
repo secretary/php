@@ -3,6 +3,12 @@
     "description":       "Secrets Manager for PHP",
     "type":              "library",
     "license":           "MIT",
+    "keywords": [
+        "secrets",
+        "vault",
+        "secretsmanager",
+        "keyvault"
+    ],
     "authors":           [
         {
             "name":  "Aaron Scherer",

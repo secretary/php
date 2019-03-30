@@ -51,7 +51,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
-        [$ttl] = ArrayHelper::remove($options, 'ttl');
+        ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
         return $this->memoize(
             $key,
@@ -67,7 +67,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
      */
     public function putSecret(string $key, $value, ?array $options = []): void
     {
-        [$ttl] = ArrayHelper::remove($options, 'ttl');
+        ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
         $this->adapter->putSecret($key, $value, $options);
         if ($this->cache->has($key) || $ttl === 0) {

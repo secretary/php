@@ -34,9 +34,9 @@ class Client extends \GuzzleHttp\Client
             $options['headers'] = ['X-Vault-Token' => $config['credentials']['token']];
         }
         if (!empty($config['credentials']['appRole'])) {
-            $appRole = $config['credentials']['appRole'];
-            if (!empty($appRole['roleId']) && !empty($appRole['secretId'])) {
-                $stack->push(new AppRoleAuthenticator($this, $appRole['roleId'], $appRole['secretId']));
+            ['roleId' => $roleId, 'secretId' => $secretId] = $config['credentials']['appRole'];
+            if (!empty($roleId) && !empty($secretId)) {
+                $stack->push(new AppRoleAuthenticator($this, $roleId, $secretId));
             }
         }
 
