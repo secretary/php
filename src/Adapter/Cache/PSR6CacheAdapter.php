@@ -106,7 +106,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
     private function memoize(string $key, callable $callback, int $ttl = null)
     {
         $item = $this->cache->getItem(sha1($key));
-        if ($item !== null) {
+        if ($item !== null && $item->isHit()) {
             return $item->get();
         }
 
