@@ -35,24 +35,6 @@ abstract class ArrayHelper
 	}
 
 	/**
-	 * @param array    $array
-	 * @param string[] ...$keys
-	 *
-	 * @return array
-	 */
-	public static function with(array $array, ...$keys)
-	{
-		$newArray = $array;
-		foreach (array_keys($newArray) as $key) {
-			if (!in_array($key, $keys)) {
-				unset($newArray[$key]);
-			}
-		}
-
-		return $newArray;
-	}
-
-	/**
 	 * @param array $array
 	 * @param mixed ...$keys
 	 *
@@ -67,6 +49,12 @@ abstract class ArrayHelper
 				unset($array[$key]);
 			}
 		}
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $newArray)) {
+                $newArray[$key] = null;
+            }
+        }
 
 		return $newArray;
 	}
