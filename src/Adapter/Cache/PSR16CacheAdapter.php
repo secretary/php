@@ -70,13 +70,13 @@ final class PSR16CacheAdapter extends AbstractAdapter
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
         $this->adapter->putSecret($key, $value, $options);
-        if ($this->cache->has($key) || $ttl === 0) {
-            $this->cache->delete($key);
+        if ($this->cache->has(sha1($key)) || $ttl === 0) {
+            $this->cache->delete(sha1($key));
 
             return;
         }
 
-        $this->cache->set($key, $value, $ttl);
+        $this->cache->set(sha1($key), $value, $ttl);
     }
 
     /**
@@ -85,7 +85,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
     public function deleteSecret(string $key, ?array $options = []): void
     {
         $this->adapter->deleteSecret($key, $options);
-        $this->cache->delete($key);
+        $this->cache->delete(sha1($key));
     }
 
     /**
@@ -98,12 +98,12 @@ final class PSR16CacheAdapter extends AbstractAdapter
      */
     private function memoize(string $key, callable $callback, int $ttl = null)
     {
-        if ($this->cache->has($key)) {
-            return $this->cache->get($key);
+        if ($this->cache->has(sha1($key))) {
+            return $this->cache->get(sha1($key));
         }
 
         $cachedValue = $callback();
-        $this->cache->set($key, $cachedValue, $ttl);
+        $this->cache->set(sha1($key), $cachedValue, $ttl);
 
         return $cachedValue;
     }
