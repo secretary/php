@@ -5,4 +5,4 @@ Luckily, there are tools you can use to keep them all safe.
 
 Secretary is a tool to integrate your PHP application with these tools.
 
-To get started, view the [documentation](https://github.com/secretary/php/blob/src/Core/README.md)
+To get started, view the [documentation](https://github.com/secretary/php/tree/master/src/Core)
