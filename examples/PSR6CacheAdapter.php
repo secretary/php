@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 use Cache\Adapter\Apc\ApcCachePool;
-use Secretary\Adapter\Cache\PSR6CacheAdapter;
+use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
 use Secretary\Adapter\Hashicorp\Vault\HashicorpVaultAdapter;
 
 require_once __DIR__.'/vendor/autoload.php';
