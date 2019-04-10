@@ -13,7 +13,7 @@ namespace Secretary\Adapter\Cache\PSR16Cache;
 use Psr\SimpleCache\CacheInterface;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Adapter\Secret;
+use Secretary\Secret;
 use Secretary\Helper\ArrayHelper;
 
 /**

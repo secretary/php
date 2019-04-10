@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Secretary\Adapter;
 
 use Secretary\Exception\SecretNotFoundException;
+use Secretary\Secret;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

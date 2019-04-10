@@ -7,12 +7,14 @@ declare(strict_types=1);
  * @license   http://opensource.org/licenses/MIT
  */
 
-namespace Secretary\Adapter;
+namespace Secretary;
+
+use Secretary\Exception\ValueNotSupportedException;
 
 /**
  * Interface SecretInterface
  *
- * @package Secretary\Adapter
+ * @package Secretary
  */
 class Secret implements \ArrayAccess
 {
@@ -69,7 +71,7 @@ class Secret implements \ArrayAccess
     public function offsetGet($offset)
     {
         if (!is_array($this->value)) {
-            throw new \Exception('Secret is not an array');
+            throw new ValueNotSupportedException($this->key);
         }
 
         return $this->value[$offset];

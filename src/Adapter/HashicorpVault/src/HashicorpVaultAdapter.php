@@ -13,7 +13,7 @@ namespace Secretary\Adapter\Hashicorp\Vault;
 use GuzzleHttp\Client as GuzzleClient;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Adapter\Hashicorp\Vault\Client\Client;
-use Secretary\Adapter\Secret;
+use Secretary\Secret;
 
 /**
  * Class HashicorpVaultAdapter

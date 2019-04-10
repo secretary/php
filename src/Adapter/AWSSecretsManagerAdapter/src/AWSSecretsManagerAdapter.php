@@ -13,7 +13,7 @@ namespace Secretary\Adapter\AWS\SecretsManager;
 
 use Aws\SecretsManager\SecretsManagerClient;
 use Secretary\Adapter\AbstractAdapter;
-use Secretary\Adapter\Secret;
+use Secretary\Secret;
 use Secretary\Helper\ArrayHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

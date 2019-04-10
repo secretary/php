@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Secretary;
 
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Adapter\Secret;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

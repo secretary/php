@@ -9,12 +9,17 @@ Secretary is a tool to integrate your PHP application with these tools.
 
 1. [Installation](#installation)
 2. [Api Documentation](#api-documentation)
-    1. [Initializing](#constructor)
-    1. [getSecret](#getSecret)
-    1. [putSecret](#putSecret)
-    1. [deleteSecret](#deleteSecret)
+    1. [Secretary\Manager](#manager-class)
+        1. [Initializing](#manager-constructor)
+        2. [getSecret](#manager-getSecret)
+        3. [putSecret](#manager-putSecret)
+        4. [deleteSecret](#manager-deleteSecret)
+        5. [getAdapter](#manager-getAdapter)
+    2. [Secretary\Secret](#secret-class)
+        1. [getKey](#secret-getKey)
+        1. [getValue](#secret-getValue)
 
-### Installation
+## Installation
 
 ```bash
 $ composer require secretary/core
@@ -35,11 +40,18 @@ There are also miscellaneous packages that add on to Secretary
 | [PSR-16 Cache Adapter][psr-16-cache-adapter] | Allows for caching secrets using a PSR-16 Cache Interface | [![Latest Stable Version](https://poser.pugx.org/secretary/php-psr-16-cache-adapter/version)](https://packagist.org/packages/secretary/php-psr-16-cache-adapter) [![Total Downloads](https://poser.pugx.org/secretary/php-psr-16-cache-adapter/downloads)](https://packagist.org/packages/secretary/php-psr-16-cache-adapter) |
 | [Secretary Bundle][secretary-bundle] | Allows for integrating with the Symfony Framework | [![Latest Stable Version](https://poser.pugx.org/secretary/php-secretary-bundle/version)](https://packagist.org/packages/secretary/php-secretary-bundle) [![Total Downloads](https://poser.pugx.org/secretary/php-secretary-bundle/downloads)](https://packagist.org/packages/secretary/php-secretary-bundle) |
 
-### Api Documentation
+## Api Documentation
 
-There's only one class you interface with in Secretary: [`Secretary\Manager`][Secretary\Manager::class]
+There's two classes you interface with in Secretary:
 
-<a name="constructor" />
+* [`Secretary\Manager`][Secretary\Manager::class]
+* [`Secretary\Secret`][Secretary\Secret::class]
+
+<a name="manager-class" />
+
+### Secretary\Manager
+
+<a name="manager-constructor" />
 
 #### Secretary\Manager->__construct(AdapterInterface $adapter)
 
@@ -87,7 +99,7 @@ $manager = new Manager(
 
 For mor information on the arguments and options for the adapters, view their respective documentation.
 
-<a name="getSecret" />
+<a name="manager-getSecret" />
 
 #### Secretary\Manager->getSecret(string $key, ?array $options): Secret
 
@@ -122,7 +134,7 @@ Secret {
 */
 ```
 
-<a name="putSecret" />
+<a name="manager-putSecret" />
 
 #### Secretary\Manager->putSecret(string $key, string|array $value, ?array $options): void
 
@@ -142,7 +154,7 @@ And for adapters that support a key/value map as a value:
 $manager->putSecret('database/redis', ['dsn' => 'redis://localhost:6379', 'password' => 'my_super_strong_password']);
 ```
 
-<a name="deleteSecret" />
+<a name="manager-deleteSecret" />
 
 #### Secretary\Manager->deleteSecret(string $key, ?array $options): void
 
@@ -154,9 +166,61 @@ Again, some adapters allow passing in custom options to send along with the requ
 $manager->deleteSecret('database/redis');
 ```
 
+<a name="manager-getAdapter" />
+
 #### Secretary\Manager->getAdapter(): AdapterInterface
 
 Will return the adapter that was passed to this manager during construction.
+
+<a name="secret-class" />
+
+### Secretary\Secret
+
+This class implements ArrayAccess, so if your secret supports passing a key/value map, you can grab straight from the map:
+
+Secrets are immutable, so attempting to change a value will throw an Exception.
+
+```php
+$secret = $manager->getSecret('database/redis');
+
+$dsn = $secret['dsn'];
+```
+
+<a name="secret-getKey" />
+
+#### Secretary\Secret->getKey(): string
+
+Returns the key for the secret
+
+```php
+$secret = $manager->getSecret('dabase/redis');
+
+$secret->getKey() === 'database/redis'; // true
+```
+
+<a name="secret-getValue" />
+
+#### Secretary\Secret->getValue(): string | array
+
+Returns the value for the secret. If the secret is a key/value map, its an array
+
+```php
+$secret = $manager->getSecret('dabase/redis/dsn');
+
+$secret->getValue() === 'redis://localhost:6379'; // true
+
+// Or
+
+$secret = $manager->getSecret('dabase/redis');
+
+print_r($secret->getValue()); 
+/*
+[
+    "dsn" => "redis://localhost:6379",
+    "password" => "my_super_strong_password" 
+]
+*/
+```
 
 [aws-secrets-manager-adapter]: https://github.com/secretary/php-aws-secrets-manager-adapter 
 [hashicorp-vault-adapter]: https://github.com/secretary/php-hashicorp-vault-adapter 

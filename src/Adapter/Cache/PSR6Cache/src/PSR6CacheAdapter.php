@@ -14,7 +14,7 @@ namespace Secretary\Adapter\Cache\PSR6Cache;
 use Psr\Cache\CacheItemPoolInterface;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Adapter\Secret;
+use Secretary\Secret;
 use Secretary\Helper\ArrayHelper;
 
 /**
