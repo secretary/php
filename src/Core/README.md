@@ -158,9 +158,9 @@ $manager->deleteSecret('database/redis');
 
 Will return the adapter that was passed to this manager during construction.
 
-aws-secrets-manager-adapter: https://github.com/secretary/php-aws-secrets-manager-adapter 
-hashicorp-vault-adapter: https://github.com/secretary/php-hashicorp-vault-adapter 
-psr-6-cache-adapter: https://github.com/secretary/php-psr-6-cache-adapter 
-psr-16-cache-adapter: https://github.com/secretary/php-psr-16-cache-adapter 
-secretary-bundle: https://github.com/secretary/php-secretary-bundle
-Secretary\Manager::class: https://github.com/secretary/php/blob/master/src/Core/src/Manager.php
+[aws-secrets-manager-adapter]: https://github.com/secretary/php-aws-secrets-manager-adapter 
+[hashicorp-vault-adapter]: https://github.com/secretary/php-hashicorp-vault-adapter 
+[psr-6-cache-adapter]: https://github.com/secretary/php-psr-6-cache-adapter 
+[psr-16-cache-adapter]: https://github.com/secretary/php-psr-16-cache-adapter 
+[secretary-bundle]: https://github.com/secretary/php-secretary-bundle
+[Secretary\Manager::class]: https://github.com/secretary/php/blob/master/src/Core/src/Manager.php
