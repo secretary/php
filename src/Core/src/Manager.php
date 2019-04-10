@@ -3,21 +3,14 @@ declare(strict_types=1);
 
 /**
  * @author    Aaron Scherer <aequasi@gmail.com>
- * @date      ${YEAR}
+ * @date      2019
  * @license   http://opensource.org/licenses/MIT
  */
 
-
 namespace Secretary;
 
-use Psr\Cache\CacheItemPoolInterface;
-use Psr\SimpleCache\CacheInterface;
 use Secretary\Adapter\AdapterInterface;
 use Secretary\Adapter\Secret;
-use Secretary\Configuration\ManagerConfiguration;
-use Secretary\Helper\ArrayHelper;
-use Secretary\Helper\OptionsResolverHelper;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

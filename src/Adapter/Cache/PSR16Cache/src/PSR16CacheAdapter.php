@@ -8,8 +8,7 @@ declare(strict_types=1);
  */
 
 
-namespace Secretary\Adapter\Cache;
-
+namespace Secretary\Adapter\Cache\PSR16Cache;
 
 use Psr\SimpleCache\CacheInterface;
 use Secretary\Adapter\AbstractAdapter;

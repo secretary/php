@@ -7,7 +7,8 @@
         "secrets",
         "vault",
         "secretsmanager",
-        "keyvault"
+        "keyvault",
+        "secretary"
     ],
     "authors":           [
         {
@@ -18,20 +19,18 @@
     "minimum-stability": "stable",
     "require":           {
         "php":                      "^7.1.0",
-        "ext-json":                 "*",
-        "psr/cache":                "^1.0",
-        "psr/simple-cache":         "^1.0",
-        "symfony/options-resolver": "^4.2"
+        "symfony/options-resolver": "^4.0 || ^3.0"
     },
     "require-dev":       {
-        "aws/aws-sdk-php":   "^3.90",
         "phpunit/phpunit":   "^8.0",
-        "guzzlehttp/guzzle": "^6.3",
         "mockery/mockery":   "^1.2"
     },
     "suggest":           {
-        "aws/aws-sdk-php":   "Needed for the AWS Adapters",
-        "guzzlehttp/guzzle": "Needed for the Hashicorp Vault Adapter"
+        "secretary/aws-secrets-manager-adapter": "For reading secrets from AWS Secrets Manager",
+        "secretary/hashicorp-vault-adapter": "For reading secrets from Hashicorp Vault",
+        "secretary/psr6-cache-adapter": "For caching secrets using a PSR-6 Cache Interface",
+        "secretary/psr16-cache-adapter": "For caching secrets using a PSR-16 SimpleCache Interface",
+        "secretary/secretary-bundle": "For integrating Secretary with the Symfony Framework"
     },
     "autoload":          {
         "psr-4": {

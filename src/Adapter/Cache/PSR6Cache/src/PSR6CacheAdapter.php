@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 
-namespace Secretary\Adapter\Cache;
+namespace Secretary\Adapter\Cache\PSR6Cache;
 
 
 use Psr\Cache\CacheItemPoolInterface;

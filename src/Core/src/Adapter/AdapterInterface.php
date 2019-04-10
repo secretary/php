@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Secretary\Adapter;
 
+use Secretary\Exception\SecretNotFoundException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -25,6 +26,7 @@ interface AdapterInterface
      * @param array  $options
      *
      * @return Secret
+     * @throws SecretNotFoundException
      */
     public function getSecret(string $key, ?array $options = []): Secret;
 

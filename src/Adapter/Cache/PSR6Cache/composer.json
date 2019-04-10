@@ -1,0 +1,38 @@
+{
+    "name":              "secretary/psr-6-cache-adapter",
+    "description":       "PSR-6 Cache Adapter for Secretary",
+    "type":              "library",
+    "license":           "MIT",
+    "keywords":          [
+        "secrets",
+        "cache",
+        "psr-6",
+        "secretary"
+    ],
+    "authors":           [
+        {
+            "name":  "Aaron Scherer",
+            "email": "aequasi@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require":           {
+        "php":            "^7.1.0",
+        "psr/cache":      "^1.0",
+        "secretary/core": "self.version"
+    },
+    "require-dev":       {
+        "phpunit/phpunit": "^8.0",
+        "mockery/mockery": "^1.2"
+    },
+    "autoload":          {
+        "psr-4": {
+            "Secretary\\Adapter\\Cache\\PSR6Cache\\": "src/"
+        }
+    },
+    "autoload-dev":      {
+        "psr-4": {
+            "Secretary\\Adapter\\Cache\\PSR6Cache\\Tests\\": "tests/"
+        }
+    }
+}

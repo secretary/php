@@ -1,0 +1,18 @@
+parameters:
+    'kernel.secret': 'foo'
+    foo:             '%env(secret:default:SECRET_PATH:bar)%'
+
+services:
+    Symfony\Component\Cache\Adapter\ApcuAdapter: ~
+
+secretary:
+                    adapters:
+                        default:
+                            adapter: Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter
+                            config:
+                                region:  'us-east-1'
+                                version: '2017-10-17'
+                            cache:
+                                enabled:    true
+                                type:       psr6
+                                service_id: Symfony\Component\Cache\Adapter\ApcuAdapter
