@@ -41,7 +41,7 @@ There's only one class you interface with in Secretary: [`Secretary\Manager`][Se
 
 <a name="constructor" />
 
-##### Secretary\Manager->__construct(AdapterInterface $adapter)
+#### Secretary\Manager->__construct(AdapterInterface $adapter)
 
 Pass in your desired adapter.
 
@@ -68,7 +68,7 @@ Optionally, you may wrap your adapter, with one of the two cache adapters.
 use Secretary\Manager;
 use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
 
-use Secretary\Adapter\Cache\PSR6CacheAdapter;
+use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
 use Cache\Adapter\Apc\ApcCachePool;
 
 $manager = new Manager(
@@ -89,7 +89,7 @@ For mor information on the arguments and options for the adapters, view their re
 
 <a name="getSecret" />
 
-##### Secretary\Manager->getSecret(string $key, ?array $options): Secret
+#### Secretary\Manager->getSecret(string $key, ?array $options): Secret
 
 Fetches a secret from the configured adapter. `$key` is the name of the secret (or path) you are trying to get.
 
@@ -124,7 +124,7 @@ Secret {
 
 <a name="putSecret" />
 
-##### Secretary\Manager->putSecret(string $key, string|array $value, ?array $options): void
+#### Secretary\Manager->putSecret(string $key, string|array $value, ?array $options): void
 
 Puts a secret with the given `$value`, into the storage engine, under the given `$key`.
 
@@ -144,7 +144,7 @@ $manager->putSecret('database/redis', ['dsn' => 'redis://localhost:6379', 'passw
 
 <a name="deleteSecret" />
 
-##### Secretary\Manager->deleteSecret(string $key, ?array $options): void
+#### Secretary\Manager->deleteSecret(string $key, ?array $options): void
 
 Deletes a secret from the storage engine using the given `$key`.
 
@@ -154,7 +154,7 @@ Again, some adapters allow passing in custom options to send along with the requ
 $manager->deleteSecret('database/redis');
 ```
 
-##### Secretary\Manager->getAdapter(): AdapterInterface
+#### Secretary\Manager->getAdapter(): AdapterInterface
 
 Will return the adapter that was passed to this manager during construction.
 
