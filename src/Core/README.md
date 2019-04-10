@@ -228,3 +228,4 @@ print_r($secret->getValue());
 [psr-16-cache-adapter]: https://github.com/secretary/php-psr-16-cache-adapter 
 [secretary-bundle]: https://github.com/secretary/php-secretary-bundle
 [Secretary\Manager::class]: https://github.com/secretary/php/blob/master/src/Core/src/Manager.php
+[Secretary\Secret::class]: https://github.com/secretary/php/blob/master/src/Core/src/Secret.php
