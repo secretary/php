@@ -1,20 +1,9 @@
 language: php
 
-env:
-    global:
-    - COVERAGE=false
-    - RELEASE=false
-
-matrix:
-    fast_finish: true
-    include:
-    -   php: 7.1
-        env: COVERAGE=true
-    -   php: 7.1
-        env: RELEASE=true
-    -   php: 7.1
-    -   php: 7.2
-    -   php: 7.3
+php:
+    - 7.1
+    - 7.2
+    - 7.3
 
 cache:
     directories:
@@ -39,18 +28,19 @@ before_install:
 install:
 - composer update --no-progress --no-suggest --ansi --prefer-dist
 
-script:
-- |
-    if [[ $COVERAGE == true ]]; then
-        ./vendor/bin/phpunit --coverage-clover=coverage.xml
-    else
-        tfold tty-group ./vendor/bin/phpunit
-    fi
 
-after_success:
-- if [[ $COVERAGE == true ]]; then pip install --user codecov && codecov ; fi
-- |
-    if [[ $RELEASE == true ]]; then
-        npm i -g semantic-release@15 @semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-        npx semantic-release
-    fi
+stages:
+- name: test
+  if: branch = master AND tag IS blank
+- name: release
+  if: branch = master AND tag IS blank
+
+script: tfold tty-group ./vendor/bin/phpunit --coverage-clover=coverage.xml && if [[ "$(php -v)" = 7.1.* ]]; then pip install --user codecov && codecov; fi
+
+jobs:
+    include:
+    -   stage: release
+        node_js: 10
+        script: |
+            npm i -g semantic-release@15@semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+            npx semantic-release
