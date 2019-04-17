@@ -85,11 +85,19 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function deleteSecret(string $key, ?array $options = []): void
+    public function deleteSecretByKey(string $key, ?array $options = []): void
     {
         $options['SecretId'] = $key;
 
         $this->client->deleteSecret($options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteSecret(Secret $secret, ?array $options = []): void
+    {
+        $this->deleteSecretByKey($secret->getKey(), $options);
     }
 
     public function configureGetSecretOptions(OptionsResolver $resolver): void

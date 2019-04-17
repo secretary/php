@@ -57,19 +57,27 @@ class HashicorpVaultAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function putSecret(string $key, $value, ?array $options = []): void
+    public function putSecret(Secret $secret, ?array $options = []): Secret
     {
-        if (!is_array($value)) {
+        if (!is_array($secret->getValue())) {
             throw new \Exception('Value for this adapter must be a key/value array');
         }
 
-        $this->client->post('/v1/secret/'.$key, ['json' => $value]);
+        $this->client->post('/v1/secret/'.$secret->getKey(), ['json' => $secret->getValue()]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteSecret(string $key, ?array $options = []): void
+    public function deleteSecret(Secret $secret, ?array $options = []): void
+    {
+        $this->deleteSecretByKey($secret->getKey(), $options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteSecretByKey(string $key, ?array $options = []): void
     {
         $this->client->delete('/v1/secret/'.$key);
     }

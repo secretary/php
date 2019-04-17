@@ -65,29 +65,39 @@ final class PSR6CacheAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function putSecret(string $key, $value, ?array $options = []): void
+    public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
-        $this->adapter->putSecret($key, $value, $options);
-        if ($this->cache->hasItem(sha1($key)) || $ttl === 0) {
-            $this->cache->deleteItem(sha1($key));
+        $this->adapter->putSecret($secret, $options);
+        if ($this->cache->hasItem(sha1($secret->getKey())) || $ttl === 0) {
+            $this->cache->deleteItem(sha1($secret->getKey()));
 
-            return;
+            return $secret;
         }
 
-        $item = $this->cache->getItem(sha1($key));
-        $item->set($value);
+        $item = $this->cache->getItem(sha1($secret->getKey()));
+        $item->set($secret->getValue());
         if (!empty($ttl)) {
             $item->expiresAfter($ttl);
         }
         $this->cache->save($item);
+
+        return $secret;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteSecret(string $key, ?array $options = []): void
+    public function deleteSecret(Secret $secret, ?array $options = []): void
+    {
+        $this->deleteSecretByKey($secret->getKey(), $options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteSecretByKey(string $key, ?array $options = []): void
     {
         $this->adapter->deleteSecret($key, $options);
         if ($this->cache->hasItem(sha1($key))) {
