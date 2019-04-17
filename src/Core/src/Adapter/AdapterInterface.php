@@ -34,24 +34,23 @@ interface AdapterInterface
     /**
      * Add \ Update a secret by a key.
      *
-     * @param string       $key
-     * @param string|array $value
-     * @param array        $options
+     * @param Secret $secret
+     * @param array  $options
      *
-     * @return void
+     * @return Secret
      */
-    public function putSecret(string $key, $value, ?array $options = []): void;
+    public function putSecret(Secret $secret, ?array $options = []): Secret;
 
     /**
      * Delete a secret by a key.
      *
      *
-     * @param string $key
+     * @param Secret $secret
      * @param array  $options
      *
      * @return void
      */
-    public function deleteSecret(string $key, ?array $options = []): void;
+    public function deleteSecret(Secret $secret, ?array $options = []): void;
 
     /**
      * @param OptionsResolver $resolver

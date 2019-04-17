@@ -39,6 +39,7 @@ class Manager
      * @param array  $options
      *
      * @return Secret
+     * @throws Exception\SecretNotFoundException
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
@@ -51,19 +52,18 @@ class Manager
     }
 
     /**
-     * @param string       $key
-     * @param string|array $value
-     * @param array        $options
+     * @param Secret $secret
+     * @param array  $options
      *
-     * @return void
+     * @return Secret
      */
-    public function putSecret(string $key, $value, ?array $options = []): void
+    public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $resolver = new OptionsResolver();
         $this->adapter->configureSharedOptions($resolver);
         $this->adapter->configurePutSecretOptions($resolver);
 
-        $this->adapter->putSecret($key, $value, $resolver->resolve($options));
+        return $this->adapter->putSecret($secret, $resolver->resolve($options));
     }
 
     /**
@@ -71,14 +71,32 @@ class Manager
      * @param array  $options
      *
      * @return void
+     * @throws Exception\SecretNotFoundException
      */
-    public function deleteSecret(string $key, ?array $options = []): void
+    public function deleteSecretByKey(string $key, ?array $options = []): void
+    {
+        $secret = $this->getSecret($key, $options);
+
+        $resolver = new OptionsResolver();
+        $this->adapter->configureSharedOptions($resolver);
+        $this->adapter->configureDeleteSecretOptions($resolver);
+
+        $this->adapter->deleteSecret($secret, $resolver->resolve($options));
+    }
+
+    /**
+     * @param Secret $secret
+     * @param array  $options
+     *
+     * @return void
+     */
+    public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $resolver = new OptionsResolver();
         $this->adapter->configureSharedOptions($resolver);
         $this->adapter->configureDeleteSecretOptions($resolver);
 
-        $this->adapter->deleteSecret($key, $resolver->resolve($options));
+        $this->adapter->deleteSecret($secret, $resolver->resolve($options));
     }
 
     /**

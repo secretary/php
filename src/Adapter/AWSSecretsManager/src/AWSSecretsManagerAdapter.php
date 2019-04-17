@@ -65,16 +65,18 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    public function putSecret(string $key, $value, ?array $options = []): void
+    public function putSecret(Secret $secret, ?array $options = []): Secret
     {
-        $options['SecretString'] = is_array($value) ? json_encode($value) : $value;
+        $options['SecretString'] = is_array($secret->getValue())
+            ? json_encode($secret->getValue()) : $secret->getValue();
+
         try {
-            $options['SecretId'] = $key;
+            $options['SecretId'] = $secret->getKey();
 
             $this->client->updateSecret($options);
         } catch (\Exception $e) {
-            $options = ArrayHelper::without($options, 'Tags');
-            $options['Name'] = $key;
+            $options         = ArrayHelper::without($options, 'Tags');
+            $options['Name'] = $secret->getKey();
 
             $this->client->createSecret($options);
         }

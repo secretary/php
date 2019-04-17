@@ -12,7 +12,8 @@ namespace Secretary\Tests;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Adapter\Secret;
+use Secretary\Exception\SecretNotFoundException;
+use Secretary\Secret;
 use Secretary\Manager;
 
 class ManagerTest extends TestCase
@@ -51,27 +52,61 @@ class ManagerTest extends TestCase
         $this->assertEquals($secret, $result);
     }
 
-    public function testPutSecret()
+    public function testGetBadSecret()
     {
+        $this->expectException(SecretNotFoundException::class);
+        $this->expectExceptionMessage('No secret was found with the key: "foo"');
+
         $manager = new Manager($this->adapter);
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
-        $this->adapter->shouldReceive('configurePutSecretOptions')->withAnyArgs()->once();
-        $this->adapter->shouldReceive('putSecret')->with('foo', 'bar', [])->once();
+        $this->adapter->shouldReceive('configureGetSecretOptions')->withAnyArgs()->once();
+        $this->adapter->shouldReceive('getSecret')
+            ->with('foo', [])->andThrow(new SecretNotFoundException('foo'))->once();
 
-        $manager->putSecret('foo', 'bar');
+        $manager->getSecret('foo');
+    }
+
+    public function testPutSecret()
+    {
+        $manager = new Manager($this->adapter);
+        $secret = new Secret('foo', 'bar');
+
+        $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
+        $this->adapter->shouldReceive('configurePutSecretOptions')->withAnyArgs()->once();
+        $this->adapter->shouldReceive('putSecret')->with($secret, [])->andReturn($secret)->once();
+
+        $response = $manager->putSecret($secret);
+        $this->assertEquals($secret, $response);
+    }
+
+    public function testDeleteSecretByKey()
+    {
+        $manager = new Manager($this->adapter);
+        $secret = new Secret('foo', '');
+
+        $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->twice();
+
+        $this->adapter->shouldReceive('configureGetSecretOptions')->withAnyArgs()->once();
+        $this->adapter->shouldReceive('getSecret')->with('foo', [])->andReturn($secret)->once();
+
+        $this->adapter->shouldReceive('configureDeleteSecretOptions')->withAnyArgs()->once();
+        $this->adapter->shouldReceive('deleteSecret')->with($secret, [])->once();
+
+        $manager->deleteSecretByKey('foo');
         $this->assertTrue(true);
     }
 
     public function testDeleteSecret()
     {
         $manager = new Manager($this->adapter);
+        $secret = new Secret('foo', 'bar');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
         $this->adapter->shouldReceive('configureDeleteSecretOptions')->withAnyArgs()->once();
-        $this->adapter->shouldReceive('deleteSecret')->with('foo', [])->once();
+        $this->adapter->shouldReceive('deleteSecret')->with($secret, [])->once();
 
-        $manager->deleteSecret('foo');
+        $manager->deleteSecret($secret);
         $this->assertTrue(true);
     }
 
