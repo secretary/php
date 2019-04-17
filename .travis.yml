@@ -12,7 +12,6 @@ cache:
 install:
 - composer update --no-progress --no-suggest --ansi --prefer-dist
 
-
 stages:
 - name: test
   if: branch = master AND tag IS blank
