@@ -41,7 +41,7 @@ script:
     if [[ $COVERAGE == true ]]; then
         ./vendor/bin/phpunit --coverage-clover=coverage.xml
     else
-        tfold tty-group ./vendor/bin/phpunit --group tty
+        tfold tty-group ./vendor/bin/phpunit
     fi
 
 after_success:
