@@ -1,0 +1,48 @@
+language: php
+
+env:
+    global:
+    - COVERAGE=false
+
+matrix:
+    fast_finish: true
+    include:
+    -   php: 7.1
+        env: COVERAGE=true
+    -   php: 7.1
+    -   php: 7.2
+    -   php: 7.3
+
+cache:
+    directories:
+    - "$HOME/.composer/cache"
+
+before_install:
+- if [[ $COVERAGE == false ]]; then phpenv config-rm xdebug.ini || true; fi
+- |
+    tfold () {
+          title=$1
+          fold=$(echo $title | sed -r 's/[^-_A-Za-z\d]+/./g')
+          shift
+          echo -e "travis_fold:start:$fold\\n\\e[1;34m$title\\e[0m"
+          bash -xc "$*" 2>&1 &&
+              echo "########################################" &&
+              echo "########################################" &&
+              echo -e "\\e[32mOK\\e[0m $title\\n\\ntravis_fold:end:$fold" ||
+              ( echo -e "\\e[41mKO\\e[0m $title\\n" && exit 1 )
+      }
+      export -f tfold
+
+install:
+- composer update --no-progress --no-suggest --ansi --prefer-dist
+
+script:
+- |
+    if [[ $COVERAGE == true ]]; then
+        ./vendor/bin/phpunit --coverage-clover=coverage.xml
+    else
+        tfold tty-group ./vendor/bin/phpunit --group tty
+    fi
+
+after_success:
+- if [[ $COVERAGE  == true ]]; then pip install --user codecov && codecov ; fi
