@@ -7,9 +7,10 @@ declare(strict_types=1);
  * @license   http://opensource.org/licenses/MIT
  */
 
-use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
 
 require_once __DIR__.'/../vendor/autoload.php';
+
+use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
 
 $manager = new \Secretary\Manager(
     new AWSSecretsManagerAdapter(
@@ -20,8 +21,11 @@ $manager = new \Secretary\Manager(
     )
 );
 
-$manager->putSecret('foo', 'bar');
-$manager->putSecret('baz', ['foo' => 'foobar']);
+$fooSecret = new \Secretary\Secret('foo', 'bar');
+$bazSecret = new \Secretary\Secret('baz', ['foo' => 'foobar']);
+
+$manager->putSecret($fooSecret);
+$manager->putSecret($bazSecret);
 
 var_dump(
     $manager->getSecret('foo'),
@@ -29,5 +33,5 @@ var_dump(
     $manager->getSecret('baz')['foo']
 );
 
-$manager->deleteSecret('foo', ['ForceDeleteWithoutRecovery' => true]);
-$manager->deleteSecret('baz', ['ForceDeleteWithoutRecovery' => true]);
+$manager->deleteSecret($fooSecret, ['ForceDeleteWithoutRecovery' => true]);
+$manager->deleteSecret($bazSecret, ['ForceDeleteWithoutRecovery' => true]);

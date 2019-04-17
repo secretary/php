@@ -27,7 +27,7 @@
     },
     "autoload":          {
         "psr-4": {
-            "Secretary\\Adapter\\Cache\\PSR16Cache\\": "src/"
+            "Secretary\\Adapter\\Cache\\PSR16Cache\\": ""
         }
     },
     "autoload-dev":      {

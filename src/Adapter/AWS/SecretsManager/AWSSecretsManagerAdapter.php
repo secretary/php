@@ -80,6 +80,8 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
 
             $this->client->createSecret($options);
         }
+
+        return $secret;
     }
 
     /**
@@ -113,18 +115,12 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
         parent::configureSharedOptions($resolver);
         $resolver->setDefined(['KmsKeyId', 'Tags', 'Description'])
             ->setAllowedTypes('KmsKeyId', 'string')
-            ->setAllowedTypes('Description', 'string')
-            ->setDefault(
-                'Tags',
-                function (OptionsResolver $options) {
-                    $options->setRequired(['Key', 'Value']);
-                }
-            );
+            ->setAllowedTypes('Description', 'string');
     }
 
     public function configureDeleteSecretOptions(OptionsResolver $resolver): void
     {
-        parent::configureSharedOptions($resolver);
+        parent::configureDeleteSecretOptions($resolver);
         $resolver
             ->setDefined(['ForceDeleteWithoutRecovery', 'RecoveryWindowInDays'])
             ->setAllowedTypes('ForceDeleteWithoutRecovery', 'bool')

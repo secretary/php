@@ -34,8 +34,11 @@
     },
     "autoload":          {
         "psr-4": {
-            "Secretary\\": "src/"
-        }
+            "Secretary\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "autoload-dev":      {
         "psr-4": {

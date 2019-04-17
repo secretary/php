@@ -28,12 +28,12 @@
     },
     "autoload":          {
         "psr-4": {
-            "Secretary\\Adapter\\AWS\\SecretsManager\\": "src/"
+            "Secretary\\Adapter\\AWS\\SecretsManager\\": ""
         }
     },
     "autoload-dev":      {
         "psr-4": {
-            "Secretary\\Adapter\\AWS\\SecretsManager\\Tests\\": "tests/"
+            "Secretary\\Adapter\\AWS\\SecretsManager\\Tests\\": "Tests/"
         }
     }
 }

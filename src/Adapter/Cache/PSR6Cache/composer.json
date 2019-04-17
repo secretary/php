@@ -27,12 +27,12 @@
     },
     "autoload":          {
         "psr-4": {
-            "Secretary\\Adapter\\Cache\\PSR6Cache\\": "src/"
+            "Secretary\\Adapter\\Cache\\PSR6Cache\\": ""
         }
     },
     "autoload-dev":      {
         "psr-4": {
-            "Secretary\\Adapter\\Cache\\PSR6Cache\\Tests\\": "tests/"
+            "Secretary\\Adapter\\Cache\\PSR6Cache\\Tests\\": "Tests/"
         }
     }
 }

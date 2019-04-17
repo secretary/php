@@ -32,8 +32,11 @@
     },
     "autoload":          {
         "psr-4": {
-            "Secretary\\Bundle\\SecretaryBundle\\": "src/"
-        }
+            "Secretary\\Bundle\\SecretaryBundle\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "autoload-dev":      {
         "psr-4": {

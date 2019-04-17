@@ -7,22 +7,25 @@ declare(strict_types=1);
  * @license   http://opensource.org/licenses/MIT
  */
 
-use Secretary\Adapter\Hashicorp\Vault\HashicorpVaultAdapter;
 
 require_once __DIR__.'/vendor/autoload.php';
+use Secretary\Adapter\Hashicorp\Vault\HashicorpVaultAdapter;
+
+$fooSecret = new \Secretary\Secret('foo', 'bar');
+$bazSecret = new \Secretary\Secret('baz', ['foo' => 'foobar']);
 
 $manager = new \Secretary\Manager(new HashicorpVaultAdapter());
 
 try {
-    $manager->putSecret('foo', 'bar');
+    $manager->putSecret($fooSecret);
 } catch (\Exception $e) {
     // Throws an exception because hashicopr vault requires key/value secrets
 }
-$manager->putSecret('baz', ['foo' => 'foobar']);
+$manager->putSecret($bazSecret);
 
 var_dump(
     $manager->getSecret('baz'),
     $manager->getSecret('baz')['foo']
 );
 
-$manager->deleteSecret('baz');
+$manager->deleteSecret($bazSecret);

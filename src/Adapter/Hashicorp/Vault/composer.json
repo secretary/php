@@ -27,12 +27,12 @@
     },
     "autoload":          {
         "psr-4": {
-            "Secretary\\Adapter\\Hashicorp\\Vault\\": "src/"
+            "Secretary\\Adapter\\Hashicorp\\Vault\\": ""
         }
     },
     "autoload-dev":      {
         "psr-4": {
-            "Secretary\\Adapter\\Hashicorp\\Vault\\Tests\\": "tests/"
+            "Secretary\\Adapter\\Hashicorp\\Vault\\Tests\\": "Tests/"
         }
     }
 }
