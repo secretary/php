@@ -40,7 +40,7 @@ script: tfold tty-group ./vendor/bin/phpunit --coverage-clover=coverage.xml && i
 jobs:
     include:
     -   stage: release
-        node_js: 10
+        php: 7.1
         script: |
             npm i -g semantic-release@15@semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
             npx semantic-release
