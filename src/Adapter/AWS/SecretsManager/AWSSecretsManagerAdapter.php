@@ -71,11 +71,11 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             ? json_encode($secret->getValue()) : $secret->getValue();
 
         try {
+            $options             = ArrayHelper::without($options, 'Tags');
             $options['SecretId'] = $secret->getKey();
 
             $this->client->updateSecret($options);
         } catch (\Exception $e) {
-            $options         = ArrayHelper::without($options, 'Tags');
             $options['Name'] = $secret->getKey();
 
             $this->client->createSecret($options);
