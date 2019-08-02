@@ -21,56 +21,61 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getConfigTreeBuilder()
-	{
-		$treeBuilder = new TreeBuilder();
-		$rootNode    = $treeBuilder->root('secretary');
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfigTreeBuilder()
+    {
+        $treeBuilder = new TreeBuilder('secretary');
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config 4.1 and older
+            $rootNode = $treeBuilder->root('secretary');
+        }
 
-		$rootNode
-			->children()
-				->append($this->addAdaptersSection())
-			->end();
+        $rootNode
+            ->children()
+                ->append($this->addAdaptersSection())
+            ->end();
 
-		return $treeBuilder;
-	}
+        return $treeBuilder;
+    }
 
-	/**
-	 * @return ArrayNodeDefinition
-	 */
-	private function addAdaptersSection(): ArrayNodeDefinition
-	{
-		$treeBuilder = new TreeBuilder('adapters');
-		if (method_exists($treeBuilder, 'getRootNode')) {
-			$node = $treeBuilder->getRootNode();
-		} else {
-			// BC layer for symfony/config 4.1 and older
-			$node = $treeBuilder->root('adapters');
-		}
+    /**
+     * @return ArrayNodeDefinition
+     */
+    private function addAdaptersSection(): ArrayNodeDefinition
+    {
+        $treeBuilder = new TreeBuilder('adapters');
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $node = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config 4.1 and older
+            $node = $treeBuilder->root('adapters');
+        }
 
-		$node
-			->useAttributeAsKey('name')
-			->arrayPrototype()
-				->addDefaultsIfNotSet()
-				->children()
-					->scalarNode('adapter')
-						->isRequired()
-						->info('Class name, or service ID of adapter')
-					->end()
-					->arrayNode('config')->ignoreExtraKeys(false)->end()
-					->arrayNode('cache')
-						->canBeEnabled()
-						->addDefaultsIfNotSet()
-						->children()
-							->enumNode('type')->values(['psr6', 'psr16'])->end()
-							->scalarNode('service_id')->end()
-						->end()
-					->end()
-				->end()
-			->end();
+        $node
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('adapter')
+                        ->isRequired()
+                        ->info('Class name, or service ID of adapter')
+                    ->end()
+                    ->arrayNode('config')->ignoreExtraKeys(false)->end()
+                    ->arrayNode('cache')
+                        ->canBeEnabled()
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->enumNode('type')->values(['psr6', 'psr16'])->end()
+                            ->scalarNode('service_id')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
-		return $node;
-	}
+        return $node;
+    }
 }
