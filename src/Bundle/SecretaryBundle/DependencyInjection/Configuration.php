@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->append($this->addAdaptersSection())
+                ->append($this->addAdaptersSection())
             ->end();
 
         return $treeBuilder;
@@ -58,22 +58,22 @@ class Configuration implements ConfigurationInterface
         $node
             ->useAttributeAsKey('name')
             ->arrayPrototype()
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->scalarNode('adapter')
-            ->isRequired()
-            ->info('Class name, or service ID of adapter')
-            ->end()
-            ->arrayNode('config')->ignoreExtraKeys(false)->end()
-            ->arrayNode('cache')
-            ->canBeEnabled()
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->enumNode('type')->values(['psr6', 'psr16'])->end()
-            ->scalarNode('service_id')->end()
-            ->end()
-            ->end()
-            ->end()
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('adapter')
+                        ->isRequired()
+                        ->info('Class name, or service ID of adapter')
+                    ->end()
+                    ->arrayNode('config')->ignoreExtraKeys(false)->end()
+                    ->arrayNode('cache')
+                        ->canBeEnabled()
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->enumNode('type')->values(['psr6', 'psr16'])->end()
+                            ->scalarNode('service_id')->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $node;
