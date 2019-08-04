@@ -31,6 +31,7 @@ By itself, the core is useless. You will also need to add at least one adapter:
 | -------------- | -------- |
 | [AWS Secrets Manager][aws-secrets-manager-adapter] | [![Latest Stable Version](https://poser.pugx.org/secretary/php-aws-secrets-manager-adapter/version)](https://packagist.org/packages/secretary/php-aws-secrets-manager-adapter) [![Total Downloads](https://poser.pugx.org/secretary/php-aws-secrets-manager-adapter/downloads)](https://packagist.org/packages/secretary/php-aws-secrets-manager-adapter) |
 | [HashiCorp Vault][hashicorp-vault-adapter] | [![Latest Stable Version](https://poser.pugx.org/secretary/php-hashicorp-vault-adapter/version)](https://packagist.org/packages/secretary/php-hashicorp-vault-adapter) [![Total Downloads](https://poser.pugx.org/secretary/php-hashicorp-vault-adapter/downloads)](https://packagist.org/packages/secretary/php-hashicorp-vault-adapter) |
+| [JSON File][json-file-adapter] | [![Latest Stable Version](https://poser.pugx.org/secretary/php-json-file-adapter/version)](https://packagist.org/packages/secretary/php-json-file-adapter) [![Total Downloads](https://poser.pugx.org/secretary/php-json-file-adapter/downloads)](https://packagist.org/packages/secretary/php-json-file-adapter) |
 
 There are also miscellaneous packages that add on to Secretary 
 
@@ -224,6 +225,7 @@ print_r($secret->getValue());
 
 [aws-secrets-manager-adapter]: https://github.com/secretary/php-aws-secrets-manager-adapter 
 [hashicorp-vault-adapter]: https://github.com/secretary/php-hashicorp-vault-adapter 
+[json-file-adapter]: https://github.com/secretary/php-json-file-adapter 
 [psr-6-cache-adapter]: https://github.com/secretary/php-psr-6-cache-adapter 
 [psr-16-cache-adapter]: https://github.com/secretary/php-psr-16-cache-adapter 
 [secretary-bundle]: https://github.com/secretary/php-secretary-bundle
