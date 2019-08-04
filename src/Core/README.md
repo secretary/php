@@ -60,10 +60,10 @@ Pass in your desired adapter.
 ```php
 <?php
 use Secretary\Manager;
-use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
+use Secretary\Adapter\AWS\SecretsManager\LocalJSONFileAdapter;
 
 $manager = new Manager(
-    new AWSSecretsManagerAdapter([
+    new LocalJSONFileAdapter([
         'region'      => 'us-east-1',
         'credentials' => [
             'accessKeyId'     => 'myAccessKeyId',
@@ -78,14 +78,14 @@ Optionally, you may wrap your adapter, with one of the two cache adapters.
 ```php
 <?php
 use Secretary\Manager;
-use Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter;
+use Secretary\Adapter\AWS\SecretsManager\LocalJSONFileAdapter;
 
 use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
 use Cache\Adapter\Apc\ApcCachePool;
 
 $manager = new Manager(
     new PSR6CacheAdapter(
-        new AWSSecretsManagerAdapter([
+        new LocalJSONFileAdapter([
             'region'      => 'us-east-1',
             'credentials' => [
                 'accessKeyId'     => 'myAccessKeyId',
