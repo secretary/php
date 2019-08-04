@@ -48,18 +48,27 @@ final class PSR6CacheAdapter extends AbstractAdapter
 
     /**
      * {@inheritdoc}
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
-        return $this->memoize(
-            $key,
-            function () use ($key, $options) {
-                return $this->adapter->getSecret($key, $options);
-            },
-            $ttl
-        );
+        $item = $this->cache->getItem(sha1($key));
+        if ($item !== null && $item->isHit()) {
+            [$value, $metadata] = $item->get();
+
+            return new Secret($key, $value, $metadata);
+        }
+
+        $secret = $this->adapter->getSecret($key, $options);
+        $item->set([$secret->getValue(), $secret->getMetadata()]);
+        if ($ttl !== null) {
+            $item->expiresAfter($ttl);
+        }
+        $this->cache->save($item);
+
+        return $secret;
     }
 
     /**
@@ -77,7 +86,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
         }
 
         $item = $this->cache->getItem(sha1($secret->getKey()));
-        $item->set($secret->getValue());
+        $item->set([$secret->getValue(), $secret->getMetadata()]);
         if (!empty($ttl)) {
             $item->expiresAfter($ttl);
         }
@@ -103,30 +112,5 @@ final class PSR6CacheAdapter extends AbstractAdapter
         if ($this->cache->hasItem(sha1($key))) {
             $this->cache->deleteItem(sha1($key));
         }
-    }
-
-    /**
-     * @param string   $key
-     * @param callable $callback
-     * @param int|null $ttl
-     *
-     * @return mixed
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
-    private function memoize(string $key, callable $callback, int $ttl = null)
-    {
-        $item = $this->cache->getItem(sha1($key));
-        if ($item !== null && $item->isHit()) {
-            return $item->get();
-        }
-
-        $cachedValue = $callback();
-        $item->set($cachedValue);
-        if ($ttl !== null) {
-            $item->expiresAfter($ttl);
-        }
-        $this->cache->save($item);
-
-        return $cachedValue;
     }
 }

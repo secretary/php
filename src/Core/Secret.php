@@ -64,6 +64,14 @@ class Secret implements \ArrayAccess
     }
 
     /**
+     * @return array
+     */
+    public function getMetadata(): array
+    {
+        return $this->metadata;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function offsetExists($offset)
