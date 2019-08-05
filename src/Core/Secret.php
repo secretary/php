@@ -12,8 +12,6 @@ namespace Secretary;
 use Secretary\Exception\ValueNotSupportedException;
 
 /**
- * Interface SecretInterface
- *
  * @package Secretary
  */
 class Secret implements \ArrayAccess
