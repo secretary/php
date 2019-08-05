@@ -1,6 +1,6 @@
 {
     "name":              "secretary/secretary-bundle",
-    "description":       "Secrets Manager for Symfony",
+    "description":       "Secrets Manager Bundle for Symfony",
     "type":              "symfony-bundle",
     "license":           "MIT",
     "keywords":          [
