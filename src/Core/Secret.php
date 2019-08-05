@@ -68,7 +68,7 @@ class Secret implements \ArrayAccess
      */
     public function getMetadata(): array
     {
-        return $this->metadata;
+        return $this->metadata ?? [];
     }
 
     /**
