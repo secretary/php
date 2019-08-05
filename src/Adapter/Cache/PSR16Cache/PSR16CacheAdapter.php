@@ -17,8 +17,6 @@ use Secretary\Helper\ArrayHelper;
 use Secretary\Secret;
 
 /**
- * Class PSR16CacheAdapter
- *
  * @package Secretary\Adapter\Cache
  */
 final class PSR16CacheAdapter extends AbstractAdapter
