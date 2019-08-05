@@ -3,7 +3,7 @@
     "description":       "Secrets Manager for Symfony",
     "type":              "symfony-bundle",
     "license":           "MIT",
-    "keywords": [
+    "keywords":          [
         "secrets",
         "vault",
         "secretsmanager",
@@ -20,18 +20,18 @@
     "minimum-stability": "dev",
     "require":           {
         "php":            "^7.1.0",
-        "secretary/core": "dev-master"
+        "secretary/core": "self.version"
     },
-    "require-dev": {
-        "symfony/config": "^3.4 || ^4.0",
+    "require-dev":       {
+        "symfony/config":               "^3.4 || ^4.0",
         "symfony/dependency-injection": "^3.4 || ^4.0",
-        "symfony/http-kernel": "^3.4 || ^4.0",
-        "symfony/framework-bundle": "^4.2",
-        "symfony/yaml": "^4.2",
-        "aws/aws-sdk-php": "^3.90"
+        "symfony/http-kernel":          "^3.4 || ^4.0",
+        "symfony/framework-bundle":     "^4.2",
+        "symfony/yaml":                 "^4.2",
+        "aws/aws-sdk-php":              "^3.90"
     },
     "autoload":          {
-        "psr-4": {
+        "psr-4":                 {
             "Secretary\\Bundle\\SecretaryBundle\\": ""
         },
         "exclude-from-classmap": [
