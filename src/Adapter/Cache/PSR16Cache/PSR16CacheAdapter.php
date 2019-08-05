@@ -53,13 +53,13 @@ final class PSR16CacheAdapter extends AbstractAdapter
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
         if ($this->cache->has(sha1($key))) {
-            [$value, $metadata] = $this->cache->get(sha1($key));
+            [$value, $metadata] = json_decode($this->cache->get(sha1($key)), true);
 
             return new Secret($key, $value, $metadata);
         }
 
         $secret = $this->adapter->getSecret($key, $options);
-        $this->cache->set(sha1($key), [$secret->getValue(), $secret->getMetadata()], $ttl);
+        $this->cache->set(sha1($key), json_encode([$secret->getValue(), $secret->getMetadata()]), $ttl);
 
         return $secret;
     }
@@ -78,7 +78,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
             return $secret;
         }
 
-        $this->cache->set(sha1($secret->getKey()), [$secret->getValue(), $secret->getMetadata()], $ttl);
+        $this->cache->set(sha1($secret->getKey()), json_encode([$secret->getValue(), $secret->getMetadata()]), $ttl);
 
         return $secret;
     }

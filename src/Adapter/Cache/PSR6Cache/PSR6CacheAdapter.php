@@ -14,8 +14,8 @@ namespace Secretary\Adapter\Cache\PSR6Cache;
 use Psr\Cache\CacheItemPoolInterface;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Secret;
 use Secretary\Helper\ArrayHelper;
+use Secretary\Secret;
 
 /**
  * Class PSR6CacheAdapter
@@ -56,13 +56,13 @@ final class PSR6CacheAdapter extends AbstractAdapter
 
         $item = $this->cache->getItem(sha1($key));
         if ($item !== null && $item->isHit()) {
-            [$value, $metadata] = $item->get();
+            [$value, $metadata] = json_decode($item->get(), true);
 
             return new Secret($key, $value, $metadata);
         }
 
         $secret = $this->adapter->getSecret($key, $options);
-        $item->set([$secret->getValue(), $secret->getMetadata()]);
+        $item->set(json_encode([$secret->getValue(), $secret->getMetadata()]));
         if ($ttl !== null) {
             $item->expiresAfter($ttl);
         }
@@ -86,7 +86,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
         }
 
         $item = $this->cache->getItem(sha1($secret->getKey()));
-        $item->set([$secret->getValue(), $secret->getMetadata()]);
+        $item->set(json_encode([$secret->getValue(), $secret->getMetadata()]));
         if (!empty($ttl)) {
             $item->expiresAfter($ttl);
         }
