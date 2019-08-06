@@ -30,6 +30,11 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     private $client;
 
     /**
+     * @var array
+     */
+    private $config;
+
+    /**
      * AWSSecretsManagerAdapter constructor.
      *
      * @param array $config
@@ -42,7 +47,19 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             throw new \Exception('aws/aws-sdk-php is required to use the AWSSecretsManagerAdapter');
         }
 
-        $this->client = new SecretsManagerClient($config);
+        $this->config = $config;
+    }
+
+    /**
+     * @return SecretsManagerClient
+     */
+    private function getClient()
+    {
+        if (!$this->client instanceof SecretsManagerClient) {
+            $this->client = new SecretsManagerClient($this->config);
+        }
+
+        return $this->client;
     }
 
     /**
@@ -52,7 +69,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     {
         $options['SecretId'] = $key;
 
-        $data = $this->client->getSecretValue($options);
+        $data = $this->getClient()->getSecretValue($options);
         /** @var string $secretString */
         $secretString = $data->get('SecretString');
 
@@ -74,11 +91,11 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             $options             = ArrayHelper::without($options, 'Tags');
             $options['SecretId'] = $secret->getKey();
 
-            $this->client->updateSecret($options);
+            $this->getClient()->updateSecret($options);
         } catch (\Exception $e) {
             $options['Name'] = $secret->getKey();
 
-            $this->client->createSecret($options);
+            $this->getClient()->createSecret($options);
         }
 
         return $secret;
@@ -91,7 +108,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     {
         $options['SecretId'] = $key;
 
-        $this->client->deleteSecret($options);
+        $this->getClient()->deleteSecret($options);
     }
 
     /**
