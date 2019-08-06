@@ -12,8 +12,6 @@ namespace Secretary;
 use Secretary\Exception\ValueNotSupportedException;
 
 /**
- * Interface SecretInterface
- *
  * @package Secretary
  */
 class Secret implements \ArrayAccess
@@ -61,6 +59,14 @@ class Secret implements \ArrayAccess
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetadata(): array
+    {
+        return $this->metadata ?? [];
     }
 
     /**

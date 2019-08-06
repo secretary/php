@@ -13,12 +13,10 @@ namespace Secretary\Adapter\Cache\PSR16Cache;
 use Psr\SimpleCache\CacheInterface;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Adapter\AdapterInterface;
-use Secretary\Secret;
 use Secretary\Helper\ArrayHelper;
+use Secretary\Secret;
 
 /**
- * Class PSR16CacheAdapter
- *
  * @package Secretary\Adapter\Cache
  */
 final class PSR16CacheAdapter extends AbstractAdapter
@@ -52,13 +50,16 @@ final class PSR16CacheAdapter extends AbstractAdapter
     {
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
-        return $this->memoize(
-            $key,
-            function () use ($key, $options) {
-                return $this->adapter->getSecret($key, $options);
-            },
-            $ttl
-        );
+        if ($this->cache->has(sha1($key))) {
+            [$value, $metadata] = json_decode($this->cache->get(sha1($key)), true);
+
+            return new Secret($key, $value, $metadata);
+        }
+
+        $secret = $this->adapter->getSecret($key, $options);
+        $this->cache->set(sha1($key), json_encode([$secret->getValue(), $secret->getMetadata()]), $ttl);
+
+        return $secret;
     }
 
     /**
@@ -75,7 +76,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
             return $secret;
         }
 
-        $this->cache->set(sha1($secret->getKey()), $secret->getValue(), $ttl);
+        $this->cache->set(sha1($secret->getKey()), json_encode([$secret->getValue(), $secret->getMetadata()]), $ttl);
 
         return $secret;
     }
@@ -95,25 +96,5 @@ final class PSR16CacheAdapter extends AbstractAdapter
     {
         $this->adapter->deleteSecret($key, $options);
         $this->cache->delete(sha1($key));
-    }
-
-    /**
-     * @param string   $key
-     * @param callable $callback
-     * @param int|null $ttl
-     *
-     * @return mixed
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    private function memoize(string $key, callable $callback, int $ttl = null)
-    {
-        if ($this->cache->has(sha1($key))) {
-            return $this->cache->get(sha1($key));
-        }
-
-        $cachedValue = $callback();
-        $this->cache->set(sha1($key), $cachedValue, $ttl);
-
-        return $cachedValue;
     }
 }

@@ -1,30 +1,31 @@
 {
-    "name":        "secretary/php",
-    "description": "Monorepo for Secretary's PHP implementation",
-    "type":        "library",
-    "require-dev": {
-        "phpunit/phpunit":          "^8.0 || ^7.0",
-        "mockery/mockery":          "^1.2",
-        "symfony/options-resolver": "^4.0",
-        "aws/aws-sdk-php":          "^3.91",
-        "guzzlehttp/guzzle":        "^6.3"
-    },
-    "license":     "MIT",
-    "authors":     [
-        {
-            "name":  "Aaron Scherer",
-            "email": "aequasi@gmail.com"
-        }
-    ],
-    "autoload":    {
-        "psr-4":                 {
-            "Secretary\\":          "src/Core",
-            "Secretary\\Adapter\\": "src/Adapter",
-            "Secretary\\Bundle\\":  "src/Bundle"
-        },
-        "exclude-from-classmap": [
-            "**/Tests/"
-        ]
-    },
-    "require":     {}
+	"name":        "secretary/php",
+	"description": "Monorepo for Secretary's PHP implementation",
+	"type":        "library",
+	"require-dev": {
+		"ext-json":                 "*",
+		"phpunit/phpunit":          "^8.0 || ^7.0",
+		"mockery/mockery":          "^1.2",
+		"symfony/options-resolver": "^4.0",
+		"aws/aws-sdk-php":          "^3.91",
+		"guzzlehttp/guzzle":        "^6.3"
+	},
+	"license":     "MIT",
+	"authors":     [
+		{
+			"name":  "Aaron Scherer",
+			"email": "aequasi@gmail.com"
+		}
+	],
+	"autoload":    {
+		"psr-4":                 {
+			"Secretary\\":          "src/Core",
+			"Secretary\\Adapter\\": "src/Adapter",
+			"Secretary\\Bundle\\":  "src/Bundle"
+		},
+		"exclude-from-classmap": [
+			"**/Tests/"
+		]
+	},
+	"require":     {}
 }
