@@ -94,7 +94,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
      */
     public function deleteSecretByKey(string $key, ?array $options = []): void
     {
-        $this->adapter->deleteSecret($key, $options);
+        $this->adapter->deleteSecret($this->adapter->getSecret($key, $options), $options);
         $this->cache->delete(sha1($key));
     }
 }

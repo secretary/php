@@ -12,7 +12,7 @@ namespace Secretary\Bundle\SecretaryBundle\DependencyInjection;
 
 
 use Secretary\Adapter\Cache\PSR16Cache\PSR16CacheAdapter;
-use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
+use Secretary\Adapter\Cache\PSR6Cache\ChainAdapter;
 use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProcessor;
 use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProvider;
 use Secretary\Manager;
@@ -53,7 +53,7 @@ class SecretaryExtension extends Extension
             if ($arguments['cache']['enabled']) {
                 $adapter = $container->register(
                     'secretary.adapter.'.$name.'.cache',
-                    $arguments['cache']['type'] === 'psr6' ? PSR6CacheAdapter::class : PSR16CacheAdapter::class
+                    $arguments['cache']['type'] === 'psr6' ? ChainAdapter::class : PSR16CacheAdapter::class
                 );
                 $adapter->addArgument($ref);
                 $adapter->addArgument(new Reference($arguments['cache']['service_id']));

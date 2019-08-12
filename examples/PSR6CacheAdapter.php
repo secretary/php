@@ -8,12 +8,12 @@ declare(strict_types=1);
  */
 
 use Cache\Adapter\Apc\ApcCachePool;
-use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
+use Secretary\Adapter\Cache\PSR6Cache\ChainAdapter;
 use Secretary\Adapter\Hashicorp\Vault\HashicorpVaultAdapter;
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$manager = new \Secretary\Manager(new PSR6CacheAdapter(new HashicorpVaultAdapter(), new ApcCachePool()));
+$manager = new \Secretary\Manager(new ChainAdapter(new HashicorpVaultAdapter(), new ApcCachePool()));
 
 $bazSecret = new \Secretary\Secret('baz', ['foo' => 'foobar']);
 

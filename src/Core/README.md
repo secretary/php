@@ -81,11 +81,11 @@ Optionally, you may wrap your adapter, with one of the two cache adapters.
 use Secretary\Manager;
 use Secretary\Adapter\AWS\SecretsManager\LocalJSONFileAdapter;
 
-use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
+use Secretary\Adapter\Cache\PSR6Cache\ChainAdapter;
 use Cache\Adapter\Apc\ApcCachePool;
 
 $manager = new Manager(
-    new PSR6CacheAdapter(
+    new ChainAdapter(
         new LocalJSONFileAdapter([
             'region'      => 'us-east-1',
             'credentials' => [
