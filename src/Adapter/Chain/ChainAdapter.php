@@ -10,12 +10,9 @@ declare(strict_types=1);
 
 namespace Secretary\Adapter\Chain;
 
-
-use Psr\Cache\CacheItemPoolInterface;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Adapter\AdapterInterface;
 use Secretary\Exception\SecretNotFoundException;
-use Secretary\Helper\ArrayHelper;
 use Secretary\Secret;
 
 /**

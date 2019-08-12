@@ -1,8 +1,8 @@
 language: php
 php:
-    - 7.1
     - 7.2
     - 7.3
+    - 7.4
 
 cache:
     directories:
@@ -17,12 +17,12 @@ stages:
 - name: release
   if: branch = master AND tag IS blank
 
-script: ./vendor/bin/phpunit --coverage-clover=coverage.xml && if [[ "$(php -v)" = 7.1.* ]]; then pip install --user codecov && codecov; fi
+script: ./vendor/bin/phpunit --coverage-clover=coverage.xml && if [[ "$(php -v)" = 7.2.* ]]; then pip install --user codecov && codecov; fi
 
 jobs:
     include:
     -   stage: release
-        php: 7.1
+        php: 7.2
         script: |
             npm i -g semantic-release@15 @semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
             npx semantic-release

@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 
-namespace Secretary\Adapter\AWS\SecretsManager;
+namespace Secretary\Adapter\Local\JSONFile;
 
 
 use Secretary\Adapter\AbstractAdapter;
@@ -16,7 +16,7 @@ use Secretary\Exception\SecretNotFoundException;
 use Secretary\Secret;
 
 /**
- * Class AWSSecretsManagerAdapter
+ * Class LocalJSONFileAdapter
  *
  * @package Secretary\Adapter\Local\JSONFile
  */
