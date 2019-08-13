@@ -91,7 +91,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         return new Secret(
             $secrets[$index]['key'],
             $secrets[$index]['value'],
-            $secrets[$index]['metadata'],
+            $secrets[$index]['metadata'] ?? null
         );
     }
 
