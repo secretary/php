@@ -5,7 +5,7 @@ JSON File Adapter for [Secretary](https://github.com/secretary/php)
 ## Table of Contents
 
 1. [Installation](#installation)
-2. [Options](#options)
+2. [Secret Structure](#secrets-file-structure)
 
 ### Installation
 
