@@ -29,4 +29,5 @@ jobs:
             date > last_release
             git add last_release
             git commit -m "chore(last_release): Subtree Fix"
+            git remote set-url origin git@github.com:secretary/php.git
             git push origin $TRAVIS_BRANCH
