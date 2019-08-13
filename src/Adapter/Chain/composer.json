@@ -1,5 +1,5 @@
 {
-    "name":              "secretary/psr-6-cache-adapter",
+    "name":              "secretary/chain-adapter",
     "description":       "Chain Adapter for Secretary",
     "type":              "library",
     "license":           "MIT",
