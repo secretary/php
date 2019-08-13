@@ -18,8 +18,7 @@ $ composer require secretary/symfony
 ### Configuration
 
 ```yaml
-# config/packages/secretary.yaml
-
+# config/packages/secretary.yamlg
 services:
     Symfony\Component\Cache\Adapter\ApcuAdapter:
         arguments: ['secrets', 300000]
