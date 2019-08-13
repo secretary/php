@@ -29,3 +29,4 @@ jobs:
             date > last_release
             git add last_release
             git commit -m "chore(last_release): Subtree Fix"
+            git push origin $TRAVIS_BRANCH
