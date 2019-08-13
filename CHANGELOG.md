@@ -1,3 +1,10 @@
+## [1.2.10](https://github.com/secretary/php/compare/1.2.9...1.2.10) (2019-08-13)
+
+
+### Bug Fixes
+
+* **chain:** Fixing bad package name ([074eb9c](https://github.com/secretary/php/commit/074eb9c))
+
 ## [1.2.9](https://github.com/secretary/php/compare/1.2.8...1.2.9) (2019-08-13)
 
 
