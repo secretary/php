@@ -18,9 +18,7 @@ use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProvider;
 use Secretary\Manager;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
-use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -34,7 +32,7 @@ class SecretaryExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $services = [];
-        $default = isset($config['adapters']['default']) ? 'default' : null;
+        $default  = isset($config['adapters']['default']) ? 'default' : null;
         foreach ($config['adapters'] as $name => $arguments) {
             if ($default === null) {
                 $default = $name;
@@ -46,6 +44,7 @@ class SecretaryExtension extends Extension
                 $arguments['config'] = $container->resolveServices($arguments['config']);
                 $adapter             = $container->register('secretary.adapter.'.$name, $arguments['adapter']);
                 $adapter->addArgument($arguments['config']);
+                $adapter->setPublic(true);
 
                 $ref = new Reference('secretary.adapter.'.$name);
             }
@@ -57,6 +56,7 @@ class SecretaryExtension extends Extension
                 );
                 $adapter->addArgument($ref);
                 $adapter->addArgument(new Reference($arguments['cache']['service_id']));
+                $adapter->setPublic(true);
 
                 $ref = new Reference('secretary.adapter.'.$name.'.cache');
             }
