@@ -138,7 +138,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
     private function loadSecrets(): array
     {
         $contents = file_get_contents($this->secretsFile);
-        $json     = json_decode($contents, true, 512, [JSON_THROW_ON_ERROR]);
+        $json     = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
         return array_map(
             function (array $secret) {
