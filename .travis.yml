@@ -26,3 +26,6 @@ jobs:
         script: |
             npm i -g semantic-release@15 @semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
             npx semantic-release
+            date > last_release
+            git add last_release
+            git commit -m "chore(last_release): Subtree Fix"
