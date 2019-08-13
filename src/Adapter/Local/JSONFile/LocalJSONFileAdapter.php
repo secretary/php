@@ -35,7 +35,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         if ($index === false || $index === null) {
             $secrets[] = $secret;
         } else {
-            $secrets[$index] = $secrets[$index]->withValue($secret->getValue());
+            $secrets[$index]['value'] = $secret->getValue();
         }
 
         return $secrets;
@@ -68,11 +68,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
             throw new \Exception('`file` is a required config.');
         }
         if (isset($config['jsonOptions'])) {
-            if (!is_array($config['jsonOptions'])) {
-                throw new \Exception('`jsonOptions` must be an array');
-            }
-        } else {
-            $config['jsonOptions'] = [JSON_PRETTY_PRINT];
+            $config['jsonOptions'] = JSON_PRETTY_PRINT;
         }
 
         $this->secretsFile = $config['file'];
@@ -92,7 +88,11 @@ class LocalJSONFileAdapter extends AbstractAdapter
             throw new SecretNotFoundException($key);
         }
 
-        return $secrets[$index];
+        return new Secret(
+            $secrets[$index]['key'],
+            $secrets[$index]['value'],
+            $secrets[$index]['metadata'],
+        );
     }
 
     /**
@@ -140,12 +140,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         $contents = file_get_contents($this->secretsFile);
         $json     = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
-        return array_map(
-            function (array $secret) {
-                return new Secret($secret['key'], $secret['value'], $secret['metadata'] ?? null);
-            },
-            $json
-        );
+        return $json;
     }
 
     /**
