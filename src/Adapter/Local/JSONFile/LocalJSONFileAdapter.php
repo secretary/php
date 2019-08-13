@@ -67,7 +67,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         if (!isset($config['file'])) {
             throw new \Exception('`file` is a required config.');
         }
-        if (isset($config['jsonOptions'])) {
+        if (!isset($config['jsonOptions'])) {
             $config['jsonOptions'] = JSON_PRETTY_PRINT;
         }
 
