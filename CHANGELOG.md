@@ -1,3 +1,10 @@
+## [1.2.14](https://github.com/secretary/php/compare/1.2.13...1.2.14) (2019-08-14)
+
+
+### Bug Fixes
+
+* **aws:** Throwing error when the value for a secret can't be found ([e99e036](https://github.com/secretary/php/commit/e99e036))
+
 ## [1.2.13](https://github.com/secretary/php/compare/1.2.12...1.2.13) (2019-08-14)
 
 
