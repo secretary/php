@@ -41,7 +41,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                 sprintf(
                     '%s is not a valid manager name. Available managers: %s',
                     $parts[0],
-                    array_keys($this->managers)
+                    implode(', ', array_keys($this->managers))
                 )
             );
         }
