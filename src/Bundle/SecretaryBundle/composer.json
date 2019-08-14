@@ -23,12 +23,12 @@
         "secretary/core": "self.version"
     },
     "require-dev":       {
-        "symfony/config":               "^3.4 || ^4.0 || ^5.0",
-        "symfony/dependency-injection": "^3.4 || ^4.0 || ^5.0",
-        "symfony/http-kernel":          "^3.4 || ^4.0 || ^5.0",
-        "symfony/framework-bundle":     "^3.4 || ^4.0 || ^5.0",
-        "symfony/yaml":                 "^3.4 || ^4.0 || ^5.0",
-        "aws/aws-sdk-php":              "^3.90"
+        "symfony/config":                        "^3.4 || ^4.0 || ^5.0",
+        "symfony/dependency-injection":          "^3.4 || ^4.0 || ^5.0",
+        "symfony/http-kernel":                   "^3.4 || ^4.0 || ^5.0",
+        "symfony/framework-bundle":              "^3.4 || ^4.0 || ^5.0",
+        "symfony/yaml":                          "^3.4 || ^4.0 || ^5.0",
+        "aws/aws-sdk-php":                       "^3.90"
     },
     "autoload":          {
         "psr-4":                 {

@@ -38,10 +38,11 @@ class SecretaryExtension extends Extension
                 $default = $name;
             }
 
+            $arguments['config'] = $this->replaceReferences($arguments['config']);
+
             if ($container->has($arguments['adapter'])) {
                 $ref = new Reference($arguments['adapter']);
             } else {
-                $arguments['config'] = $container->resolveServices($arguments['config']);
                 $adapter             = $container->register('secretary.adapter.'.$name, $arguments['adapter']);
                 $adapter->addArgument($arguments['config']);
                 $adapter->setPublic(true);
@@ -81,5 +82,26 @@ class SecretaryExtension extends Extension
             ->addArgument(new IteratorArgument($services))
             ->addTag('container.env_var_processor')
             ->setPublic(false);
+    }
+
+    private function replaceReferences($value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = $this->replaceReferences($v);
+            }
+
+            return $value;
+        }
+
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        if (strpos($value, '@') === 0) {
+            return new Reference(substr($value, 1));
+        }
+
+        return $value;
     }
 }

@@ -43,9 +43,9 @@ final class ChainAdapter extends AbstractAdapter
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
-        foreach ($this->adapters as $key => $adapter) {
+        foreach ($this->adapters as $index => $adapter) {
             try {
-                return $adapter->getSecret($key, $options[$key]);
+                return $adapter->getSecret($key, $options[$index] ?? []);
             } catch (SecretNotFoundException $ignored) {
             }
         }
@@ -58,8 +58,8 @@ final class ChainAdapter extends AbstractAdapter
      */
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
-        foreach ($this->adapters as $key => $adapter) {
-            $adapter->putSecret($secret, $options[$key]);
+        foreach ($this->adapters as $index => $adapter) {
+            $adapter->putSecret($secret, $options[$index] ?? []);
         }
 
         return $secret;
@@ -70,8 +70,8 @@ final class ChainAdapter extends AbstractAdapter
      */
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
-        foreach ($this->adapters as $key => $adapter) {
-            $adapter->deleteSecret($secret, $options[$key]);
+        foreach ($this->adapters as $index => $adapter) {
+            $adapter->deleteSecret($secret, $options[$index] ?? []);
         }
     }
 
@@ -81,9 +81,9 @@ final class ChainAdapter extends AbstractAdapter
     public function deleteSecretByKey(string $key, ?array $options = []): void
     {
         $success = false;
-        foreach ($this->adapters as $key => $adapter) {
+        foreach ($this->adapters as $index => $adapter) {
             try {
-                $adapter->deleteSecret($adapter->getSecret($key), $options[$key]);
+                $adapter->deleteSecret($adapter->getSecret($key), $options[$index] ?? []);
                 $success = true;
             } catch (SecretNotFoundException $ignored) {
             }
