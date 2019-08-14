@@ -61,7 +61,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
                     sprintf(
                         '%s is not a valid index in that secret. Available indexes: %s',
                         $parts[2],
-                        array_keys($value)
+                        implode(', ', array_keys($value))
                     )
                 );
             }
