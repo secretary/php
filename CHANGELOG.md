@@ -1,3 +1,11 @@
+## [1.2.13](https://github.com/secretary/php/compare/1.2.12...1.2.13) (2019-08-14)
+
+
+### Bug Fixes
+
+* **bundle:** Fixing runtime error in key-not-found scenario ([92b1694](https://github.com/secretary/php/commit/92b1694))
+* **bundle:** Fixing runtime error in key-not-found scenario ([d698cf5](https://github.com/secretary/php/commit/d698cf5))
+
 ## [1.2.12](https://github.com/secretary/php/compare/1.2.11...1.2.12) (2019-08-14)
 
 
