@@ -16,8 +16,8 @@ class SecretNotFoundException extends \Exception
 	/**
 	 * @param string $key
 	 */
-	public function __construct(string $key)
+	public function __construct(string $key, \Exception $childException = null)
 	{
-		parent::__construct('No secret was found with the key: "'.$key.'"');
+		parent::__construct('No secret was found with the key: "'.$key.'"', 404, $childException);
 	}
 }

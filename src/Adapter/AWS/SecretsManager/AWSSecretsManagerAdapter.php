@@ -15,8 +15,8 @@ use Aws\SecretsManager\Exception\SecretsManagerException;
 use Aws\SecretsManager\SecretsManagerClient;
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Exception\SecretNotFoundException;
-use Secretary\Secret;
 use Secretary\Helper\ArrayHelper;
+use Secretary\Secret;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -82,8 +82,12 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
                 static::isJson($secretString) ? json_decode($data->get('SecretString'), true) : $secretString
             );
         } catch (SecretsManagerException $exception) {
-            if ($exception->getAwsErrorMessage() === 'Secrets Manager can’t find the specified secret.') {
-                throw new SecretNotFoundException($key);
+            $awsMsg = $exception->getAwsErrorMessage();
+            if ($awsMsg() === 'Secrets Manager can’t find the specified secret.') {
+                throw new SecretNotFoundException($key, $exception);
+            }
+            if (strpos($awsMsg, 'Secrets Manager can\'t find the specified secret value') !== false) {
+                throw new SecretNotFoundException($key, $exception);
             }
 
             throw $exception;
@@ -99,7 +103,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             ? json_encode($secret->getValue()) : $secret->getValue();
 
         try {
-            $options             = ArrayHelper::without($options, 'Tags');
+            $options = ArrayHelper::without($options, 'Tags');
             $options['SecretId'] = $secret->getKey();
 
             $this->getClient()->updateSecret($options);
