@@ -1,3 +1,10 @@
+## [1.2.12](https://github.com/secretary/php/compare/1.2.11...1.2.12) (2019-08-14)
+
+
+### Bug Fixes
+
+* **chain:** Fixing chain adapter ([6449bb4](https://github.com/secretary/php/commit/6449bb4))
+
 ## [1.2.11](https://github.com/secretary/php/compare/1.2.10...1.2.11) (2019-08-13)
 
 
