@@ -82,7 +82,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
                 static::isJson($secretString) ? json_decode($data->get('SecretString'), true) : $secretString
             );
         } catch (SecretsManagerException $exception) {
-            $awsMsg = $exception->getAwsErrorMessage();
+            $awsMsg = $exception->getAwsErrorMessage() ?? '';
             if (strpos($awsMsg, 'Secrets Manager can’t find the specified secret') !== false) {
                 throw new SecretNotFoundException($key, $exception);
             }
