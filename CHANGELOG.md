@@ -1,3 +1,10 @@
+## [1.2.17](https://github.com/secretary/php/compare/1.2.16...1.2.17) (2019-08-15)
+
+
+### Bug Fixes
+
+* **aws:** Throwing error when the value for a secret can't be found ([78baf8c](https://github.com/secretary/php/commit/78baf8c))
+
 ## [1.2.16](https://github.com/secretary/php/compare/1.2.15...1.2.16) (2019-08-15)
 
 
