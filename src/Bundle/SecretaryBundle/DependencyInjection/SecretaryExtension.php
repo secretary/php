@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Secretary\Bundle\SecretaryBundle\DependencyInjection;
 
-
 use Secretary\Adapter\Cache\PSR16Cache\PSR16CacheAdapter;
 use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
 use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProcessor;
