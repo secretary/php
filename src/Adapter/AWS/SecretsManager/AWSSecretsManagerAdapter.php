@@ -83,13 +83,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             );
         } catch (SecretsManagerException $exception) {
             $awsMsg = $exception->getAwsErrorMessage();
-            if ($awsMsg === 'Secrets Manager can’t find the specified secret.') {
-                throw new SecretNotFoundException($key, $exception);
-            }
-            if (strpos(
-                    $awsMsg,
-                    'Secrets Manager can\'t find the specified secret value for staging label:'
-                ) !== false) {
+            if (strpos($awsMsg, 'Secrets Manager can’t find the specified secret') !== false) {
                 throw new SecretNotFoundException($key, $exception);
             }
 
