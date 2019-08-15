@@ -1,3 +1,11 @@
+## [1.2.18](https://github.com/secretary/php/compare/1.2.17...1.2.18) (2019-08-15)
+
+
+### Bug Fixes
+
+* **bundle:** Fixing cache adapters ([e6fd44d](https://github.com/secretary/php/commit/e6fd44d))
+* **bundle:** Fixing cache adapters ([97504a2](https://github.com/secretary/php/commit/97504a2))
+
 ## [1.2.17](https://github.com/secretary/php/compare/1.2.16...1.2.17) (2019-08-15)
 
 
