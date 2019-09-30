@@ -1,4 +1,7 @@
 # Secretary - Secrets Manager for PHP
+[![Build Status](https://travis-ci.org/secretary/php.svg?branch=master)](https://travis-ci.org/secretary/php)
+
+---
 
 Secrets are an important aspect of most applications you can build. How you store them, and keep them "secret" is a challenge.
 Luckily, there are tools you can use to keep them all safe. 
