@@ -1,6 +1,6 @@
 # Secretary - Secrets Manager for PHP
 [![Build Status](https://travis-ci.org/secretary/php.svg?branch=master)](https://travis-ci.org/secretary/php)
-
+[![License](https://poser.pugx.org/secretary/core/license)](https://github.com/secretary/php-core/blob/master/LICENSE)
 ---
 
 Secrets are an important aspect of most applications you can build. How you store them, and keep them "secret" is a challenge.
