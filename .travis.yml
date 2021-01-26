@@ -1,8 +1,8 @@
 language: php
 php:
-    - 7.2
     - 7.3
-    - 7.4snapshot
+    - 7.4
+    - 8.0
 
 cache:
     directories:
@@ -17,7 +17,7 @@ stages:
 - name: release
   if: branch = master AND tag IS blank
 
-script: ./vendor/bin/phpunit --coverage-clover=coverage.xml && if [[ "$(php -v)" = 7.2.* ]]; then pip install --user codecov && codecov; fi
+script: ./vendor/bin/phpunit --coverage-clover=coverage.xml && codecov
 
 jobs:
     include:
