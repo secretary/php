@@ -3,6 +3,7 @@
 	"description": "Monorepo for Secretary's PHP implementation",
 	"type":        "library",
 	"require-dev": {
+		"php":                      "^8.0 || ^7.0",
 		"ext-json":                 "*",
 		"phpunit/phpunit":          "^8.0 || ^7.0",
 		"mockery/mockery":          "^1.2",
