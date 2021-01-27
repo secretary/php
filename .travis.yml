@@ -17,7 +17,7 @@ stages:
 - name: release
   if: branch = master AND tag IS blank
 
-script: ./vendor/bin/phpunit --coverage-clover=coverage.xml && codecov
+script: ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
 jobs:
     include:
