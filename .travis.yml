@@ -9,8 +9,7 @@ cache:
     - "$HOME/.composer/cache"
 
 before_install:
-    - curl -fsSL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-    - sudo apt-get install -y nodejs
+    - nvm install 12
 
 install:
 - composer update --no-progress --no-suggest --ansi --prefer-dist
