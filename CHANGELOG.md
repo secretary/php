@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/secretary/php/compare/1.2.18...1.3.0) (2021-02-14)
+
+
+### Bug Fixes
+
+* **travis:** tests for php 8 ([9889dbf](https://github.com/secretary/php/commit/9889dbfd9fa639d6a942c2b2577323beccadb923))
+* **travis:** tests for php 8 ([4ddfeaa](https://github.com/secretary/php/commit/4ddfeaaf27b8558a49d1a9381c2df335dbc0a96f))
+* **travis:** tests for php 8 ([425918e](https://github.com/secretary/php/commit/425918e173f99ce623ab96ac2993675788d18d51))
+
+
+### Features
+
+* **global:** PHP 8 Support ([27be33d](https://github.com/secretary/php/commit/27be33d2771b56e938d38e335c442a19c3427c74))
+
 ## [1.2.18](https://github.com/secretary/php/compare/1.2.17...1.2.18) (2019-08-15)
 
 
