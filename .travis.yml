@@ -27,5 +27,5 @@ jobs:
     -   stage: release
         php: 7.4
         script: |
-            npm i -g semantic-release@15 @semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+            npm i -g semantic-release@16 @semantic-release/changelog @semantic-release/git @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/release-notes-generator
             npx semantic-release
