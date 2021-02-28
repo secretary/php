@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/secretary/php/compare/1.3.1...1.3.2) (2021-02-28)
+
+
+### Bug Fixes
+
+* **chore:** Triggering release ([7d43834](https://github.com/secretary/php/commit/7d4383441f058377bca4258408d38e05eb81853a))
+
 ## [1.3.1](https://github.com/secretary/php/compare/1.3.0...1.3.1) (2021-02-23)
 
 
