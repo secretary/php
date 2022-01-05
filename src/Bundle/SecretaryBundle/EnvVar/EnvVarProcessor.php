@@ -16,24 +16,19 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 class EnvVarProcessor implements EnvVarProcessorInterface
 {
     /**
-     * @var array|Manager[]
+     * @var list<Manager>
      */
-    private $managers;
+    private array $managers;
 
     /**
      * EnvVarProcessor constructor.
-     *
-     * @param iterable $managers
      */
-    public function __construct(iterable $managers)
+    public function __construct(\Traversable $managers)
     {
         $this->managers = iterator_to_array($managers);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getEnv($prefix, $name, \Closure $getEnv)
+    public function getEnv($prefix, $name, \Closure $getEnv): mixed
     {
         $parts = explode(':', $name);
         if (!array_key_exists($parts[0], $this->managers)) {
@@ -71,10 +66,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface
         return $value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public static function getProvidedTypes()
+    public static function getProvidedTypes(): array
     {
         return [
             'secretary'      => 'bool|int|float|string',

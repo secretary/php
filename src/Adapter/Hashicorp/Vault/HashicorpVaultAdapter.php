@@ -22,10 +22,7 @@ use Secretary\Secret;
  */
 class HashicorpVaultAdapter extends AbstractAdapter
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
     /**
      * HashicorpVaultAdapter constructor.

@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "stable",
     "require":           {
-        "php":            ">=7.2",
+        "php":            ">=7.4",
         "secretary/core": "self.version"
     },
     "require-dev":       {

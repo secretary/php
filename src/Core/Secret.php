@@ -16,24 +16,16 @@ use Secretary\Exception\ValueNotSupportedException;
  */
 class Secret implements \ArrayAccess
 {
-    /**
-     * @var string
-     */
-    private $key;
+    private string $key;
 
     /**
      * @var string|array
      */
     private $value;
 
-    /**
-     * @var array
-     */
-    private $metadata;
+    private ?array $metadata = null;
 
     /**
-     * Secret constructor.
-     *
      * @param string       $key
      * @param string|array $value
      * @param array|null   $metadata
@@ -45,9 +37,6 @@ class Secret implements \ArrayAccess
         $this->metadata = $metadata;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
@@ -61,27 +50,20 @@ class Secret implements \ArrayAccess
         return $this->value;
     }
 
-    /**
-     * @return array
-     */
     public function getMetadata(): array
     {
         return $this->metadata ?? [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return is_array($this->value) && array_key_exists($offset, $this->value);
     }
 
     /**
-     * {@inheritdoc}
      * @throws \Exception
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         if (!is_array($this->value)) {
             throw new ValueNotSupportedException($this->key);
@@ -91,19 +73,17 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
      * @throws \Exception
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new \Exception('Secrets are immutable');
     }
 
     /**
-     * {@inheritdoc}
      * @throws \Exception
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         throw new \Exception('Secrets are immutable');
     }

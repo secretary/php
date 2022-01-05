@@ -20,7 +20,7 @@ abstract class ArrayHelper
 {
 	/**
 	 * @param array    $array
-	 * @param string[] ...$keys
+	 * @param string ...$keys
 	 *
 	 * @return array
 	 */
@@ -28,7 +28,9 @@ abstract class ArrayHelper
 	{
 		$newArray = $array;
 		foreach ($keys as $key) {
-			unset($newArray[$key]);
+			if (!empty($newArray[$key])) {
+                unset($newArray[$key]);
+            }
 		}
 
 		return $newArray;
@@ -36,7 +38,7 @@ abstract class ArrayHelper
 
 	/**
 	 * @param array $array
-	 * @param mixed ...$keys
+	 * @param string ...$keys
 	 *
 	 * @return array
 	 */
