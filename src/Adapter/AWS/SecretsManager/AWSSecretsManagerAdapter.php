@@ -26,15 +26,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AWSSecretsManagerAdapter extends AbstractAdapter
 {
-    /**
-     * @var SecretsManagerClient
-     */
-    private $client;
+    private ?SecretsManagerClient $client = null;
 
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
     /**
      * AWSSecretsManagerAdapter constructor.
@@ -52,10 +46,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
         $this->config = $config;
     }
 
-    /**
-     * @return SecretsManagerClient
-     */
-    private function getClient()
+    private function getClient(): SecretsManagerClient
     {
         if (!$this->client instanceof SecretsManagerClient) {
             $this->client = new SecretsManagerClient($this->config);

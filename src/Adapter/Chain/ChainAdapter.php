@@ -23,9 +23,9 @@ use Secretary\Secret;
 final class ChainAdapter extends AbstractAdapter
 {
     /**
-     * @var AdapterInterface[]
+     * @var list<AdapterInterface>
      */
-    private $adapters;
+    private array $adapters;
 
     /**
      * CacheAdapter constructor.

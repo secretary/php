@@ -7,7 +7,6 @@ declare(strict_types=1);
  * @license   http://opensource.org/licenses/MIT
  */
 
-
 namespace Secretary\Bundle\SecretaryBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

@@ -24,21 +24,12 @@ use Secretary\Secret;
  */
 final class PSR6CacheAdapter extends AbstractAdapter
 {
-    /**
-     * @var AdapterInterface
-     */
-    private $adapter;
+    private AdapterInterface $adapter;
 
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cache;
+    private CacheItemPoolInterface $cache;
 
     /**
      * CacheAdapter constructor.
-     *
-     * @param AdapterInterface       $adapter
-     * @param CacheItemPoolInterface $cache
      */
     public function __construct(AdapterInterface $adapter, CacheItemPoolInterface $cache)
     {
@@ -55,7 +46,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
         $item = $this->cache->getItem(sha1($key));
-        if ($item !== null && $item->isHit()) {
+        if ($item->isHit()) {
             [$value, $metadata] = json_decode($item->get(), true);
 
             return new Secret($key, $value, $metadata);

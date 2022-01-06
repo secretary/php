@@ -21,21 +21,12 @@ use Secretary\Secret;
  */
 final class PSR16CacheAdapter extends AbstractAdapter
 {
-    /**
-     * @var AdapterInterface
-     */
-    private $adapter;
+    private AdapterInterface $adapter;
 
-    /**
-     * @var CacheInterface
-     */
-    private $cache;
+    private CacheInterface $cache;
 
     /**
      * CacheAdapter constructor.
-     *
-     * @param AdapterInterface $adapter
-     * @param CacheInterface   $cache
      */
     public function __construct(AdapterInterface $adapter, CacheInterface $cache)
     {

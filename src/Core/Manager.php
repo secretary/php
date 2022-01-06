@@ -19,16 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class Manager
 {
-    /**
-     * @var AdapterInterface
-     */
-    private $adapter;
+    private AdapterInterface $adapter;
 
-    /**
-     * Manager constructor.
-     *
-     * @param AdapterInterface $adapter
-     */
     public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;

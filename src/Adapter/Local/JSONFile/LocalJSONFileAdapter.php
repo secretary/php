@@ -22,6 +22,32 @@ use Secretary\Secret;
  */
 class LocalJSONFileAdapter extends AbstractAdapter
 {
+    private string $secretsFile;
+
+    private int $jsonOptions;
+
+    /**
+     * LocalJSONFileAdapter constructor.
+     *
+     * @throws \Exception
+     */
+    public function __construct(array $config)
+    {
+        if ($config === []) {
+            throw new \Exception('Configuration is required.');
+        }
+
+        if (!isset($config['file'])) {
+            throw new \Exception('`file` is a required config.');
+        }
+        if (!isset($config['jsonOptions'])) {
+            $config['jsonOptions'] = JSON_PRETTY_PRINT;
+        }
+
+        $this->secretsFile = $config['file'];
+        $this->jsonOptions = $config['jsonOptions'];
+    }
+
     /**
      * @param Secret   $secret
      * @param Secret[] $secrets
@@ -39,40 +65,6 @@ class LocalJSONFileAdapter extends AbstractAdapter
         }
 
         return $secrets;
-    }
-
-    /**
-     * @var string
-     */
-    private $secretsFile;
-
-    /**
-     * @var array
-     */
-    private $jsonOptions;
-
-    /**
-     * LocalJSONFileAdapter constructor.
-     *
-     * @param array $config
-     *
-     * @throws \Exception
-     */
-    public function __construct(array $config)
-    {
-        if (!isset($config)) {
-            throw new \Exception('Configuration is required.');
-        }
-
-        if (!isset($config['file'])) {
-            throw new \Exception('`file` is a required config.');
-        }
-        if (!isset($config['jsonOptions'])) {
-            $config['jsonOptions'] = JSON_PRETTY_PRINT;
-        }
-
-        $this->secretsFile = $config['file'];
-        $this->jsonOptions = $config['jsonOptions'];
     }
 
     /**
@@ -132,21 +124,16 @@ class LocalJSONFileAdapter extends AbstractAdapter
     }
 
     /**
-     * @return Secret[]
+     * @return list<Secret>
+     *
      * @throws \Exception
      */
     private function loadSecrets(): array
     {
-        $contents = file_get_contents($this->secretsFile);
-        $json     = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-
-        return $json;
+        return json_decode(file_get_contents($this->secretsFile), true, 512, JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @param array $secrets
-     */
-    private function saveSecrets(array $secrets)
+    private function saveSecrets(array $secrets): void
     {
         file_put_contents($this->secretsFile, json_encode($secrets, $this->jsonOptions));
     }
