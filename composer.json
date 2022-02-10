@@ -3,12 +3,14 @@
 	"description": "Monorepo for Secretary's PHP implementation",
 	"type":        "library",
 	"require-dev": {
-		"php":                      "^8.0 || ^7.0",
-		"ext-json":                 "*",
-		"phpunit/phpunit":          ">= 7.0",
-		"mockery/mockery":          "^1.2",
-		"symfony/options-resolver": "^4.0 || ^5.0 || ^6.0",
-		"aws/aws-sdk-php":          "^3.91"
+		"php":                           "^7.4 || ^8.0",
+		"ext-json":                      "*",
+		"phpunit/phpunit":               ">= 7.0",
+		"mockery/mockery":               "^1.2",
+		"symfony/options-resolver":      "^4.0 || ^5.0 || ^6.0",
+		"aws/aws-sdk-php":               "^3.91",
+		"symplify/easy-coding-standard": "^10.0",
+		"vimeo/psalm":                   "^4.20"
 	},
 	"license":     "MIT",
 	"authors":     [
@@ -26,6 +28,5 @@
 		"exclude-from-classmap": [
 			"**/Tests/"
 		]
-	},
-	"require":     {}
+	}
 }

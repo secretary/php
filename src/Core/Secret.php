@@ -55,7 +55,7 @@ class Secret implements \ArrayAccess
         return $this->metadata ?? [];
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return is_array($this->value) && array_key_exists($offset, $this->value);
     }
@@ -63,7 +63,7 @@ class Secret implements \ArrayAccess
     /**
      * @throws \Exception
      */
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): mixed
     {
         if (!is_array($this->value)) {
             throw new ValueNotSupportedException($this->key);

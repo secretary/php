@@ -2,10 +2,9 @@
 
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/8.0/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.0/phpunit.xsd"
          colors="true"
          bootstrap="vendor/autoload.php"
-
 >
     <php>
         <ini name="error_reporting" value="-1"/>
@@ -14,13 +13,13 @@
 
     <testsuites>
         <testsuite name="Secretary Core Test Suite">
-            <directory suffix="Test.php" phpVersion="7.1" phpVersionOperator=">=">./src/Core/Tests</directory>
+            <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator=">=">./src/Core/Tests</directory>
         </testsuite>
         <testsuite name="Secretary Adapter Test Suite">
-            <directory suffix="Test.php" phpVersion="7.1" phpVersionOperator=">=">./src/Adapter/**/Tests</directory>
+            <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator=">=">./src/Adapter/**/Tests</directory>
         </testsuite>
         <testsuite name="Secretary Bundle Test Suite">
-            <directory suffix="Test.php" phpVersion="7.1" phpVersionOperator=">=">./src/Bundle/**/Tests</directory>
+            <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator=">=">./src/Bundle/**/Tests</directory>
         </testsuite>
     </testsuites>
 
