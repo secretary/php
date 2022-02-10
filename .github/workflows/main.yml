@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
     phpunit:
-        name: PHPUnit ${{ matrix.php-version }}
+        name: PHPUnit - ${{ matrix.php-version }}- ${{ matrix.dependency-version }}
 
         runs-on: ubuntu-latest
 
