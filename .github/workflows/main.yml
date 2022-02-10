@@ -30,7 +30,7 @@ jobs:
               uses: actions/cache@v2
               with:
                   path: ${{ steps.composercache.outputs.dir }}
-                  key: dependencies-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
+                  key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
 
             - name: 'Install dependencies'
               run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
