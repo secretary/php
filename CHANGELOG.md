@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/secretary/php/compare/1.3.2...1.4.0) (2022-02-11)
+
+
+### Bug Fixes
+
+* **CI:** Replaced Travis CI with GH workflow ([0c9fdb3](https://github.com/secretary/php/commit/0c9fdb3b3110b8060be96a06d0766bff4549bca6))
+* **CI:** Replaced Travis CI with GH workflow ([a88154d](https://github.com/secretary/php/commit/a88154d88c8976d2990f6c62d1cbd8d0394c62ca))
+
+
+### Features
+
+* **global:** PHP 7.4 as minimum PHP version ([eb2ff91](https://github.com/secretary/php/commit/eb2ff91db84c3924eab57f43d59aa5c4eac61e4d))
+
 ## [1.3.2](https://github.com/secretary/php/compare/1.3.1...1.3.2) (2021-02-28)
 
 
