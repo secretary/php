@@ -7,7 +7,7 @@
 		"ext-json":                      "*",
 		"phpunit/phpunit":               "^9.0",
 		"mockery/mockery":               "^1.4",
-		"symfony/options-resolver":      "^5.3 || ^6.0",
+		"symfony/options-resolver":      "^5.4 || ^6.0",
 		"aws/aws-sdk-php":               "^3.91",
 		"symplify/easy-coding-standard": "^10.0.10",
 		"vimeo/psalm":                   "^4.20"

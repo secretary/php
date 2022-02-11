@@ -28,8 +28,6 @@ class Manager
     }
 
     /**
-     * @param array $options
-     *
      * @throws Exception\SecretNotFoundException
      */
     public function getSecret(string $key, ?array $options = []): Secret
@@ -41,9 +39,6 @@ class Manager
         return $this->adapter->getSecret($key, $resolver->resolve($options));
     }
 
-    /**
-     * @param array $options
-     */
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $resolver = new OptionsResolver();
@@ -54,8 +49,6 @@ class Manager
     }
 
     /**
-     * @param array $options
-     *
      * @throws Exception\SecretNotFoundException
      */
     public function deleteSecretByKey(string $key, ?array $options = []): void
@@ -69,9 +62,6 @@ class Manager
         $this->adapter->deleteSecret($secret, $resolver->resolve($options));
     }
 
-    /**
-     * @param array $options
-     */
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $resolver = new OptionsResolver();
