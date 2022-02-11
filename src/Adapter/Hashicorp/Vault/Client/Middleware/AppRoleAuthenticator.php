@@ -1,45 +1,35 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
-
 
 namespace Secretary\Adapter\Hashicorp\Vault\Client\Middleware;
 
-
 use function GuzzleHttp\choose_handler;
-use function GuzzleHttp\json_decode;
 use GuzzleHttp\Client;
+use function GuzzleHttp\json_decode;
 use function GuzzleHttp\Psr7\modify_request;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * Class AppRoleAuthenticator
+ * Class AppRoleAuthenticator.
  *
  * @package Secretary\Adapter\Hashicorp\Vault\Client\Middleware
  */
 class AppRoleAuthenticator
 {
-    const authRoute = 'v1/auth/approle/login';
+    public const authRoute = 'v1/auth/approle/login';
 
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
-    /**
-     * @var string
-     */
-    private $roleId;
+    private string $roleId;
 
-    /**
-     * @var string
-     */
-    private $secretId;
+    private string $secretId;
 
     /**
      * @var
@@ -53,10 +43,6 @@ class AppRoleAuthenticator
 
     /**
      * AppRoleAuthenticator constructor.
-     *
-     * @param Client $client
-     * @param string $roleId
-     * @param string $secretId
      */
     public function __construct(Client $client, string $roleId, string $secretId)
     {
@@ -65,11 +51,6 @@ class AppRoleAuthenticator
         $this->secretId = $secretId;
     }
 
-    /**
-     * @param callable $handler
-     *
-     * @return callable
-     */
     public function __invoke(callable $handler): callable
     {
         return function (RequestInterface $request) use ($handler) {
@@ -86,8 +67,7 @@ class AppRoleAuthenticator
      */
     private function authenticate()
     {
-        $response = $this->client->request(
-            'POST',
+        $response = $this->client->post(
             static::authRoute,
             [
                 'json'    => ['role_id' => $this->roleId, 'secret-id' => $this->secretId],

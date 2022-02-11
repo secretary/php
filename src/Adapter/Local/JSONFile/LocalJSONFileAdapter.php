@@ -1,22 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
-
 namespace Secretary\Adapter\Local\JSONFile;
-
 
 use Secretary\Adapter\AbstractAdapter;
 use Secretary\Exception\SecretNotFoundException;
 use Secretary\Secret;
 
 /**
- * Class LocalJSONFileAdapter
+ * Class LocalJSONFileAdapter.
  *
  * @package Secretary\Adapter\Local\JSONFile
  */
@@ -40,6 +39,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         if (!isset($config['file'])) {
             throw new \Exception('`file` is a required config.');
         }
+
         if (!isset($config['jsonOptions'])) {
             $config['jsonOptions'] = JSON_PRETTY_PRINT;
         }
@@ -49,26 +49,8 @@ class LocalJSONFileAdapter extends AbstractAdapter
     }
 
     /**
-     * @param Secret   $secret
-     * @param Secret[] $secrets
-     *
-     * @return array
-     */
-    private static function updateValue(Secret $secret, array $secrets): array
-    {
-        $keys  = array_column($secrets, 'key');
-        $index = array_search($secret->getKey(), $keys, true);
-        if ($index === false || $index === null) {
-            $secrets[] = $secret;
-        } else {
-            $secrets[$index]['value'] = $secret->getValue();
-        }
-
-        return $secrets;
-    }
-
-    /**
      * {@inheritdoc}
+     *
      * @throws SecretNotFoundException
      */
     public function getSecret(string $key, ?array $options = []): Secret
@@ -76,6 +58,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         $secrets = $this->loadSecrets();
         $keys    = array_column($secrets, 'key');
         $index   = array_search($key, $keys, true);
+
         if ($index === false || $index === null) {
             throw new SecretNotFoundException($key);
         }
@@ -92,7 +75,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
      */
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
-        $secrets = LocalJSONFileAdapter::updateValue($secret, $this->loadSecrets());
+        $secrets = self::updateValue($secret, $this->loadSecrets());
         $this->saveSecrets($secrets);
 
         return $secret;
@@ -106,6 +89,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
         $secrets = $this->loadSecrets();
         $keys    = array_column($secrets, 'key');
         $index   = array_search($key, $keys, true);
+
         if ($index === false || $index === null) {
             throw new SecretNotFoundException($key);
         }
@@ -116,6 +100,7 @@ class LocalJSONFileAdapter extends AbstractAdapter
 
     /**
      * {@inheritdoc}
+     *
      * @throws SecretNotFoundException
      */
     public function deleteSecret(Secret $secret, ?array $options = []): void
@@ -124,9 +109,26 @@ class LocalJSONFileAdapter extends AbstractAdapter
     }
 
     /**
-     * @return list<Secret>
-     *
+     * @param Secret[] $secrets
+     */
+    private static function updateValue(Secret $secret, array $secrets): array
+    {
+        $keys  = array_column($secrets, 'key');
+        $index = array_search($secret->getKey(), $keys, true);
+
+        if ($index === false || $index === null) {
+            $secrets[] = $secret;
+        } else {
+            $secrets[$index]['value'] = $secret->getValue();
+        }
+
+        return $secrets;
+    }
+
+    /**
      * @throws \Exception
+     *
+     * @return list<Secret>
      */
     private function loadSecrets(): array
     {

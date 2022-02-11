@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
-
 namespace Secretary\Adapter\Hashicorp\Vault\Client;
-
 
 use GuzzleHttp\HandlerStack;
 use Secretary\Adapter\Hashicorp\Vault\Client\Middleware\AppRoleAuthenticator;
@@ -19,8 +18,6 @@ class Client extends \GuzzleHttp\Client
 {
     /**
      * Client constructor.
-     *
-     * @param array $config
      */
     public function __construct(array $config)
     {
@@ -30,11 +27,14 @@ class Client extends \GuzzleHttp\Client
 
         $stack   = HandlerStack::create();
         $options = ['base_uri' => $baseUri, 'stack' => $stack];
+
         if (!empty($config['credentials']['token'])) {
             $options['headers'] = ['X-Vault-Token' => $config['credentials']['token']];
         }
+
         if (!empty($config['credentials']['appRole'])) {
             ['roleId' => $roleId, 'secretId' => $secretId] = $config['credentials']['appRole'];
+
             if (!empty($roleId) && !empty($secretId)) {
                 $stack->push(new AppRoleAuthenticator($this, $roleId, $secretId));
             }
@@ -45,10 +45,6 @@ class Client extends \GuzzleHttp\Client
 
     /**
      * @todo Add options for SSL cert
-     *
-     * @param array $config
-     *
-     * @return array
      */
     private function validateOptions(array $config): array
     {
@@ -59,6 +55,7 @@ class Client extends \GuzzleHttp\Client
         $resolver
             ->setDefined('address')
             ->setAllowedTypes('address', 'string');
+
         if ($addr !== false) {
             $resolver->setDefault('address', $addr);
         }
@@ -69,6 +66,7 @@ class Client extends \GuzzleHttp\Client
                 $credentials
                     ->setRequired('token')
                     ->setAllowedTypes('token', 'string');
+
                 if ($token !== false) {
                     $credentials->setDefault('token', $token);
                 }

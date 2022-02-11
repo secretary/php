@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
-
 namespace Secretary\Adapter\AWS\SecretsManager;
-
 
 use Aws\SecretsManager\Exception\SecretsManagerException;
 use Aws\SecretsManager\SecretsManagerClient;
@@ -20,7 +19,7 @@ use Secretary\Secret;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AWSSecretsManagerAdapter
+ * Class AWSSecretsManagerAdapter.
  *
  * @package Secretary\Adapter\AWS\SecretsManager
  */
@@ -33,8 +32,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     /**
      * AWSSecretsManagerAdapter constructor.
      *
-     * @param array $config
-     *
      * @throws \Exception
      */
     public function __construct(array $config)
@@ -44,15 +41,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
         }
 
         $this->config = $config;
-    }
-
-    private function getClient(): SecretsManagerClient
-    {
-        if (!$this->client instanceof SecretsManagerClient) {
-            $this->client = new SecretsManagerClient($this->config);
-        }
-
-        return $this->client;
     }
 
     /**
@@ -74,7 +62,8 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             );
         } catch (SecretsManagerException $exception) {
             $awsMsg = $exception->getAwsErrorMessage() ?? '';
-            if (strpos($awsMsg, 'Secrets Manager can’t find the specified secret') !== false) {
+
+            if (str_contains($awsMsg, 'Secrets Manager can’t find the specified secret')) {
                 throw new SecretNotFoundException($key, $exception);
             }
 
@@ -91,7 +80,7 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             ? json_encode($secret->getValue()) : $secret->getValue();
 
         try {
-            $options = ArrayHelper::without($options, 'Tags');
+            $options             = ArrayHelper::without($options, 'Tags');
             $options['SecretId'] = $secret->getKey();
 
             $this->getClient()->updateSecret($options);
@@ -145,6 +134,15 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             ->setDefined(['ForceDeleteWithoutRecovery', 'RecoveryWindowInDays'])
             ->setAllowedTypes('ForceDeleteWithoutRecovery', 'bool')
             ->setAllowedTypes('RecoveryWindowInDays', 'int');
+    }
+
+    private function getClient(): SecretsManagerClient
+    {
+        if (!$this->client instanceof SecretsManagerClient) {
+            $this->client = new SecretsManagerClient($this->config);
+        }
+
+        return $this->client;
     }
 
     private static function isJson(string $str)

@@ -3,7 +3,7 @@
 	"description": "Monorepo for Secretary's PHP implementation",
 	"type":        "library",
 	"require-dev": {
-		"php":                           "^7.4 || ^8.0",
+		"php":                           "^8.0",
 		"ext-json":                      "*",
 		"phpunit/phpunit":               "^9.0",
 		"mockery/mockery":               "^1.4",
@@ -28,5 +28,11 @@
 		"exclude-from-classmap": [
 			"**/Tests/"
 		]
+	},
+	"scripts": {
+		"ecs": "ecs check",
+		"ecs:show": "ecs show",
+		"ecs:fix": "ecs check --fix",
+		"psalm": "psalm --show-info"
 	}
 }

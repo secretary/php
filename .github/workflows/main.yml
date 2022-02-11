@@ -8,7 +8,7 @@ jobs:
 
         strategy:
             matrix:
-                php-version: [8.0, 7.4]
+                php-version: [8.0, 8.1]
                 dependency-version: [prefer-lowest, prefer-stable]
         steps:
             - name: 'Checkout'
@@ -24,7 +24,7 @@ jobs:
               id: composercache
               run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-            - name: Cache dependencies
+            - name: 'Cache dependencies'
               uses: actions/cache@v2
               with:
                   path: ${{ steps.composercache.outputs.dir }}
@@ -35,3 +35,44 @@ jobs:
 
             - name: 'PHPUnit Tests'
               run: vendor/bin/phpunit
+
+    static-analysis:
+        name: 'Static Analysis'
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-version: [ 8.0, 8.1 ]
+                dependency-version: [ prefer-lowest, prefer-stable ]
+                packages:
+                    - 'Adapter/AWS/SecretsManager'
+                    - 'Adapter/Cache/PSR6Cache'
+
+        steps:
+            - name: 'Checkout'
+              uses: 'actions/checkout@v2'
+
+            - name: 'Install PHP'
+              uses: 'shivammathur/setup-php@v2'
+              with:
+                  coverage: 'none'
+                  php-version: '${{ matrix.php-version }}'
+                  tools: cs2pr
+
+            - name: 'Get composer cache directory'
+              id: composercache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: 'Cache dependencies'
+              uses: actions/cache@v2
+              with:
+                  path: ${{ steps.composercache.outputs.dir }}
+                  key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
+
+            - name: 'Install dependencies'
+              run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+            - name: 'Check code standards'
+              run: ./vendor/bin/ecs check
+
+#            - name: 'Psalm'
+#              run: ./vendor/bin/psalm

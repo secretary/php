@@ -17,7 +17,7 @@
     ],
     "minimum-stability": "stable",
     "require":           {
-        "php":            "^7.4 || ^8.0",
+        "php":            "^8.0",
         "psr/cache":      "^1.0 || ^2.0",
         "secretary/core": "self.version"
     },

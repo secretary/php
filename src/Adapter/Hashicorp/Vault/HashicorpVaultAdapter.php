@@ -1,12 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
-
 
 namespace Secretary\Adapter\Hashicorp\Vault;
 
@@ -16,7 +16,7 @@ use Secretary\Adapter\Hashicorp\Vault\Client\Client;
 use Secretary\Secret;
 
 /**
- * Class HashicorpVaultAdapter
+ * Class HashicorpVaultAdapter.
  *
  * @package Secretary\Adapter\Hashicorp\Vault
  */
@@ -26,8 +26,6 @@ class HashicorpVaultAdapter extends AbstractAdapter
 
     /**
      * HashicorpVaultAdapter constructor.
-     *
-     * @param array $config
      *
      * @throws \Exception
      */
@@ -46,7 +44,7 @@ class HashicorpVaultAdapter extends AbstractAdapter
     public function getSecret(string $key, ?array $options = []): Secret
     {
         $response = $this->client->get('/v1/secret/'.$key);
-        $json     = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $json     = json_decode($response->getBody()->getContents(), true);
 
         return new Secret($key, $json['data']);
     }
@@ -61,6 +59,8 @@ class HashicorpVaultAdapter extends AbstractAdapter
         }
 
         $this->client->post('/v1/secret/'.$secret->getKey(), ['json' => $secret->getValue()]);
+
+        return $secret;
     }
 
     /**

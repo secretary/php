@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary\Tests;
@@ -13,9 +14,13 @@ use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Secretary\Adapter\AdapterInterface;
 use Secretary\Exception\SecretNotFoundException;
-use Secretary\Secret;
 use Secretary\Manager;
+use Secretary\Secret;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ManagerTest extends TestCase
 {
     /**
@@ -30,8 +35,7 @@ class ManagerTest extends TestCase
         $this->adapter = \Mockery::mock(AdapterInterface::class);
     }
 
-
-    public function test__construct()
+    public function testConstruct()
     {
         $manager = new Manager($this->adapter);
 
@@ -70,7 +74,7 @@ class ManagerTest extends TestCase
     public function testPutSecret()
     {
         $manager = new Manager($this->adapter);
-        $secret = new Secret('foo', 'bar');
+        $secret  = new Secret('foo', 'bar');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
         $this->adapter->shouldReceive('configurePutSecretOptions')->withAnyArgs()->once();
@@ -83,7 +87,7 @@ class ManagerTest extends TestCase
     public function testDeleteSecretByKey()
     {
         $manager = new Manager($this->adapter);
-        $secret = new Secret('foo', '');
+        $secret  = new Secret('foo', '');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->twice();
 
@@ -100,7 +104,7 @@ class ManagerTest extends TestCase
     public function testDeleteSecret()
     {
         $manager = new Manager($this->adapter);
-        $secret = new Secret('foo', 'bar');
+        $secret  = new Secret('foo', 'bar');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
         $this->adapter->shouldReceive('configureDeleteSecretOptions')->withAnyArgs()->once();

@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary\Bundle\SecretaryBundle;
@@ -12,7 +13,7 @@ namespace Secretary\Bundle\SecretaryBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class SecretaryBundle
+ * Class SecretaryBundle.
  *
  * @package Secretary\Bundle\SecretaryBundle
  */

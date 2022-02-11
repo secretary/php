@@ -1,12 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
-
 
 namespace Secretary\Adapter\Chain;
 
@@ -16,7 +16,7 @@ use Secretary\Exception\SecretNotFoundException;
 use Secretary\Secret;
 
 /**
- * Class ChainAdapter
+ * Class ChainAdapter.
  *
  * @package Secretary\Adapter\Chain
  */
