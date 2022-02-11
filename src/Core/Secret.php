@@ -55,13 +55,22 @@ class Secret implements \ArrayAccess
         return $this->metadata ?? [];
     }
 
+    /**
+     * @param mixed $offset
+     *
+     * @return bool
+     */
     public function offsetExists($offset): bool
     {
         return is_array($this->value) && array_key_exists($offset, $this->value);
     }
 
     /**
-     * @throws \Exception
+     * @param mixed $offset
+     *
+     * @return mixed
+     *
+     * @throws ValueNotSupportedException
      */
     public function offsetGet($offset): mixed
     {
@@ -73,17 +82,26 @@ class Secret implements \ArrayAccess
     }
 
     /**
+     * @param mixed $offset
+     * @param mixed $value
+     *
+     * @return void
+     *
      * @throws \Exception
      */
-    public function offsetSet(mixed $offset, mixed $value): void
+    public function offsetSet($offset, $value): void
     {
         throw new \Exception('Secrets are immutable');
     }
 
     /**
+     * @param mixed $offset
+     *
+     * @return void
+     *
      * @throws \Exception
      */
-    public function offsetUnset(mixed $offset): void
+    public function offsetUnset($offset): void
     {
         throw new \Exception('Secrets are immutable');
     }
