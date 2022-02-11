@@ -35,7 +35,7 @@ abstract class ArrayHelper
     /**
      * @param string ...$keys
      */
-    public static function remove(array & $array, ...$keys): array
+    public static function remove(array &$array, ...$keys): array
     {
         $newArray = [];
         foreach (array_keys($newArray) as $key) {
