@@ -28,7 +28,7 @@
         "symfony/http-kernel":                   "^5.0 || ^6.0",
         "symfony/framework-bundle":              "^5.0 || ^6.0",
         "symfony/yaml":                          "^5.0 || ^6.0",
-        "aws/aws-sdk-php":                       "^3.90"
+        "aws/aws-sdk-php":                       "^3.91"
     },
     "autoload":          {
         "psr-4":                 {

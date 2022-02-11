@@ -35,14 +35,14 @@ class ManagerTest extends TestCase
         $this->adapter = \Mockery::mock(AdapterInterface::class);
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $manager = new Manager($this->adapter);
 
         $this->assertInstanceOf(Manager::class, $manager);
     }
 
-    public function testGetSecret()
+    public function testGetSecret(): void
     {
         $secret  = new Secret('foo', 'bar');
         $manager = new Manager($this->adapter);
@@ -56,7 +56,7 @@ class ManagerTest extends TestCase
         $this->assertEquals($secret, $result);
     }
 
-    public function testGetBadSecret()
+    public function testGetBadSecret(): void
     {
         $this->expectException(SecretNotFoundException::class);
         $this->expectExceptionMessage('No secret was found with the key: "foo"');
@@ -71,7 +71,7 @@ class ManagerTest extends TestCase
         $manager->getSecret('foo');
     }
 
-    public function testPutSecret()
+    public function testPutSecret(): void
     {
         $manager = new Manager($this->adapter);
         $secret  = new Secret('foo', 'bar');
@@ -84,7 +84,7 @@ class ManagerTest extends TestCase
         $this->assertEquals($secret, $response);
     }
 
-    public function testDeleteSecretByKey()
+    public function testDeleteSecretByKey(): void
     {
         $manager = new Manager($this->adapter);
         $secret  = new Secret('foo', '');
@@ -101,7 +101,7 @@ class ManagerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testDeleteSecret()
+    public function testDeleteSecret(): void
     {
         $manager = new Manager($this->adapter);
         $secret  = new Secret('foo', 'bar');
@@ -114,7 +114,7 @@ class ManagerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testGetAdapter()
+    public function testGetAdapter(): void
     {
         $manager = new Manager($this->adapter);
 

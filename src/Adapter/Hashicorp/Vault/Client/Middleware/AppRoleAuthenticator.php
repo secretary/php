@@ -10,10 +10,8 @@ declare(strict_types=1);
 
 namespace Secretary\Adapter\Hashicorp\Vault\Client\Middleware;
 
-use function GuzzleHttp\choose_handler;
 use GuzzleHttp\Client;
-use function GuzzleHttp\json_decode;
-use function GuzzleHttp\Psr7\modify_request;
+use GuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -31,15 +29,9 @@ class AppRoleAuthenticator
 
     private string $secretId;
 
-    /**
-     * @var
-     */
-    private $token;
+    private ?string $token = null;
 
-    /**
-     * @var
-     */
-    private $tokenExpiration;
+    private ?int $tokenExpiration = null;
 
     /**
      * AppRoleAuthenticator constructor.
@@ -53,30 +45,35 @@ class AppRoleAuthenticator
 
     public function __invoke(callable $handler): callable
     {
-        return function (RequestInterface $request) use ($handler) {
+        return function (RequestInterface $request, array $options) use ($handler) {
             if (empty($this->token) || time() > $this->tokenExpiration) {
                 $this->authenticate();
             }
 
-            return modify_request($request, ['set_headers' => ['X-Vault-Token' => $this->token]]);
+            $request = $request->withHeader('X-Vault-Token', $this->token);
+
+            return $handler($request, $options);
         };
     }
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function authenticate()
+    private function authenticate(): void
     {
         $response = $this->client->post(
             static::authRoute,
             [
-                'json'    => ['role_id' => $this->roleId, 'secret-id' => $this->secretId],
-                'handler' => choose_handler(),
+                'json' => [
+                    'role_id'   => $this->roleId,
+                    'secret-id' => $this->secretId,
+                ],
+                'handler' => Utils::chooseHandler(),
             ]
         );
 
         $response              = json_decode($response->getBody()->getContents(), true);
-        $this->token           = $response['auth']['client_token'];
-        $this->tokenExpiration = time() + $response['auth']['lease_duration'];
+        $this->token           = (string) $response['auth']['client_token'];
+        $this->tokenExpiration = time() + (int) $response['auth']['lease_duration'];
     }
 }

@@ -14,11 +14,10 @@ use GuzzleHttp\HandlerStack;
 use Secretary\Adapter\Hashicorp\Vault\Client\Middleware\AppRoleAuthenticator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Client extends \GuzzleHttp\Client
+class Client
 {
-    /**
-     * Client constructor.
-     */
+    private \GuzzleHttp\Client $client;
+
     public function __construct(array $config)
     {
         $config = $this->validateOptions($config);
@@ -36,11 +35,16 @@ class Client extends \GuzzleHttp\Client
             ['roleId' => $roleId, 'secretId' => $secretId] = $config['credentials']['appRole'];
 
             if (!empty($roleId) && !empty($secretId)) {
-                $stack->push(new AppRoleAuthenticator($this, $roleId, $secretId));
+                $stack->push(new AppRoleAuthenticator($this->client, $roleId, $secretId));
             }
         }
 
-        parent::__construct($options);
+        $this->client = new \GuzzleHttp\Client($options);
+    }
+
+    public function getClient(): \GuzzleHttp\Client
+    {
+        return $this->client;
     }
 
     /**
@@ -48,15 +52,15 @@ class Client extends \GuzzleHttp\Client
      */
     private function validateOptions(array $config): array
     {
-        $addr  = getenv('VAULT_ADDR');
-        $token = getenv('VAULT_TOKEN');
+        $addr  = (string) getenv('VAULT_ADDR');
+        $token = (string) getenv('VAULT_TOKEN');
 
         $resolver = new OptionsResolver();
         $resolver
             ->setDefined('address')
             ->setAllowedTypes('address', 'string');
 
-        if ($addr !== false) {
+        if (!empty($addr)) {
             $resolver->setDefault('address', $addr);
         }
 
@@ -67,7 +71,7 @@ class Client extends \GuzzleHttp\Client
                     ->setRequired('token')
                     ->setAllowedTypes('token', 'string');
 
-                if ($token !== false) {
+                if (!empty($token)) {
                     $credentials->setDefault('token', $token);
                 }
 

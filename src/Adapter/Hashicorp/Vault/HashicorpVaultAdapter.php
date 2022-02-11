@@ -43,7 +43,7 @@ class HashicorpVaultAdapter extends AbstractAdapter
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
-        $response = $this->client->get('/v1/secret/'.$key);
+        $response = $this->client->getClient()->get('/v1/secret/'.$key);
         $json     = json_decode($response->getBody()->getContents(), true);
 
         return new Secret($key, $json['data']);
@@ -58,7 +58,7 @@ class HashicorpVaultAdapter extends AbstractAdapter
             throw new \Exception('Value for this adapter must be a key/value array');
         }
 
-        $this->client->post('/v1/secret/'.$secret->getKey(), ['json' => $secret->getValue()]);
+        $this->client->getClient()->post('/v1/secret/'.$secret->getKey(), ['json' => $secret->getValue()]);
 
         return $secret;
     }
@@ -71,11 +71,8 @@ class HashicorpVaultAdapter extends AbstractAdapter
         $this->deleteSecretByKey($secret->getKey(), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteSecretByKey(string $key, ?array $options = []): void
     {
-        $this->client->delete('/v1/secret/'.$key);
+        $this->client->getClient()->delete('/v1/secret/'.$key);
     }
 }

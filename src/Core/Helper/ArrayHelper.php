@@ -33,6 +33,8 @@ abstract class ArrayHelper
     }
 
     /**
+     * @psalm-suppress InvalidArrayOffset
+     *
      * @param string ...$keys
      */
     public static function remove(array &$array, ...$keys): array

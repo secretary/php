@@ -71,5 +71,5 @@ jobs:
             - name: 'Check code standards'
               run: ./vendor/bin/ecs check
 
-#            - name: 'Psalm'
-#              run: ./vendor/bin/psalm
+            - name: 'Psalm'
+              run: ./vendor/bin/psalm

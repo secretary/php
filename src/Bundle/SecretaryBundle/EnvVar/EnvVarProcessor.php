@@ -28,7 +28,10 @@ class EnvVarProcessor implements EnvVarProcessorInterface
         $this->managers = iterator_to_array($managers);
     }
 
-    public function getEnv($prefix, $name, \Closure $getEnv): mixed
+    /**
+     * @psalm-suppress InvalidArrayOffset
+     */
+    public function getEnv(string $prefix, string $name, \Closure $getEnv): mixed
     {
         $parts = explode(':', $name);
 
