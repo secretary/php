@@ -23,8 +23,15 @@ Secretary is a tool to integrate your PHP application with these tools.
 ## Installation
 
 ```bash
-$ composer require secretary/core
+$ composer req secretary/core
 ```
+
+##### Choose the version you need
+
+| Version (X.Y.Z) |    PHP     |  Symfony   | Comment             |
+|:---------------:|:----------:|:----------:|:--------------------|
+|      `2.*`      | `>= 8.1.0` | `5.4, 6.0` | **Current version** |
+|      `1.*`      | `>= 7.4.0` |   `5.4`    | Previous version    |
 
 By itself, the core is useless. You will also need to add at least one adapter:
 

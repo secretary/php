@@ -4,13 +4,11 @@ on: [push, pull_request]
 
 jobs:
     phpunit:
-        name: PHPUnit - ${{ matrix.php-version }}- ${{ matrix.dependency-version }}
-
         runs-on: ubuntu-latest
 
         strategy:
             matrix:
-                php-version: [8.1, 8.0, 7.4]
+                php-version: [8.0, 7.4]
                 dependency-version: [prefer-lowest, prefer-stable]
         steps:
             - name: 'Checkout'
