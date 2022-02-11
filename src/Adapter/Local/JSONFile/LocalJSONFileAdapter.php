@@ -26,8 +26,6 @@ class LocalJSONFileAdapter extends AbstractAdapter
     private int $jsonOptions;
 
     /**
-     * LocalJSONFileAdapter constructor.
-     *
      * @throws \Exception
      */
     public function __construct(array $config)

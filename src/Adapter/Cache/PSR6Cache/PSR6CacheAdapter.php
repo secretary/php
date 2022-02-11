@@ -27,9 +27,6 @@ final class PSR6CacheAdapter extends AbstractAdapter
 
     private CacheItemPoolInterface $cache;
 
-    /**
-     * CacheAdapter constructor.
-     */
     public function __construct(AdapterInterface $adapter, CacheItemPoolInterface $cache)
     {
         $this->adapter = $adapter;
@@ -38,8 +35,6 @@ final class PSR6CacheAdapter extends AbstractAdapter
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
@@ -98,9 +93,6 @@ final class PSR6CacheAdapter extends AbstractAdapter
         $this->deleteSecretByKey($secret->getKey(), $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function deleteSecretByKey(string $key, ?array $options = []): void
     {
         $this->adapter->deleteSecret($this->adapter->getSecret($key, $options), $options);

@@ -20,9 +20,6 @@ class EnvVarProcessor implements EnvVarProcessorInterface
      */
     private array $managers;
 
-    /**
-     * EnvVarProcessor constructor.
-     */
     public function __construct(\Traversable $managers)
     {
         $this->managers = iterator_to_array($managers);

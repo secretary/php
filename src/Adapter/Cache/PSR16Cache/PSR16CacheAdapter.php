@@ -25,9 +25,6 @@ final class PSR16CacheAdapter extends AbstractAdapter
 
     private CacheInterface $cache;
 
-    /**
-     * CacheAdapter constructor.
-     */
     public function __construct(AdapterInterface $adapter, CacheInterface $cache)
     {
         $this->adapter = $adapter;

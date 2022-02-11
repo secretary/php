@@ -28,8 +28,6 @@ final class ChainAdapter extends AbstractAdapter
     private array $adapters;
 
     /**
-     * CacheAdapter constructor.
-     *
      * @param AdapterInterface[] $adapters
      */
     public function __construct(array $adapters)

@@ -25,8 +25,6 @@ class HashicorpVaultAdapter extends AbstractAdapter
     private Client $client;
 
     /**
-     * HashicorpVaultAdapter constructor.
-     *
      * @throws \Exception
      */
     public function __construct(array $config = [])

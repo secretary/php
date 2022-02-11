@@ -5,7 +5,7 @@
 	"require-dev": {
 		"aws/aws-sdk-php":               "^3.91",
 		"ext-json":                      "*",
-		"guzzlehttp/guzzle":             "^6.0 || ^7.0",
+		"guzzlehttp/guzzle":             "^7.0",
 		"mockery/mockery":               "^1.4",
 		"php":                           "^8.0",
 		"phpunit/phpunit":               "^9.0",

@@ -30,8 +30,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     private array $config;
 
     /**
-     * AWSSecretsManagerAdapter constructor.
-     *
      * @throws \Exception
      */
     public function __construct(array $config)

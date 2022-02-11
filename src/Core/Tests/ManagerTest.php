@@ -35,6 +35,9 @@ class ManagerTest extends TestCase
         $this->adapter = \Mockery::mock(AdapterInterface::class);
     }
 
+    /**
+     * @psalm-suppress RedundantCondition
+     */
     public function testConstruct(): void
     {
         $manager = new Manager($this->adapter);
@@ -42,6 +45,9 @@ class ManagerTest extends TestCase
         $this->assertInstanceOf(Manager::class, $manager);
     }
 
+    /**
+     * @psalm-suppress RedundantCondition
+     */
     public function testGetSecret(): void
     {
         $secret  = new Secret('foo', 'bar');

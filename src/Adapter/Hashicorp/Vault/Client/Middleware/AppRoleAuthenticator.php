@@ -33,9 +33,6 @@ class AppRoleAuthenticator
 
     private ?int $tokenExpiration = null;
 
-    /**
-     * AppRoleAuthenticator constructor.
-     */
     public function __construct(Client $client, string $roleId, string $secretId)
     {
         $this->client   = $client;
@@ -56,9 +53,6 @@ class AppRoleAuthenticator
         };
     }
 
-    /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     private function authenticate(): void
     {
         $response = $this->client->post(
