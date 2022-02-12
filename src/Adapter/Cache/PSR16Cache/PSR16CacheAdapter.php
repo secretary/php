@@ -1,12 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
-
 
 namespace Secretary\Adapter\Cache\PSR16Cache;
 
@@ -25,9 +25,6 @@ final class PSR16CacheAdapter extends AbstractAdapter
 
     private CacheInterface $cache;
 
-    /**
-     * CacheAdapter constructor.
-     */
     public function __construct(AdapterInterface $adapter, CacheInterface $cache)
     {
         $this->adapter = $adapter;
@@ -61,6 +58,7 @@ final class PSR16CacheAdapter extends AbstractAdapter
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
 
         $this->adapter->putSecret($secret, $options);
+
         if ($this->cache->has(sha1($secret->getKey())) || $ttl === 0) {
             $this->cache->delete(sha1($secret->getKey()));
 

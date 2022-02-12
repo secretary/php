@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary\Adapter;
@@ -14,7 +15,7 @@ use Secretary\Secret;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Interface AdapterInterface
+ * Interface AdapterInterface.
  *
  * @package Secretary\Adapter
  */

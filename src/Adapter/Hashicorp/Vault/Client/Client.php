@@ -1,27 +1,23 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
-
 namespace Secretary\Adapter\Hashicorp\Vault\Client;
-
 
 use GuzzleHttp\HandlerStack;
 use Secretary\Adapter\Hashicorp\Vault\Client\Middleware\AppRoleAuthenticator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Client extends \GuzzleHttp\Client
+class Client
 {
-    /**
-     * Client constructor.
-     *
-     * @param array $config
-     */
+    private \GuzzleHttp\Client $client;
+
     public function __construct(array $config)
     {
         $config = $this->validateOptions($config);
@@ -30,36 +26,41 @@ class Client extends \GuzzleHttp\Client
 
         $stack   = HandlerStack::create();
         $options = ['base_uri' => $baseUri, 'stack' => $stack];
+
         if (!empty($config['credentials']['token'])) {
             $options['headers'] = ['X-Vault-Token' => $config['credentials']['token']];
         }
+
         if (!empty($config['credentials']['appRole'])) {
             ['roleId' => $roleId, 'secretId' => $secretId] = $config['credentials']['appRole'];
+
             if (!empty($roleId) && !empty($secretId)) {
-                $stack->push(new AppRoleAuthenticator($this, $roleId, $secretId));
+                $stack->push(new AppRoleAuthenticator($this->client, $roleId, $secretId));
             }
         }
 
-        parent::__construct($options);
+        $this->client = new \GuzzleHttp\Client($options);
+    }
+
+    public function getClient(): \GuzzleHttp\Client
+    {
+        return $this->client;
     }
 
     /**
      * @todo Add options for SSL cert
-     *
-     * @param array $config
-     *
-     * @return array
      */
     private function validateOptions(array $config): array
     {
-        $addr  = getenv('VAULT_ADDR');
-        $token = getenv('VAULT_TOKEN');
+        $addr  = (string) getenv('VAULT_ADDR');
+        $token = (string) getenv('VAULT_TOKEN');
 
         $resolver = new OptionsResolver();
         $resolver
             ->setDefined('address')
             ->setAllowedTypes('address', 'string');
-        if ($addr !== false) {
+
+        if (!empty($addr)) {
             $resolver->setDefault('address', $addr);
         }
 
@@ -69,7 +70,8 @@ class Client extends \GuzzleHttp\Client
                 $credentials
                     ->setRequired('token')
                     ->setAllowedTypes('token', 'string');
-                if ($token !== false) {
+
+                if (!empty($token)) {
                     $credentials->setDefault('token', $token);
                 }
 

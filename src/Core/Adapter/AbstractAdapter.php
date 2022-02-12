@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary\Adapter;
@@ -12,7 +13,7 @@ namespace Secretary\Adapter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class AbstractAdapter
+ * Class AbstractAdapter.
  *
  * @package Secretary\Adapter
  */
@@ -25,7 +26,6 @@ abstract class AbstractAdapter implements AdapterInterface
     public function configureGetSecretOptions(OptionsResolver $resolver): void
     {
     }
-
 
     public function configurePutSecretOptions(OptionsResolver $resolver): void
     {

@@ -1,12 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
-
 
 namespace Secretary\Adapter\Chain;
 
@@ -16,7 +16,7 @@ use Secretary\Exception\SecretNotFoundException;
 use Secretary\Secret;
 
 /**
- * Class ChainAdapter
+ * Class ChainAdapter.
  *
  * @package Secretary\Adapter\Chain
  */
@@ -28,8 +28,6 @@ final class ChainAdapter extends AbstractAdapter
     private array $adapters;
 
     /**
-     * CacheAdapter constructor.
-     *
      * @param AdapterInterface[] $adapters
      */
     public function __construct(array $adapters)

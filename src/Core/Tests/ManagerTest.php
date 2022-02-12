@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary\Tests;
@@ -13,9 +14,13 @@ use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Secretary\Adapter\AdapterInterface;
 use Secretary\Exception\SecretNotFoundException;
-use Secretary\Secret;
 use Secretary\Manager;
+use Secretary\Secret;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ManagerTest extends TestCase
 {
     /**
@@ -30,15 +35,20 @@ class ManagerTest extends TestCase
         $this->adapter = \Mockery::mock(AdapterInterface::class);
     }
 
-
-    public function test__construct()
+    /**
+     * @psalm-suppress RedundantCondition
+     */
+    public function testConstruct(): void
     {
         $manager = new Manager($this->adapter);
 
         $this->assertInstanceOf(Manager::class, $manager);
     }
 
-    public function testGetSecret()
+    /**
+     * @psalm-suppress RedundantCondition
+     */
+    public function testGetSecret(): void
     {
         $secret  = new Secret('foo', 'bar');
         $manager = new Manager($this->adapter);
@@ -52,7 +62,7 @@ class ManagerTest extends TestCase
         $this->assertEquals($secret, $result);
     }
 
-    public function testGetBadSecret()
+    public function testGetBadSecret(): void
     {
         $this->expectException(SecretNotFoundException::class);
         $this->expectExceptionMessage('No secret was found with the key: "foo"');
@@ -67,10 +77,10 @@ class ManagerTest extends TestCase
         $manager->getSecret('foo');
     }
 
-    public function testPutSecret()
+    public function testPutSecret(): void
     {
         $manager = new Manager($this->adapter);
-        $secret = new Secret('foo', 'bar');
+        $secret  = new Secret('foo', 'bar');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
         $this->adapter->shouldReceive('configurePutSecretOptions')->withAnyArgs()->once();
@@ -80,10 +90,10 @@ class ManagerTest extends TestCase
         $this->assertEquals($secret, $response);
     }
 
-    public function testDeleteSecretByKey()
+    public function testDeleteSecretByKey(): void
     {
         $manager = new Manager($this->adapter);
-        $secret = new Secret('foo', '');
+        $secret  = new Secret('foo', '');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->twice();
 
@@ -97,10 +107,10 @@ class ManagerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testDeleteSecret()
+    public function testDeleteSecret(): void
     {
         $manager = new Manager($this->adapter);
-        $secret = new Secret('foo', 'bar');
+        $secret  = new Secret('foo', 'bar');
 
         $this->adapter->shouldReceive('configureSharedOptions')->withAnyArgs()->once();
         $this->adapter->shouldReceive('configureDeleteSecretOptions')->withAnyArgs()->once();
@@ -110,7 +120,7 @@ class ManagerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testGetAdapter()
+    public function testGetAdapter(): void
     {
         $manager = new Manager($this->adapter);
 

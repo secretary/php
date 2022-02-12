@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary;
@@ -19,16 +20,14 @@ class Secret implements \ArrayAccess
     private string $key;
 
     /**
-     * @var string|array
+     * @var array|string
      */
     private $value;
 
     private ?array $metadata = null;
 
     /**
-     * @param string       $key
-     * @param string|array $value
-     * @param array|null   $metadata
+     * @param array|string $value
      */
     public function __construct(string $key, $value, ?array $metadata = null)
     {
@@ -43,7 +42,7 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * @return string|array
+     * @return array|string
      */
     public function getValue()
     {
@@ -57,8 +56,6 @@ class Secret implements \ArrayAccess
 
     /**
      * @param mixed $offset
-     *
-     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -67,8 +64,6 @@ class Secret implements \ArrayAccess
 
     /**
      * @param mixed $offset
-     *
-     * @return mixed
      *
      * @throws ValueNotSupportedException
      */
@@ -82,51 +77,36 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * @param mixed $offset
-     * @param mixed $value
-     *
-     * @return void
-     *
      * @throws \Exception
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new \Exception('Secrets are immutable');
     }
 
     /**
-     * @param mixed $offset
-     *
-     * @return void
-     *
      * @throws \Exception
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         throw new \Exception('Secrets are immutable');
     }
 
     /**
-     * Returns a new instance of this secret with the value changed
+     * Returns a new instance of this secret with the value changed.
      *
-     * @param string|array $value
-     *
-     * @return Secret
+     * @param array|string $value
      */
-    public function withValue($value): Secret
+    public function withValue($value): self
     {
-        return new Secret($this->key, $value, $this->metadata);
+        return new self($this->key, $value, $this->metadata);
     }
 
     /**
-     * Returns a new instance of this secret with the metadata changed
-     *
-     * @param array $metadata
-     *
-     * @return Secret
+     * Returns a new instance of this secret with the metadata changed.
      */
-    public function withMetadata(array $metadata): Secret
+    public function withMetadata(array $metadata): self
     {
-        return new Secret($this->key, $this->value, $metadata);
+        return new self($this->key, $this->value, $metadata);
     }
 }

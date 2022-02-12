@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
 
 namespace Secretary;
@@ -13,7 +14,7 @@ use Secretary\Adapter\AdapterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class Manager
+ * Class Manager.
  *
  * @package Secretary
  */
@@ -27,10 +28,6 @@ class Manager
     }
 
     /**
-     * @param string $key
-     * @param array  $options
-     *
-     * @return Secret
      * @throws Exception\SecretNotFoundException
      */
     public function getSecret(string $key, ?array $options = []): Secret
@@ -39,16 +36,9 @@ class Manager
         $this->adapter->configureSharedOptions($resolver);
         $this->adapter->configureGetSecretOptions($resolver);
 
-
         return $this->adapter->getSecret($key, $resolver->resolve($options));
     }
 
-    /**
-     * @param Secret $secret
-     * @param array  $options
-     *
-     * @return Secret
-     */
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $resolver = new OptionsResolver();
@@ -59,10 +49,6 @@ class Manager
     }
 
     /**
-     * @param string $key
-     * @param array  $options
-     *
-     * @return void
      * @throws Exception\SecretNotFoundException
      */
     public function deleteSecretByKey(string $key, ?array $options = []): void
@@ -76,12 +62,6 @@ class Manager
         $this->adapter->deleteSecret($secret, $resolver->resolve($options));
     }
 
-    /**
-     * @param Secret $secret
-     * @param array  $options
-     *
-     * @return void
-     */
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $resolver = new OptionsResolver();
@@ -91,9 +71,6 @@ class Manager
         $this->adapter->deleteSecret($secret, $resolver->resolve($options));
     }
 
-    /**
-     * @return AdapterInterface
-     */
     public function getAdapter(): AdapterInterface
     {
         return $this->adapter;

@@ -1,19 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
-/**
+/*
  * @author    Aaron Scherer <aequasi@gmail.com>
  * @date      2019
- * @license   http://opensource.org/licenses/MIT
+ * @license   https://opensource.org/licenses/MIT
  */
-
 
 namespace Secretary\Bundle\SecretaryBundle\DependencyInjection;
 
 use Secretary\Adapter\Cache\PSR16Cache\PSR16CacheAdapter;
 use Secretary\Adapter\Cache\PSR6Cache\PSR6CacheAdapter;
 use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProcessor;
-use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProvider;
 use Secretary\Manager;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
@@ -73,7 +72,6 @@ class SecretaryExtension extends Extension
             $container->setAlias(Manager::class, $alias);
         }
 
-
         $container->register('secretary.env_var_processor', EnvVarProcessor::class)
             ->addArgument(new IteratorArgument($services))
             ->addTag('container.env_var_processor')
@@ -94,7 +92,7 @@ class SecretaryExtension extends Extension
             return $value;
         }
 
-        if (strpos($value, '@') === 0) {
+        if (str_starts_with($value, '@')) {
             return new Reference(substr($value, 1));
         }
 

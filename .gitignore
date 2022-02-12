@@ -4,3 +4,4 @@ vendor
 .vscode
 .phpunit.result.cache
 phpunit.xml
+.ecs_cache
