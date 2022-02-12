@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/secretary/php/compare/1.4.0...2.0.0) (2022-02-12)
+
+
+### Performance Improvements
+
+* **PHP:** Dropped suppoort for PHP 7.4 ([b14daf1](https://github.com/secretary/php/commit/b14daf1822875fa2c3f7cb2f8840737df7fed1bc))
+
+
+### BREAKING CHANGES
+
+* **PHP:** Removed supoprt for PHP 7.4
+
 # [1.4.0](https://github.com/secretary/php/compare/1.3.2...1.4.0) (2022-02-11)
 
 
