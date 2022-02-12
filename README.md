@@ -1,5 +1,4 @@
 # Secretary - Secrets Manager for PHP
-[![Build Status](https://travis-ci.org/secretary/php.svg?branch=master)](https://travis-ci.org/secretary/php)
 [![License](https://poser.pugx.org/secretary/core/license)](https://github.com/secretary/php-core/blob/master/LICENSE)
 ---
 
