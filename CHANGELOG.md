@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/secretary/php/compare/2.1.0...2.1.1) (2024-01-09)
+
+
+### Bug Fixes
+
+* Allow PHP Unit 10 ([f20907e](https://github.com/secretary/php/commit/f20907efcf2b84c3c07b1d2e01747e54ecfb42e5))
+
 ## [2.0.1](https://github.com/secretary/php/compare/2.0.0...2.0.1) (2024-01-09)
 
 
