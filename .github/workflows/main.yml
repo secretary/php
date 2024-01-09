@@ -8,11 +8,11 @@ jobs:
 
         strategy:
             matrix:
-                php-version: [8.0, 8.1]
+                php-version: [8.0, 8.1, 8.2, 8.3]
                 dependency-version: [prefer-lowest, prefer-stable]
         steps:
             - name: 'Checkout'
-              uses: 'actions/checkout@v2'
+              uses: 'actions/checkout@v4'
 
             - name: 'Install PHP'
               uses: 'shivammathur/setup-php@v2'
@@ -21,13 +21,12 @@ jobs:
                   php-version: '${{ matrix.php-version }}'
 
             - name: 'Get composer cache directory'
-              id: composercache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "composer_cache=$(composer config cache-files-dir)" >> $GITHUB_ENV
 
             - name: 'Cache dependencies'
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
+                  path: ${{ env.composer_cache }}
                   key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
 
             - name: 'Install dependencies'
@@ -41,12 +40,12 @@ jobs:
 
         strategy:
             matrix:
-                php-version: [ 8.0, 8.1 ]
+                php-version: [8.0, 8.1, 8.2, 8.3]
                 dependency-version: [ prefer-lowest, prefer-stable ]
 
         steps:
             - name: 'Checkout'
-              uses: 'actions/checkout@v2'
+              uses: 'actions/checkout@v4'
 
             - name: 'Install PHP'
               uses: 'shivammathur/setup-php@v2'
@@ -56,13 +55,46 @@ jobs:
                   tools: cs2pr
 
             - name: 'Get composer cache directory'
-              id: composercache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "composer_cache=$(composer config cache-files-dir)" >> $GITHUB_ENV
 
             - name: 'Cache dependencies'
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
-                  path: ${{ steps.composercache.outputs.dir }}
+                  path: ${{ env.composer_cache }}
+                  key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
+
+            - name: 'Install dependencies'
+              run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+            - name: 'Psalm'
+              run: ./vendor/bin/psalm
+
+    code-standards:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                php-version: [8.3]
+                dependency-version: [ prefer-lowest, prefer-stable ]
+
+        steps:
+            - name: 'Checkout'
+              uses: 'actions/checkout@v4'
+
+            - name: 'Install PHP'
+              uses: 'shivammathur/setup-php@v2'
+              with:
+                  coverage: 'none'
+                  php-version: '${{ matrix.php-version }}'
+                  tools: cs2pr
+
+            - name: 'Get composer cache directory'
+              run: echo "composer_cache=$(composer config cache-files-dir)" >> $GITHUB_ENV
+
+            - name: 'Cache dependencies'
+              uses: actions/cache@v3
+              with:
+                  path: ${{ env.composer_cache }}
                   key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
 
             - name: 'Install dependencies'
@@ -70,6 +102,3 @@ jobs:
 
             - name: 'Check code standards'
               run: ./vendor/bin/ecs check
-
-            - name: 'Psalm'
-              run: ./vendor/bin/psalm

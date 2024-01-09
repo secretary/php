@@ -15,16 +15,16 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Class Configuration.
- *
  * @package Secretary\Bundle\SecretaryBundle\DependencyInjection
  */
 class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('secretary');
-        $rootNode    = $treeBuilder->getRootNode();
+        $treeBuilder = new TreeBuilder('secretary', 'array');
+
+        /** @var ArrayNodeDefinition $rootNode */
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -34,30 +34,39 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+    /**
+     * @psalm-suppress UndefinedInterfaceMethod
+     */
     private function addAdaptersSection(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('adapters');
-        $node        = $treeBuilder->getRootNode();
+
+        /** @var ArrayNodeDefinition $node */
+        $node = $treeBuilder->getRootNode();
 
         $node
             ->useAttributeAsKey('name')
             ->arrayPrototype()
             ->addDefaultsIfNotSet()
             ->children()
-            ->scalarNode('adapter')
-            ->isRequired()
-            ->info('Class name, or service ID of adapter')
-            ->end()
-            ->arrayNode('config')->ignoreExtraKeys(false)->end()
-            ->arrayNode('cache')
-            ->canBeEnabled()
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->enumNode('type')->values(['psr6', 'psr16'])->end()
-            ->scalarNode('service_id')->end()
-            ->end()
-            ->end()
-            ->end()
+                ->scalarNode('adapter')
+                    ->isRequired()
+                    ->info('Class name, or service ID of adapter')
+                ->end()
+                ->arrayNode('config')
+                    ->ignoreExtraKeys(false)
+                    ->end()
+                ->arrayNode('cache')
+                    ->canBeEnabled()
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->enumNode('type')
+                            ->values(['psr6', 'psr16'])
+                        ->end()
+                        ->scalarNode('service_id')->end()
+                    ->end()
+                ->end()
+                ->end()
             ->end();
 
         return $node;

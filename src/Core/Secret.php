@@ -13,23 +13,17 @@ namespace Secretary;
 use Secretary\Exception\ValueNotSupportedException;
 
 /**
- * @package Secretary
+ * @implements \ArrayAccess<string, mixed>
  */
 class Secret implements \ArrayAccess
 {
     private string $key;
 
-    /**
-     * @var array|string
-     */
-    private $value;
+    private array|string $value;
 
-    private ?array $metadata = null;
+    private ?array $metadata;
 
-    /**
-     * @param array|string $value
-     */
-    public function __construct(string $key, $value, ?array $metadata = null)
+    public function __construct(string $key, array|string $value, ?array $metadata = null)
     {
         $this->key      = $key;
         $this->value    = $value;
@@ -55,7 +49,6 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * @param mixed $offset
      */
     public function offsetExists($offset): bool
     {
@@ -63,7 +56,6 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * @param mixed $offset
      *
      * @throws ValueNotSupportedException
      */
