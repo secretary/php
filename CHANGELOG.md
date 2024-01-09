@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/secretary/php/compare/2.0.0...2.0.1) (2024-01-09)
+
+
+### Bug Fixes
+
+* **global:** Allow Symfony 7 ([#17](https://github.com/secretary/php/issues/17)) ([86ef910](https://github.com/secretary/php/commit/86ef9100d7f233f0c57df148a0ee24886e6eefbd))
+
 # [2.0.0](https://github.com/secretary/php/compare/1.4.0...2.0.0) (2022-02-12)
 
 
