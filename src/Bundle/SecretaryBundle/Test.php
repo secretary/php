@@ -45,7 +45,6 @@ class Test extends \Symfony\Component\HttpKernel\Kernel
      *     $routes->import('config/routing.yml');
      *     $routes->add('/admin', 'App\Controller\AdminController::dashboard', 'admin_dashboard');
      *
-     * @param \Symfony\Component\Routing\RouteCollectionBuilder $routes
      */
     protected function configureRoutes(Symfony\Component\Routing\RouteCollectionBuilder $routes)
     {

@@ -55,7 +55,6 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * @param mixed $offset
      */
     public function offsetExists($offset): bool
     {
@@ -63,7 +62,6 @@ class Secret implements \ArrayAccess
     }
 
     /**
-     * @param mixed $offset
      *
      * @throws ValueNotSupportedException
      */

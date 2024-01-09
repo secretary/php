@@ -6,29 +6,34 @@ use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Fixer\ControlStructure\{NoUselessElseFixer, YodaStyleFixer};
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
+use PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer;
+use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer;
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
+use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\Fixer\Operator\IncrementStyleFixer;
+use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoPackageFixer;
 use PhpCsFixer\Fixer\ReturnNotation\NoUselessReturnFixer;
 use PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer;
 use PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 /**
  * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/doc/list.rst
  * @see https://github.com/symplify/easy-coding-standard
  */
-return function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::CACHE_DIRECTORY, __DIR__.'/.ecs_cache');
-    $parameters->set(Option::PATHS, [
+return function (ECSConfig $ecsConfig): void {
+    $ecsConfig->cacheDirectory(__DIR__.'/.ecs_cache');
+    $ecsConfig->parallel();
+
+    $ecsConfig->paths([
         __DIR__.'/src',
     ]);
-    $parameters->set(Option::SKIP, [
+
+    $ecsConfig->skip([
         IsNullFixer::class,
         MultilineWhitespaceBeforeSemicolonsFixer::class,
         NativeFunctionInvocationFixer::class,
@@ -38,41 +43,46 @@ return function (ContainerConfigurator $containerConfigurator): void {
         PhpdocNoPackageFixer::class,
     ]);
 
-    $containerConfigurator->import(SetList::PSR_12);
-    $containerConfigurator->import(SetList::SYMFONY);
-    $containerConfigurator->import(SetList::PHP_CS_FIXER);
-    $containerConfigurator->import(SetList::SYMFONY_RISKY);
+    $ecsConfig->sets([
+        SetList::PSR_12,
+    ]);
 
-    $services = $containerConfigurator->services();
-    $services->set(NoUselessReturnFixer::class);
-    $services->set(NoUselessElseFixer::class);
-    $services->set(ModernizeStrposFixer::class);
-    $services->set(IncrementStyleFixer::class)
-        ->call('configure', [[
-            'style' => 'post',
-        ]]);
+    $ecsConfig->rules([
+        NoUselessReturnFixer::class,
+        NoUselessElseFixer::class,
+        ModernizeStrposFixer::class,
+        NoUnusedImportsFixer::class,
+        NoSuperfluousPhpdocTagsFixer::class,
+        ReturnTypeDeclarationFixer::class,
+    ]);
 
-    $services->set(ClassAttributesSeparationFixer::class)
-        ->call('configure', [[
-            'elements' => ['const' => 'only_if_meta', 'method' => 'one', 'property' => 'one', 'trait_import' => 'only_if_meta'],
-        ]]);
+    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, [
+        'spacing' => 'none',
+    ]);
 
-    $services->set(BlankLineBeforeStatementFixer::class)
-        ->call('configure', [[
-            'statements' => ['if', 'break', 'continue', 'declare', 'return', 'throw', 'try', 'switch'],
-        ]]);
+    $ecsConfig->ruleWithConfiguration(IncrementStyleFixer::class, [
+        'style' => 'post'
+    ]);
 
-    $services->set(BinaryOperatorSpacesFixer::class)
-        ->call('configure', [[
-            'default'   => 'align_single_space_minimal',
-            'operators' => [
-                '|'  => 'no_space',
-                '/' => null,
-                '*' => null,
-                '||' => null,
-                '&&' => null,
-            ],
-        ]]);
+    $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
+        'elements' => ['const' => 'only_if_meta', 'method' => 'one', 'property' => 'one', 'trait_import' => 'only_if_meta'],
+    ]);
+
+
+    $ecsConfig->ruleWithConfiguration(BlankLineBeforeStatementFixer::class, [
+        'statements' => ['if', 'break', 'continue', 'declare', 'return', 'throw', 'try', 'switch'],
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(BinaryOperatorSpacesFixer::class, [
+        'default'   => 'align_single_space_minimal',
+        'operators' => [
+            '|'  => 'no_space',
+            '/' => null,
+            '*' => null,
+            '||' => null,
+            '&&' => null,
+        ],
+    ]);
 
     $header = <<<'EOF'
 @author    Aaron Scherer <aequasi@gmail.com>
@@ -80,8 +90,7 @@ return function (ContainerConfigurator $containerConfigurator): void {
 @license   https://opensource.org/licenses/MIT
 EOF;
 
-    $services->set(HeaderCommentFixer::class)
-        ->call('configure', [
-            ['header' => $header,
-            ]]);
+    $ecsConfig->ruleWithConfiguration(HeaderCommentFixer::class, [
+        'header' => $header
+    ]);
 };
