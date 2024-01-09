@@ -30,7 +30,8 @@ $ composer req secretary/core
 
 | Version (X.Y.Z) |    PHP     |  Symfony   | Comment             |
 |:---------------:|:----------:|:----------:|:--------------------|
-|      `2.*`      | `>= 8.1.0` | `5.4, 6.0` | **Current version** |
+|      `3.*`      | `>= 8.1.0` |   `7.0`    | **Current version** |
+|      `2.*`      | `>= 8.1.0` | `5.4, 6.0` | Previous version    |
 |      `1.*`      | `>= 7.4.0` |   `5.3`    | Previous version    |
 
 By itself, the core is useless. You will also need to add at least one adapter:
