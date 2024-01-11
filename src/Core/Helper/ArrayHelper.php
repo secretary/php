@@ -38,10 +38,16 @@ abstract class ArrayHelper
     public static function remove(array &$array, ...$keys): array
     {
         $newArray = [];
-        foreach (array_keys($array) as $key) {
-            if (in_array($key, $keys)) {
+        foreach (array_keys($newArray) as $key) {
+            if (!in_array($key, $keys)) {
                 $newArray[$key] = $array[$key];
                 unset($array[$key]);
+            }
+        }
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $newArray)) {
+                $newArray[$key] = null;
             }
         }
 
