@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/secretary/php/compare/3.0.0...3.0.1) (2024-01-10)
+
+
+### Bug Fixes
+
+* **CI:** Updated node and semantic-release ([096e283](https://github.com/secretary/php/commit/096e283ce38a77ba0901746612f2be1320867900))
+
 ## [2.1.1](https://github.com/secretary/php/compare/2.1.0...2.1.1) (2024-01-09)
 
 
