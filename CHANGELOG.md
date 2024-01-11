@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/secretary/php/compare/3.0.1...3.0.2) (2024-01-11)
+
+
+### Bug Fixes
+
+* Array helper ([4098f7e](https://github.com/secretary/php/commit/4098f7e4d578fefb71a70739976783d72e4a238f))
+
 ## [3.0.1](https://github.com/secretary/php/compare/3.0.0...3.0.1) (2024-01-10)
 
 
