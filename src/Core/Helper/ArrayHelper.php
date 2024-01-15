@@ -11,8 +11,6 @@ declare(strict_types=1);
 namespace Secretary\Helper;
 
 /**
- * Class ArrayHelper.
- *
  * @package Secretary\Helper
  */
 abstract class ArrayHelper
@@ -33,22 +31,18 @@ abstract class ArrayHelper
     }
 
     /**
+     * Remove elements from an array based on a list of keys and return a new array with the removed elements.
+     *
      * @param string ...$keys
      */
-    public static function remove(array &$array, ...$keys): array
+    public static function remove(array $array, ...$keys): array
     {
-        $newArray = [];
-        foreach (array_keys($newArray) as $key) {
-            if (!in_array($key, $keys)) {
-                $newArray[$key] = $array[$key];
-                unset($array[$key]);
-            }
-        }
+        // Create a copy of the array to avoid modifying the original array
+        $newArray = $array;
 
+        // Iterate over the keys and remove them from the new array
         foreach ($keys as $key) {
-            if (!array_key_exists($key, $newArray)) {
-                $newArray[$key] = null;
-            }
+            unset($newArray[$key]);
         }
 
         return $newArray;
