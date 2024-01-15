@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/secretary/php/compare/3.0.2...3.0.3) (2024-01-15)
+
+
+### Bug Fixes
+
+* Optimized array helper method ([f996d0b](https://github.com/secretary/php/commit/f996d0b6fd9e524787535bb3683fb884450d5d3e))
+
 ## [3.0.2](https://github.com/secretary/php/compare/3.0.1...3.0.2) (2024-01-11)
 
 
