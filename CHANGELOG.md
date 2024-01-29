@@ -1,3 +1,10 @@
+## [3.0.4](https://github.com/secretary/php/compare/3.0.3...3.0.4) (2024-01-29)
+
+
+### Bug Fixes
+
+* ArrayHelper remove method ([61d1477](https://github.com/secretary/php/commit/61d147755c1091bbf9b08b6792debd041a0286fd))
+
 ## [3.0.3](https://github.com/secretary/php/compare/3.0.2...3.0.3) (2024-01-15)
 
 
