@@ -37,12 +37,14 @@ abstract class ArrayHelper
      */
     public static function remove(array $array, ...$keys): array
     {
-        // Create a copy of the array to avoid modifying the original array
-        $newArray = $array;
+        $newArray = [];
 
-        // Iterate over the keys and remove them from the new array
         foreach ($keys as $key) {
-            unset($newArray[$key]);
+            $newArray[$key] = $array[$key] ?? null;
+
+            if (!empty($array[$key])) {
+                unset($array[$key]);
+            }
         }
 
         return $newArray;
