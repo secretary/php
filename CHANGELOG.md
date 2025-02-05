@@ -1,3 +1,10 @@
+## [3.0.5](https://github.com/secretary/php/compare/3.0.4...3.0.5) (2025-02-05)
+
+
+### Bug Fixes
+
+* Fixed PHP 8.4 deprecation ([19e99e7](https://github.com/secretary/php/commit/19e99e7a7c6f37cdbf33fef887c7d11ba44cfef9))
+
 ## [3.0.4](https://github.com/secretary/php/compare/3.0.3...3.0.4) (2024-01-29)
 
 
