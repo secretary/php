@@ -1,3 +1,10 @@
+## [3.0.6](https://github.com/secretary/php/compare/3.0.5...3.0.6) (2025-02-05)
+
+
+### Bug Fixes
+
+* Fixed Symfony deprecation ([03f1da5](https://github.com/secretary/php/commit/03f1da511717ba3dc8cbb70faf75772218ed6373))
+
 ## [3.0.5](https://github.com/secretary/php/compare/3.0.4...3.0.5) (2025-02-05)
 
 
