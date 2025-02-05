@@ -12,7 +12,7 @@ namespace Secretary\Exception;
 
 class SecretNotFoundException extends \Exception
 {
-    public function __construct(string $key, \Exception $childException = null)
+    public function __construct(string $key, ?\Exception $childException = null)
     {
         parent::__construct('No secret was found with the key: "'.$key.'"', 404, $childException);
     }
