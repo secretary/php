@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/secretary/php/compare/3.0.6...3.1.0) (2026-01-15)
+
+
+### Features
+
+* add GCP Secrets Manager adapter ([3b2fe5c](https://github.com/secretary/php/commit/3b2fe5cf82ccfd075c26ecf755e769fc4cfd1576))
+
 ## [3.0.6](https://github.com/secretary/php/compare/3.0.5...3.0.6) (2025-02-05)
 
 
