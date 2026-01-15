@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/secretary/php/compare/3.1.0...3.1.1) (2026-01-15)
+
+
+### Bug Fixes
+
+* use ^3.0 for secretary/core in GCP adapter ([683a32c](https://github.com/secretary/php/commit/683a32ccd5d9119fd792dd4ed4361c4733cfa5a8))
+
 # [3.1.0](https://github.com/secretary/php/compare/3.0.6...3.1.0) (2026-01-15)
 
 
