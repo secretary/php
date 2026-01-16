@@ -1,3 +1,14 @@
+# [4.0.0](https://github.com/secretary/php/compare/3.1.1...4.0.0) (2026-01-16)
+
+
+* feat!: require PHP 8.2 or higher ([dd8d74c](https://github.com/secretary/php/commit/dd8d74c51df8626d091f37cfb10f524deff3ee5d))
+
+
+### BREAKING CHANGES
+
+* Drop support for PHP 8.0 and 8.1.
+All packages now require PHP ^8.2.
+
 ## [3.1.1](https://github.com/secretary/php/compare/3.1.0...3.1.1) (2026-01-15)
 
 
