@@ -28,6 +28,7 @@ class ManagerTest extends TestCase
      */
     private $adapter;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

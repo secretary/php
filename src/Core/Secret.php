@@ -50,6 +50,7 @@ class Secret implements \ArrayAccess
 
     /**
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return is_array($this->value) && array_key_exists($offset, $this->value);
@@ -59,6 +60,7 @@ class Secret implements \ArrayAccess
      *
      * @throws ValueNotSupportedException
      */
+    #[\Override]
     public function offsetGet($offset): mixed
     {
         if (!is_array($this->value)) {
@@ -71,6 +73,7 @@ class Secret implements \ArrayAccess
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new \Exception('Secrets are immutable');
@@ -79,6 +82,7 @@ class Secret implements \ArrayAccess
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function offsetUnset(mixed $offset): void
     {
         throw new \Exception('Secrets are immutable');

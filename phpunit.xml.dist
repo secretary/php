@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.0/phpunit.xsd"
-         colors="true"
-         bootstrap="vendor/autoload.php"
->
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <ini name="memory_limit" value="-1"/>
-    </php>
-
-    <testsuites>
-        <testsuite name="Secretary Core Test Suite">
-            <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator=">=">./src/Core/Tests</directory>
-        </testsuite>
-        <testsuite name="Secretary Adapter Test Suite">
-            <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator=">=">./src/Adapter/**/Tests</directory>
-        </testsuite>
-        <testsuite name="Secretary Bundle Test Suite">
-            <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator=">=">./src/Bundle/**/Tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" colors="true" bootstrap="vendor/autoload.php" cacheDirectory=".phpunit.cache">
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="memory_limit" value="-1"/>
+  </php>
+  <testsuites>
+    <testsuite name="Secretary Core Test Suite">
+      <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator="&gt;=">./src/Core/Tests</directory>
+    </testsuite>
+    <testsuite name="Secretary Adapter Test Suite">
+      <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator="&gt;=">./src/Adapter/**/Tests</directory>
+    </testsuite>
+    <testsuite name="Secretary Bundle Test Suite">
+      <directory suffix="Test.php" phpVersion="7.4" phpVersionOperator="&gt;=">./src/Bundle/**/Tests</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
 </phpunit>

@@ -36,6 +36,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
@@ -62,6 +63,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         ['ttl' => $ttl] = ArrayHelper::remove($options, 'ttl');
@@ -88,6 +90,7 @@ final class PSR6CacheAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $this->deleteSecretByKey($secret->getKey(), $options);

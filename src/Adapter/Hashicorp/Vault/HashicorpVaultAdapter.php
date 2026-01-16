@@ -39,6 +39,7 @@ class HashicorpVaultAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         $response = $this->client->getClient()->get('/v1/secret/'.$key);
@@ -50,6 +51,7 @@ class HashicorpVaultAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         if (!is_array($secret->getValue())) {
@@ -64,6 +66,7 @@ class HashicorpVaultAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $this->deleteSecretByKey($secret->getKey(), $options);

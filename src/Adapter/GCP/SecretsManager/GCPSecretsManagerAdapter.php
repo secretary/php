@@ -11,9 +11,9 @@ declare(strict_types=1);
 namespace Secretary\Adapter\GCP\SecretsManager;
 
 use Google\ApiCore\ApiException;
-use Google\Cloud\SecretManager\V1\Client\SecretManagerServiceClient;
 use Google\Cloud\SecretManager\V1\AccessSecretVersionRequest;
 use Google\Cloud\SecretManager\V1\AddSecretVersionRequest;
+use Google\Cloud\SecretManager\V1\Client\SecretManagerServiceClient;
 use Google\Cloud\SecretManager\V1\CreateSecretRequest;
 use Google\Cloud\SecretManager\V1\DeleteSecretRequest;
 use Google\Cloud\SecretManager\V1\Replication;
@@ -57,6 +57,7 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         $version = $options['version'] ?? 'latest';
@@ -71,7 +72,7 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
             $request = new AccessSecretVersionRequest();
             $request->setName($secretVersionName);
 
-            $response = $this->getClient()->accessSecretVersion($request);
+            $response     = $this->getClient()->accessSecretVersion($request);
             $secretString = $response->getPayload()->getData();
 
             return new Secret(
@@ -90,6 +91,7 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $secretValue = is_array($secret->getValue())
@@ -154,11 +156,13 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $this->deleteSecretByKey($secret->getKey(), $options);
     }
 
+    #[\Override]
     public function configureGetSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureSharedOptions($resolver);
@@ -167,11 +171,13 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
             ->setDefault('version', 'latest');
     }
 
+    #[\Override]
     public function configurePutSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureSharedOptions($resolver);
     }
 
+    #[\Override]
     public function configureDeleteSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureDeleteSecretOptions($resolver);
