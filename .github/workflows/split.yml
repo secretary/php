@@ -1,0 +1,60 @@
+name: Split Monorepo
+
+# Split monorepo packages to their respective read-only repositories
+# Triggered after semantic-release creates a new tag
+#
+# REQUIRED SECRET:
+#   SPLIT_TOKEN - A Personal Access Token (classic) with `repo` scope
+#                 that has write access to all secretary/* sub-repositories.
+#                 The default GITHUB_TOKEN cannot push to other repositories.
+
+on:
+    push:
+        tags:
+            - '*'
+
+jobs:
+    split:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                package:
+                    -   local_path: 'src/Core'
+                        split_repository: 'php-core'
+                    -   local_path: 'src/Adapter/AWS/SecretsManager'
+                        split_repository: 'php-aws-secrets-manager-adapter'
+                    -   local_path: 'src/Adapter/GCP/SecretsManager'
+                        split_repository: 'php-gcp-secrets-manager-adapter'
+                    -   local_path: 'src/Adapter/Hashicorp/Vault'
+                        split_repository: 'php-hashicorp-vault-adapter'
+                    -   local_path: 'src/Adapter/Local/JSONFile'
+                        split_repository: 'php-json-file-adapter'
+                    -   local_path: 'src/Adapter/Cache/PSR6Cache'
+                        split_repository: 'php-psr6-cache-adapter'
+                    -   local_path: 'src/Adapter/Cache/PSR16Cache'
+                        split_repository: 'php-psr16-cache-adapter'
+                    -   local_path: 'src/Adapter/Chain'
+                        split_repository: 'php-chain-adapter'
+                    -   local_path: 'src/Bundle/SecretaryBundle'
+                        split_repository: 'php-secretary-bundle'
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+
+            -   name: Split ${{ matrix.package.split_repository }}
+                uses: symplify/monorepo-split-github-action@v2.3.0
+                with:
+                    package_directory: ${{ matrix.package.local_path }}
+                    repository_organization: 'secretary'
+                    repository_name: ${{ matrix.package.split_repository }}
+                    user_name: 'github-actions[bot]'
+                    user_email: 'github-actions[bot]@users.noreply.github.com'
+                    tag: ${{ github.ref_name }}
+                    branch: 'master'
+                env:
+                    GITHUB_TOKEN: ${{ secrets.SPLIT_TOKEN }}
