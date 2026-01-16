@@ -57,7 +57,6 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         $version = $options['version'] ?? 'latest';
@@ -91,7 +90,6 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $secretValue = is_array($secret->getValue())
@@ -156,13 +154,11 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $this->deleteSecretByKey($secret->getKey(), $options);
     }
 
-    #[\Override]
     public function configureGetSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureSharedOptions($resolver);
@@ -171,13 +167,11 @@ class GCPSecretsManagerAdapter extends AbstractAdapter
             ->setDefault('version', 'latest');
     }
 
-    #[\Override]
     public function configurePutSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureSharedOptions($resolver);
     }
 
-    #[\Override]
     public function configureDeleteSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureDeleteSecretOptions($resolver);

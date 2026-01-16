@@ -51,7 +51,6 @@ class LocalJSONFileAdapter extends AbstractAdapter
      *
      * @throws SecretNotFoundException
      */
-    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         $secrets = $this->loadSecrets();
@@ -72,7 +71,6 @@ class LocalJSONFileAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $secrets = self::updateValue($secret, $this->loadSecrets());
@@ -103,7 +101,6 @@ class LocalJSONFileAdapter extends AbstractAdapter
      *
      * @throws SecretNotFoundException
      */
-    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $this->deleteSecretByKey($secret->getKey(), $options);

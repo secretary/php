@@ -28,7 +28,6 @@ class EnvVarProcessor implements EnvVarProcessorInterface
     /**
      * @psalm-suppress InvalidArrayOffset
      */
-    #[\Override]
     public function getEnv(string $prefix, string $name, \Closure $getEnv): mixed
     {
         $parts = explode(':', $name);
@@ -55,7 +54,6 @@ class EnvVarProcessor implements EnvVarProcessorInterface
         return $value;
     }
 
-    #[\Override]
     public static function getProvidedTypes(): array
     {
         return [

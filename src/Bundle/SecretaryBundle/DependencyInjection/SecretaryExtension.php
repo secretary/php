@@ -22,7 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class SecretaryExtension extends Extension
 {
-    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration(new Configuration(), $configs);

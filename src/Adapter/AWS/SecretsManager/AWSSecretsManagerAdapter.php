@@ -44,7 +44,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         $options['SecretId'] = $key;
@@ -73,7 +72,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         $options['SecretString'] = is_array($secret->getValue())
@@ -106,13 +104,11 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         $this->deleteSecretByKey($secret->getKey(), $options);
     }
 
-    #[\Override]
     public function configureGetSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureSharedOptions($resolver);
@@ -121,7 +117,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             ->setAllowedTypes('VersionStage', 'string');
     }
 
-    #[\Override]
     public function configurePutSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureSharedOptions($resolver);
@@ -130,7 +125,6 @@ class AWSSecretsManagerAdapter extends AbstractAdapter
             ->setAllowedTypes('Description', 'string');
     }
 
-    #[\Override]
     public function configureDeleteSecretOptions(OptionsResolver $resolver): void
     {
         parent::configureDeleteSecretOptions($resolver);

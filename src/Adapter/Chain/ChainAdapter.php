@@ -39,7 +39,6 @@ final class ChainAdapter extends AbstractAdapter
      * Note: $options is a 0-indexed array of options. Each index corresponds to the index of the adapters
      * {@inheritdoc}
      */
-    #[\Override]
     public function getSecret(string $key, ?array $options = []): Secret
     {
         foreach ($this->adapters as $index => $adapter) {
@@ -55,7 +54,6 @@ final class ChainAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function putSecret(Secret $secret, ?array $options = []): Secret
     {
         foreach ($this->adapters as $index => $adapter) {
@@ -68,7 +66,6 @@ final class ChainAdapter extends AbstractAdapter
     /**
      * {@inheritdoc}
      */
-    #[\Override]
     public function deleteSecret(Secret $secret, ?array $options = []): void
     {
         foreach ($this->adapters as $index => $adapter) {
