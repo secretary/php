@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/secretary/php/compare/4.0.0...4.1.0) (2026-01-16)
+
+
+### Features
+
+* add GCP Secrets Manager adapter and modernize codebase ([198cf12](https://github.com/secretary/php/commit/198cf127e28d962d16e56252b35f22f4db719ded))
+
 # [4.0.0](https://github.com/secretary/php/compare/3.1.1...4.0.0) (2026-01-16)
 
 
