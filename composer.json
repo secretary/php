@@ -3,7 +3,7 @@
 	"description": "Monorepo for Secretary's PHP implementation",
 	"type":        "library",
 	"require-dev": {
-		"php":                           "^8.0",
+		"php": "^8.2",
 		"ext-json":                      "*",
 		"aws/aws-sdk-php":               "^3.91",
 		"guzzlehttp/guzzle":             "^7.0",

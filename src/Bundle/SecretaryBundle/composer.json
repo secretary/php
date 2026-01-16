@@ -19,7 +19,7 @@
     "prefer-stable":     true,
     "minimum-stability": "dev",
     "require":           {
-        "php":            "^8.0",
+        "php": "^8.2",
         "secretary/core": "self.version"
     },
     "require-dev":       {
