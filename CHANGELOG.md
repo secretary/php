@@ -1,3 +1,15 @@
+## [4.1.1](https://github.com/secretary/php/compare/4.1.0...4.1.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* exclude PHP 8.5 prefer-lowest from static analysis ([5dc4d3e](https://github.com/secretary/php/commit/5dc4d3eb96523fecc8343778c7acb8ae3cd552a4))
+* require Mockery ^1.6.12 for PHP 8.4 compatibility ([8c39289](https://github.com/secretary/php/commit/8c392896a7c182d10ae230b7dc7db3327e9eb830))
+* require Psalm ^5.16 for MissingOverrideAttribute support ([c29c5d1](https://github.com/secretary/php/commit/c29c5d1f53806cce5b8ebd4dc74932f506eeddf2))
+* require Psalm ^5.26 for MissingOverrideAttribute support ([be7c17b](https://github.com/secretary/php/commit/be7c17b5877d697f4873e6d5b67e8d9dd3e33f70))
+* require Psalm ^6.14.3 and disable fail-fast in CI ([c5d5c0b](https://github.com/secretary/php/commit/c5d5c0bf36e064b8145f2ce08e956dd5218817b6))
+* update dependencies for PHP 8.2-8.5 compatibility ([1c2db3d](https://github.com/secretary/php/commit/1c2db3d4607dafcab78a3490b2b5f9ffecf5646d))
+
 # [4.1.0](https://github.com/secretary/php/compare/4.0.0...4.1.0) (2026-01-16)
 
 
