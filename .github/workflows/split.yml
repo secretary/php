@@ -9,6 +9,7 @@ name: Split Monorepo
 #                 The default GITHUB_TOKEN cannot push to other repositories.
 
 on:
+    workflow_dispatch:
     push:
         tags:
             - '*'
@@ -46,6 +47,17 @@ jobs:
                 with:
                     fetch-depth: 0
 
+            -   name: Determine tag
+                id: tag
+                run: |
+                    if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                        TAG=$(git describe --tags --abbrev=0)
+                    else
+                        TAG="${{ github.ref_name }}"
+                    fi
+                    echo "name=$TAG" >> $GITHUB_OUTPUT
+                    echo "Using tag: $TAG"
+
             -   name: Split ${{ matrix.package.split_repository }}
                 uses: symplify/monorepo-split-github-action@v2.3.0
                 with:
@@ -54,7 +66,7 @@ jobs:
                     repository_name: ${{ matrix.package.split_repository }}
                     user_name: 'github-actions[bot]'
                     user_email: 'github-actions[bot]@users.noreply.github.com'
-                    tag: ${{ github.ref_name }}
+                    tag: ${{ steps.tag.outputs.name }}
                     branch: 'master'
                 env:
                     GITHUB_TOKEN: ${{ secrets.SPLIT_TOKEN }}
