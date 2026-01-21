@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/secretary/php/compare/4.1.1...4.2.0) (2026-01-21)
+
+
+### Features
+
+* **ci:** add workflow_dispatch trigger to split workflow ([092df80](https://github.com/secretary/php/commit/092df80acbdb51f9801a916a0102866b37affb84))
+
 ## [4.1.1](https://github.com/secretary/php/compare/4.1.0...4.1.1) (2026-01-16)
 
 
