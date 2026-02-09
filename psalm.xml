@@ -11,8 +11,8 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
-            <directory name="src/Core/Tests" />
-            <file name="src/Bundle/SecretaryBundle/Test.php" />
+            <directory name="**/vendor" />
+            <directory name="**/Tests" />
         </ignoreFiles>
     </projectFiles>
 

@@ -20,18 +20,9 @@
         "ext-json":        "*",
         "secretary/core":  "self.version"
     },
-    "require-dev":       {
-        "mockery/mockery": "^1.6.12",
-        "phpunit/phpunit": "^10.5 || ^11.0 || ^12.0 || ^13.0"
-    },
     "autoload":          {
         "psr-4": {
             "Secretary\\Adapter\\Local\\JSONFile\\": ""
-        }
-    },
-    "autoload-dev":      {
-        "psr-4": {
-            "Secretary\\Tests\\": "Tests/"
         }
     }
 }

@@ -1,39 +1,33 @@
 {
-    "name":              "secretary/aws-secrets-manager-adapter",
-    "description":       "AWS Secrets Manager Adapter for Secretary",
-    "type":              "library",
-    "license":           "MIT",
-    "keywords":          [
+    "name": "secretary/aws-secrets-manager-adapter",
+    "description": "AWS Secrets Manager Adapter for Secretary",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
         "secrets",
         "aws",
         "aws secrets manager",
         "secretary"
     ],
-    "authors":           [
+    "authors": [
         {
-            "name":  "Aaron Scherer",
+            "name": "Aaron Scherer",
             "email": "aequasi@gmail.com"
         }
     ],
     "minimum-stability": "stable",
-    "require":           {
+    "require": {
         "php": "^8.2",
-        "ext-json":        "*",
+        "ext-json": "*",
         "aws/aws-sdk-php": "^3.0",
-        "secretary/core":  "self.version"
+        "secretary/core": "self.version"
     },
-    "require-dev":       {
-        "phpunit/phpunit": "^10.5 || ^11.0",
-        "mockery/mockery": "^1.6.12"
-    },
-    "autoload":          {
+    "autoload": {
         "psr-4": {
             "Secretary\\Adapter\\AWS\\SecretsManager\\": ""
-        }
-    },
-    "autoload-dev":      {
-        "psr-4": {
-            "Secretary\\Adapter\\AWS\\SecretsManager\\Tests\\": "Tests/"
-        }
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     }
 }
