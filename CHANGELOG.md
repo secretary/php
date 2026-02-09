@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/secretary/php/compare/4.2.0...4.3.0) (2026-02-09)
+
+
+### Features
+
+* New tests ([#22](https://github.com/secretary/php/issues/22)) ([b40be54](https://github.com/secretary/php/commit/b40be54c5b068c9ffbb7308cea8599bc657d1ec1))
+
 # [4.2.0](https://github.com/secretary/php/compare/4.1.1...4.2.0) (2026-01-21)
 
 
