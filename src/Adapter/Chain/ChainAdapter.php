@@ -44,7 +44,8 @@ final class ChainAdapter extends AbstractAdapter
         foreach ($this->adapters as $index => $adapter) {
             try {
                 return $adapter->getSecret($key, $options[$index] ?? []);
-            } catch (SecretNotFoundException $ignored) {
+            } catch (SecretNotFoundException) {
+                // Failed to get secret from current adapter, try next
             }
         }
 
@@ -83,7 +84,8 @@ final class ChainAdapter extends AbstractAdapter
             try {
                 $adapter->deleteSecret($adapter->getSecret($key), $options[$index] ?? []);
                 $success = true;
-            } catch (SecretNotFoundException $ignored) {
+            } catch (SecretNotFoundException) {
+                // Failed to delete secret from current adapter, try next
             }
         }
 
