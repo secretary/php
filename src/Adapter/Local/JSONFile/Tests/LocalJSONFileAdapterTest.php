@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+/*
+ * @author    Aaron Scherer <aequasi@gmail.com>
+ * @date      2019
+ * @license   https://opensource.org/licenses/MIT
+ */
+
 namespace Secretary\Tests;
 
 use PHPUnit\Framework\TestCase;
