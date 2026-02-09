@@ -10,52 +10,135 @@ declare(strict_types=1);
 
 namespace Secretary\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+use Secretary\Bundle\SecretaryBundle\DependencyInjection\SecretaryExtension;
+use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProcessor;
 use Secretary\Bundle\SecretaryBundle\SecretaryBundle;
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\Config\Loader\LoaderInterface;
+use Secretary\Manager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
 
-class SecretaryBundleTest extends Kernel
+#[CoversClass(SecretaryBundle::class)]
+#[CoversClass(SecretaryExtension::class)]
+class SecretaryBundleTest extends TestCase
 {
-    use MicroKernelTrait;
-
-    public const CONFIG_EXTS = '.{php,xml,yaml,yml}';
-
-    /**
-     * Returns an array of bundles to register.
-     *
-     * @return iterable|\Symfony\Component\HttpKernel\Bundle\BundleInterface An iterable of bundle instances
-     */
-    public function registerBundles(): iterable
+    public function testBundleRegistersExtension(): void
     {
-        yield new FrameworkBundle();
-        yield new SecretaryBundle();
+        $bundle = new SecretaryBundle();
+
+        $this->assertInstanceOf(SecretaryBundle::class, $bundle);
     }
 
-    /**
-     * Add or import routes into your application.
-     *
-     *     $routes->import('config/routing.yml');
-     *     $routes->add('/admin', 'App\Controller\AdminController::dashboard', 'admin_dashboard');
-     *
-     */
-    protected function configureRoutes(Symfony\Component\Routing\RouteCollectionBuilder $routes)
+    public function testExtensionRegistersServices(): void
     {
+        $container = new ContainerBuilder();
+        $extension = new SecretaryExtension();
+
+        $extension->load([
+            [
+                'adapters' => [
+                    'default' => [
+                        'adapter' => 'Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter',
+                        'config'  => [
+                            'region'  => 'us-east-1',
+                            'version' => '2017-10-17',
+                        ],
+                        'cache' => [
+                            'enabled' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ], $container);
+
+        $this->assertTrue($container->has('secretary.adapter.default'));
+        $this->assertTrue($container->has('secretary.manager.default'));
+        $this->assertTrue($container->has('secretary'));
+        $this->assertTrue($container->has(Manager::class));
+        $this->assertTrue($container->has('secretary.env_var_processor'));
     }
 
-    /**
-     * {@inheritDc}.
-     *
-     * @throws Exception
-     */
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
+    public function testExtensionRegistersMultipleAdapters(): void
     {
-        $loader->load(__DIR__.'/services'.self::CONFIG_EXTS, 'glob');
+        $container = new ContainerBuilder();
+        $extension = new SecretaryExtension();
+
+        $extension->load([
+            [
+                'adapters' => [
+                    'aws' => [
+                        'adapter' => 'Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter',
+                        'config'  => [
+                            'region'  => 'us-east-1',
+                            'version' => '2017-10-17',
+                        ],
+                        'cache' => [
+                            'enabled' => false,
+                        ],
+                    ],
+                    'default' => [
+                        'adapter' => 'Secretary\Adapter\Chain\ChainAdapter',
+                        'config'  => [],
+                        'cache'   => [
+                            'enabled' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ], $container);
+
+        $this->assertTrue($container->has('secretary.adapter.aws'));
+        $this->assertTrue($container->has('secretary.manager.aws'));
+        $this->assertTrue($container->has('secretary.adapter.default'));
+        $this->assertTrue($container->has('secretary.manager.default'));
+        // 'default' adapter should be aliased to 'secretary'
+        $this->assertTrue($container->has('secretary'));
+    }
+
+    public function testFirstAdapterBecomesDefaultWhenNoDefaultDefined(): void
+    {
+        $container = new ContainerBuilder();
+        $extension = new SecretaryExtension();
+
+        $extension->load([
+            [
+                'adapters' => [
+                    'aws' => [
+                        'adapter' => 'Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter',
+                        'config'  => [],
+                        'cache'   => [
+                            'enabled' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ], $container);
+
+        // 'aws' should be aliased as the default since no 'default' adapter exists
+        $alias = $container->getAlias('secretary');
+        $this->assertEquals('secretary.manager.aws', (string) $alias);
+    }
+
+    public function testEnvVarProcessorIsRegistered(): void
+    {
+        $container = new ContainerBuilder();
+        $extension = new SecretaryExtension();
+
+        $extension->load([
+            [
+                'adapters' => [
+                    'default' => [
+                        'adapter' => 'Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter',
+                        'config'  => [],
+                        'cache'   => [
+                            'enabled' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ], $container);
+
+        $definition = $container->getDefinition('secretary.env_var_processor');
+        $this->assertEquals(EnvVarProcessor::class, $definition->getClass());
     }
 }
-
-$k = new SecretaryBundleTest('dev', true);
-$k->boot();
-var_dump($k->getContainer()->getParameter('foo'));

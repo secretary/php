@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+/*
+ * @author    Aaron Scherer <aequasi@gmail.com>
+ * @date      2019
+ * @license   https://opensource.org/licenses/MIT
+ */
+
 namespace Secretary\Tests;
 
 use Aws\CommandInterface;
@@ -26,7 +32,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
     {
         parent::setUp();
 
-        $this->client = \Mockery::mock(SecretsManagerClient::class);
+        $this->client  = \Mockery::mock(SecretsManagerClient::class);
         $this->adapter = new AWSSecretsManagerAdapter([]);
 
         $reflection = new \ReflectionProperty(AWSSecretsManagerAdapter::class, 'client');
@@ -59,7 +65,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
     public function testGetSecretWithJsonValue(): void
     {
         $jsonData = ['username' => 'admin', 'password' => 'secret123'];
-        $result = new Result(['SecretString' => json_encode($jsonData)]);
+        $result   = new Result(['SecretString' => json_encode($jsonData)]);
 
         $this->client
             ->shouldReceive('getSecretValue')
@@ -78,7 +84,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
     {
         $this->expectException(SecretNotFoundException::class);
 
-        $command = \Mockery::mock(CommandInterface::class);
+        $command   = \Mockery::mock(CommandInterface::class);
         $exception = new SecretsManagerException(
             'Error',
             $command,
@@ -97,7 +103,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
     {
         $this->expectException(SecretsManagerException::class);
 
-        $command = \Mockery::mock(CommandInterface::class);
+        $command   = \Mockery::mock(CommandInterface::class);
         $exception = new SecretsManagerException(
             'Access denied',
             $command,
@@ -119,7 +125,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
         $this->client
             ->shouldReceive('updateSecret')
             ->with(\Mockery::on(function (array $opts) {
-                return $opts['SecretId'] === 'my/key'
+                return $opts['SecretId']     === 'my/key'
                     && $opts['SecretString'] === 'my-value';
             }))
             ->once();
@@ -141,7 +147,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
         $this->client
             ->shouldReceive('createSecret')
             ->with(\Mockery::on(function (array $opts) {
-                return $opts['Name'] === 'new/key'
+                return $opts['Name']         === 'new/key'
                     && $opts['SecretString'] === 'new-value';
             }))
             ->once();
@@ -153,7 +159,7 @@ class AWSSecretsManagerAdapterTest extends TestCase
 
     public function testPutSecretWithArrayValue(): void
     {
-        $value = ['user' => 'admin', 'pass' => 'secret'];
+        $value  = ['user' => 'admin', 'pass' => 'secret'];
         $secret = new Secret('my/key', $value);
 
         $this->client
