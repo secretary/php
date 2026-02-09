@@ -8,24 +8,19 @@ declare(strict_types=1);
  * @license   https://opensource.org/licenses/MIT
  */
 
-require_once __DIR__.'/vendor/autoload.php';
+namespace Secretary\Tests;
 
+use Secretary\Bundle\SecretaryBundle\SecretaryBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel;
 
-/**
- * @author    Aaron Scherer <aequasi@gmail.com>
- * @date      2019
- *
- * @license   http://opensource.org/licenses/MIT
- *
- * @internal
- * @coversNothing
- */
-class Test extends \Symfony\Component\HttpKernel\Kernel
+class SecretaryBundleTest extends Kernel
 {
     use MicroKernelTrait;
+
     public const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     /**
@@ -33,10 +28,10 @@ class Test extends \Symfony\Component\HttpKernel\Kernel
      *
      * @return iterable|\Symfony\Component\HttpKernel\Bundle\BundleInterface An iterable of bundle instances
      */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
-        yield new \Symfony\Bundle\FrameworkBundle\FrameworkBundle();
-        yield new \Secretary\Bundle\SecretaryBundle\SecretaryBundle();
+        yield new FrameworkBundle();
+        yield new SecretaryBundle();
     }
 
     /**
@@ -61,6 +56,6 @@ class Test extends \Symfony\Component\HttpKernel\Kernel
     }
 }
 
-$k = new Test('dev', true);
+$k = new SecretaryBundleTest('dev', true);
 $k->boot();
 var_dump($k->getContainer()->getParameter('foo'));

@@ -30,8 +30,8 @@
         "symfony/yaml":                          "^5.0 || ^6.0 || ^7.0 || ^8.0",
         "aws/aws-sdk-php":                       "^3.91"
     },
-    "autoload":          {
-        "psr-4":                 {
+    "autoload": {
+        "psr-4": {
             "Secretary\\Bundle\\SecretaryBundle\\": ""
         },
         "exclude-from-classmap": [
@@ -40,7 +40,7 @@
     },
     "autoload-dev":      {
         "psr-4": {
-            "Secretary\\Bundle\\SecretaryBundle\\Tests\\": "tests/"
+            "Secretary\\Tests\\": "Tests/"
         }
     }
 }

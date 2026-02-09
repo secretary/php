@@ -23,18 +23,9 @@
         "google/cloud-secret-manager":  "^1.0",
         "secretary/core":               "^3.0"
     },
-    "require-dev":       {
-        "phpunit/phpunit": "^10.5 || ^11.0",
-        "mockery/mockery": "^1.6.12"
-    },
     "autoload":          {
         "psr-4": {
             "Secretary\\Adapter\\GCP\\SecretsManager\\": ""
-        }
-    },
-    "autoload-dev":      {
-        "psr-4": {
-            "Secretary\\Adapter\\GCP\\SecretsManager\\Tests\\": "Tests/"
         }
     }
 }
