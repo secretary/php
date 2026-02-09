@@ -59,8 +59,8 @@ class LocalJSONFileAdapter extends AbstractAdapter
             throw new SecretNotFoundException($key, $e);
         }
 
-        $keys    = array_column($secrets, 'key');
-        $index   = array_search($key, $keys, true);
+        $keys  = array_column($secrets, 'key');
+        $index = array_search($key, $keys, true);
 
         if ($index === false || $index === null) {
             throw new SecretNotFoundException($key);

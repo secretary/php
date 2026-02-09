@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Secretary\Adapter\Local\JSONFile\Tests;
+namespace Secretary\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Secretary\Adapter\Local\JSONFile\LocalJSONFileAdapter;
@@ -99,7 +99,7 @@ class LocalJSONFileAdapterTest extends TestCase
     public function testPutSecretAddsNewSecret(): void
     {
         $adapter = new LocalJSONFileAdapter(['file' => $this->tempFile]);
-        $secret = new Secret('new/key', 'new-value');
+        $secret  = new Secret('new/key', 'new-value');
 
         $result = $adapter->putSecret($secret);
 
@@ -110,7 +110,7 @@ class LocalJSONFileAdapterTest extends TestCase
     public function testPutSecretUpdatesExistingSecret(): void
     {
         $adapter = new LocalJSONFileAdapter(['file' => $this->tempFile]);
-        $secret = new Secret('db/password', 'updated');
+        $secret  = new Secret('db/password', 'updated');
 
         $adapter->putSecret($secret);
 
@@ -139,7 +139,7 @@ class LocalJSONFileAdapterTest extends TestCase
     public function testDeleteSecret(): void
     {
         $adapter = new LocalJSONFileAdapter(['file' => $this->tempFile]);
-        $secret = new Secret('api/token', 'tok123');
+        $secret  = new Secret('api/token', 'tok123');
 
         $adapter->deleteSecret($secret);
 
