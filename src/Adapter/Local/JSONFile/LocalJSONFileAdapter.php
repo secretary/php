@@ -53,9 +53,14 @@ class LocalJSONFileAdapter extends AbstractAdapter
      */
     public function getSecret(string $key, ?array $options = []): Secret
     {
-        $secrets = $this->loadSecrets();
-        $keys    = array_column($secrets, 'key');
-        $index   = array_search($key, $keys, true);
+        try {
+            $secrets = $this->loadSecrets();
+        } catch (\Exception $e) {
+            throw new SecretNotFoundException($key, $e);
+        }
+
+        $keys  = array_column($secrets, 'key');
+        $index = array_search($key, $keys, true);
 
         if ($index === false || $index === null) {
             throw new SecretNotFoundException($key);
@@ -130,6 +135,10 @@ class LocalJSONFileAdapter extends AbstractAdapter
      */
     private function loadSecrets(): array
     {
+        if (!file_exists($this->secretsFile)) {
+            throw new \Exception('Secrets file does not exist.');
+        }
+
         return json_decode(file_get_contents($this->secretsFile), true, 512, JSON_THROW_ON_ERROR);
     }
 

@@ -42,7 +42,7 @@
     },
     "autoload-dev":      {
         "psr-4": {
-            "Secretary\\Tests\\": "tests/"
+            "Secretary\\Tests\\": "Tests/"
         }
     }
 }
