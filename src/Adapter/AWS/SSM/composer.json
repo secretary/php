@@ -1,0 +1,39 @@
+{
+    "name":              "secretary/aws-ssm-parameter-store-adapter",
+    "description":       "AWS SSM Parameter Store Adapter for Secretary",
+    "type":              "library",
+    "license":           "MIT",
+    "keywords":          [
+        "secrets",
+        "aws",
+        "aws ssm parameter store",
+        "secretary"
+    ],
+    "authors":           [
+        {
+            "name":  "Aaron Scherer",
+            "email": "aequasi@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require":           {
+        "php": "^8.2",
+        "ext-json":        "*",
+        "aws/aws-sdk-php": "^3.0",
+        "secretary/core":  "self.version"
+    },
+    "require-dev":       {
+        "phpunit/phpunit": "^10.5 || ^11.0",
+        "mockery/mockery": "^1.6.12"
+    },
+    "autoload":          {
+        "psr-4": {
+            "Secretary\\Adapter\\AWS\\SSM\\": ""
+        }
+    },
+    "autoload-dev":      {
+        "psr-4": {
+            "Secretary\\Adapter\\AWS\\SSM\\Tests\\": "Tests/"
+        }
+    }
+}
