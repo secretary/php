@@ -26,6 +26,8 @@ jobs:
                         split_repository: 'php-core'
                     -   local_path: 'src/Adapter/AWS/SecretsManager'
                         split_repository: 'php-aws-secrets-manager-adapter'
+                    -   local_path: 'src/Adapter/AWS/SSM'
+                        split_repository: 'php-aws-ssm-parameter-store-adapter'
                     -   local_path: 'src/Adapter/GCP/SecretsManager'
                         split_repository: 'php-gcp-secrets-manager-adapter'
                     -   local_path: 'src/Adapter/Hashicorp/Vault'
