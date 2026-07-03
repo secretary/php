@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/secretary/php/compare/4.3.0...4.4.0) (2026-07-03)
+
+
+### Features
+
+* **ssm:** implement AWS SSM Parameter Store adapter for php ([cc25a0c](https://github.com/secretary/php/commit/cc25a0c829cfc7a1f6d84a16a4d53a697a31ad4d))
+
 # [4.3.0](https://github.com/secretary/php/compare/4.2.0...4.3.0) (2026-02-09)
 
 
