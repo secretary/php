@@ -20,6 +20,7 @@
     "minimum-stability": "dev",
     "require":           {
         "php": "^8.2",
+        "psr/log": "^1.0 || ^2.0 || ^3.0",
         "secretary/core": "self.version"
     },
     "require-dev":       {

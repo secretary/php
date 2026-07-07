@@ -17,6 +17,8 @@ use Secretary\Bundle\SecretaryBundle\EnvVar\EnvVarProcessor;
 use Secretary\Bundle\SecretaryBundle\SecretaryBundle;
 use Secretary\Manager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 #[CoversClass(SecretaryBundle::class)]
 #[CoversClass(SecretaryExtension::class)]
@@ -140,5 +142,58 @@ class SecretaryBundleTest extends TestCase
 
         $definition = $container->getDefinition('secretary.env_var_processor');
         $this->assertEquals(EnvVarProcessor::class, $definition->getClass());
+    }
+
+    public function testEnvVarProcessorIsWiredWithOptionalLoggerAndDefaults(): void
+    {
+        $container = new ContainerBuilder();
+        $extension = new SecretaryExtension();
+
+        $extension->load([
+            [
+                'adapters' => [
+                    'default' => [
+                        'adapter' => 'Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter',
+                        'config'  => [],
+                        'cache'   => [
+                            'enabled' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ], $container);
+
+        $definition = $container->getDefinition('secretary.env_var_processor');
+
+        $logger = $definition->getArgument(1);
+        $this->assertInstanceOf(Reference::class, $logger);
+        $this->assertEquals('logger', (string) $logger);
+        $this->assertEquals(ContainerInterface::IGNORE_ON_INVALID_REFERENCE, $logger->getInvalidBehavior());
+
+        $this->assertFalse($definition->getArgument(2));
+    }
+
+    public function testAllowMissingSecretsConfigIsPassedToEnvVarProcessor(): void
+    {
+        $container = new ContainerBuilder();
+        $extension = new SecretaryExtension();
+
+        $extension->load([
+            [
+                'allow_missing_secrets' => true,
+                'adapters'              => [
+                    'default' => [
+                        'adapter' => 'Secretary\Adapter\AWS\SecretsManager\AWSSecretsManagerAdapter',
+                        'config'  => [],
+                        'cache'   => [
+                            'enabled' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ], $container);
+
+        $definition = $container->getDefinition('secretary.env_var_processor');
+        $this->assertTrue($definition->getArgument(2));
     }
 }

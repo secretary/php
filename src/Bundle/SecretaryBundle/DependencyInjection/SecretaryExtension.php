@@ -17,6 +17,7 @@ use Secretary\Manager;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -74,6 +75,8 @@ class SecretaryExtension extends Extension
 
         $container->register('secretary.env_var_processor', EnvVarProcessor::class)
             ->addArgument(new IteratorArgument($services))
+            ->addArgument(new Reference('logger', ContainerInterface::IGNORE_ON_INVALID_REFERENCE))
+            ->addArgument($config['allow_missing_secrets'])
             ->addTag('container.env_var_processor')
             ->setPublic(false);
     }

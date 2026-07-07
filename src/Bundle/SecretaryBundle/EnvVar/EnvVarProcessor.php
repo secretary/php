@@ -10,8 +10,12 @@ declare(strict_types=1);
 
 namespace Secretary\Bundle\SecretaryBundle\EnvVar;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Secretary\Exception\SecretNotFoundException;
 use Secretary\Manager;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
+use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 
 class EnvVarProcessor implements EnvVarProcessorInterface
 {
@@ -20,9 +24,15 @@ class EnvVarProcessor implements EnvVarProcessorInterface
      */
     private array $managers;
 
-    public function __construct(\Traversable $managers)
-    {
+    private LoggerInterface $logger;
+
+    public function __construct(
+        \Traversable $managers,
+        ?LoggerInterface $logger = null,
+        private bool $allowMissingSecrets = false
+    ) {
         $this->managers = iterator_to_array($managers);
+        $this->logger   = $logger ?? new NullLogger();
     }
 
     /**
@@ -38,7 +48,20 @@ class EnvVarProcessor implements EnvVarProcessorInterface
 
         $manager = $this->managers[$parts[0]];
         $key     = $getEnv($parts[1]);
-        $value   = $manager->getSecret($key)->getValue();
+
+        try {
+            $value = $manager->getSecret($key)->getValue();
+        } catch (SecretNotFoundException $e) {
+            $message = sprintf('Secret "%s" was not found in manager "%s".', $key, $parts[0]);
+
+            if (!$this->allowMissingSecrets && !str_ends_with($prefix, 'Optional')) {
+                throw new EnvNotFoundException($message, 0, $e);
+            }
+
+            $this->logger->warning($message);
+
+            return null;
+        }
 
         if (array_key_exists(2, $parts)) {
             if (!is_array($value)) {
@@ -57,10 +80,12 @@ class EnvVarProcessor implements EnvVarProcessorInterface
     public static function getProvidedTypes(): array
     {
         return [
-            'secretary'      => 'bool|int|float|string',
-            'secret'         => 'bool|int|float|string',
-            'secretArray'    => 'array',
-            'secretaryArray' => 'array',
+            'secretary'              => 'bool|int|float|string',
+            'secret'                 => 'bool|int|float|string',
+            'secretArray'            => 'array',
+            'secretaryArray'         => 'array',
+            'secretaryOptional'      => 'bool|int|float|string',
+            'secretaryArrayOptional' => 'array',
         ];
     }
 }
