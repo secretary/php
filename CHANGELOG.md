@@ -1,3 +1,15 @@
+# [4.5.0](https://github.com/secretary/php/compare/4.4.0...4.5.0) (2026-07-09)
+
+
+### Bug Fixes
+
+* **bundle:** suppress psalm UndefinedInterfaceMethod on lowest symfony/config ([9609685](https://github.com/secretary/php/commit/9609685b438a964fac85db4699e6d23a52f219e8))
+
+
+### Features
+
+* **bundle:** graceful handling of missing secrets in env var processor ([06fa321](https://github.com/secretary/php/commit/06fa3217dc95e670df6b2191000537e33df09a4b)), closes [#25](https://github.com/secretary/php/issues/25)
+
 # [4.4.0](https://github.com/secretary/php/compare/4.3.0...4.4.0) (2026-07-03)
 
 
