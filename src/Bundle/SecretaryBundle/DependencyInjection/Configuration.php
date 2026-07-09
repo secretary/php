@@ -19,6 +19,9 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    /**
+     * @psalm-suppress UndefinedInterfaceMethod
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('secretary', 'array');
@@ -28,6 +31,10 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+            ->booleanNode('allow_missing_secrets')
+                ->defaultFalse()
+                ->info('When true, missing secrets resolve to null with a warning instead of throwing')
+            ->end()
             ->append($this->addAdaptersSection())
             ->end();
 

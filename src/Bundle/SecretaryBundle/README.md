@@ -47,3 +47,41 @@ secretary:
                 type:       psr6
                 service_id: cache.secrets
 ```
+
+### Resolving secrets in env vars
+
+```yaml
+parameters:
+    db_pass: '%env(secretary:default:DB_PASS)%'          # scalar secret
+    db_conf: '%env(secretaryArray:default:DB_CONFIG)%'   # array secret
+```
+
+### Missing secrets
+
+By default, a missing secret throws Symfony's `EnvNotFoundException` (with the manager name and
+secret key in the message, and the original `SecretNotFoundException` as `previous`).
+
+To resolve `null` instead — with a warning logged through the default logger — you can either
+opt in per reference with the `secretaryOptional:` / `secretaryArrayOptional:` prefixes:
+
+```yaml
+parameters:
+    feature_key: '%env(secretaryOptional:default:FEATURE_KEY)%'
+```
+
+or globally via the bundle config:
+
+```yaml
+secretary:
+    allow_missing_secrets: true # defaults to false
+```
+
+Symfony's built-in `default:` processor also composes, if you want a fallback parameter instead:
+
+```yaml
+parameters:
+    fallback: 'some-default'
+    db_pass:  '%env(default:fallback:secretary:default:DB_PASS)%'
+```
+
+Only missing secrets are handled this way — network, auth, and other adapter errors always bubble up.
