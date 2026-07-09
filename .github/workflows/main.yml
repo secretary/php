@@ -25,7 +25,7 @@ jobs:
               run: echo "composer_cache=$(composer config cache-files-dir)" >> $GITHUB_ENV
 
             - name: 'Cache dependencies'
-              uses: actions/cache@v4
+              uses: actions/cache@v5
               with:
                   path: ${{ env.composer_cache }}
                   key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
@@ -63,7 +63,7 @@ jobs:
               run: echo "composer_cache=$(composer config cache-files-dir)" >> $GITHUB_ENV
 
             - name: 'Cache dependencies'
-              uses: actions/cache@v4
+              uses: actions/cache@v5
               with:
                   path: ${{ env.composer_cache }}
                   key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
@@ -97,7 +97,7 @@ jobs:
               run: echo "composer_cache=$(composer config cache-files-dir)" >> $GITHUB_ENV
 
             - name: 'Cache dependencies'
-              uses: actions/cache@v4
+              uses: actions/cache@v5
               with:
                   path: ${{ env.composer_cache }}
                   key: deps-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}-dep-${{ matrix.dependency-version }}
